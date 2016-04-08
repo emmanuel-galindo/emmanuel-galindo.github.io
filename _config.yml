@@ -1,0 +1,10 @@
+excerpt_separator: ""
+pygments: true
+markdown: kramdown
+url: http://emmanuel-galindo.github.io
+title: Code Bites
+email: egalindo@gmail.com
+author: emmanuel-galindo
+description: Hoping to help
+paginate: 3
+google_analytics: 
