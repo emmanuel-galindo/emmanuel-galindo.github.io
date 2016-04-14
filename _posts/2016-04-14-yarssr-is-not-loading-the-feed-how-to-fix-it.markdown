@@ -15,7 +15,9 @@ Then, go to the app folder and start it back w/debug flag:
 $ cd ~/.yarssr/;yarssr --debug
 {% endhighlight %}
 
-HINT, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading https://emmanuel-galindo.github.io/2016/04/08/primer-post.html.
+HINT, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post [Yarssr deletes the feeds, how to deal with it][1].
+
+[1]: https://emmanuel-galindo.github.io/2016/04/08/primer-post.html
 
 For me, it was printing:
 {% highlight shell %}
