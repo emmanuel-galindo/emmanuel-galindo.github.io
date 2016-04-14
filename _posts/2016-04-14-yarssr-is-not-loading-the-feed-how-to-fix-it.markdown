@@ -24,7 +24,7 @@ not well-formed (invalid token) at line 1, column 0, byte 0 at /usr/lib/x86_64-l
 {% endhighlight %}
 
 This indicates the content of the URL is garbled, and it is not being handed correctly to the parser. 
-In my computer, Yarssr is installed on {% highlight shell %}/usr/share/yarssr{% endhighlight %} and there you will find a module called Fetcher. 
+In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
 By doing some inspections, it was returning the content without decoding it. 
 The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)
 {% highlight shell %}
@@ -35,7 +35,9 @@ Content-Encoding: gzip
 {% endhighlight %}
 
 So, I've come up with my own _download method within Fetcher.pm. If you plan to use it:
+
 1) Backup the current _download function to _download_old
+
 2) Install Compress::Zlib if you haven't already. To check if you did: 
 {% highlight shell %}
 $ perl -MCompress::Zlib
