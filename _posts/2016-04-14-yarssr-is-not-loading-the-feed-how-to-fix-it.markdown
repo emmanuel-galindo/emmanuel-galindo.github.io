@@ -5,7 +5,9 @@ layout: post
 ---
 If you add a feed on yarssr and the icon doesn't turn green, it is time to enable the debug and look for the error.
 First kill the running process:
+{% highlight shell %}
 $ ps -fea | grep -i yarssr | grep -v grep | awk '{ print $2 }' | xargs kill -9 
+{% endhighlight %}
 
 Then, go to the app folder and start it back w/debug flag:
 $ cd ~/.yarssr/;yarssr --debug
@@ -43,6 +45,7 @@ use Compress::Zlib;
 {% endhighlight %}
 
 So, my own take of the _download procedure that will allow you to handle encoded content is:
+{% highlight perl %}
 sub _download {
         my ($url,$login) = @_;
         caller eq __PACKAGE__ or die;
@@ -70,3 +73,4 @@ sub _download {
         }
         return $content,$type;
 }
+{% endhighlight %}
