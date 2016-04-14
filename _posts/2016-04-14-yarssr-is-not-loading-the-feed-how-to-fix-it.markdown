@@ -15,7 +15,7 @@ Then, go to the app folder and start it back w/debug flag:
 $ cd ~/.yarssr/;yarssr --debug
 {% endhighlight %}
 
-HINT, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post [Yarssr deletes the feeds, how to deal with it][1].
+**HINT**, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post [Yarssr deletes the feeds, how to deal with it][1].
 
 [1]: http://emmanuel-galindo.github.io/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it.html
 
@@ -38,9 +38,8 @@ Content-Encoding: gzip
 
 So, I've come up with my own _download method within Fetcher.pm. If you plan to use it:
 
-1) Backup the current _download function to _download_old
-
-2) Install Compress::Zlib if you haven't already. To check if you did: 
+1. Backup the current _download function to _download_old
++ Install Compress::Zlib if you haven't already. To check if you did: 
 {% highlight shell %}
 $ perl -MCompress::Zlib
 {% endhighlight %}
@@ -49,7 +48,7 @@ If you have to install it, just do
 $ cpan Compress::Zlib
 {% endhighlight %}
 
-DISCLAIMER: I haven't got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.
+**DISCLAIMER:** I haven't got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.
 
 You will need the following moduled to get the procedure working.
 {% highlight perl %}
