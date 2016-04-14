@@ -6,33 +6,44 @@ layout: post
 If you add a feed on yarssr and the icon doesn't turn green, it is time to enable the debug and look for the error.
 First kill the running process:
 {% highlight shell %}
-$ ps -fea | grep -i yarssr | grep -v grep | awk '{ print $2 }' | xargs kill -9 
+$ ps -fea | grep -i yarssr | grep -v grep | \
+awk '{ print $2 }' | xargs kill -9 
 {% endhighlight %}
 
 Then, go to the app folder and start it back w/debug flag:
+{% highlight shell %}
 $ cd ~/.yarssr/;yarssr --debug
+{% endhighlight %}
 
 HINT, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading https://emmanuel-galindo.github.io/2016/04/08/primer-post.html.
 
 For me, it was printing:
+{% highlight shell %}
 [17:02:57] 
 not well-formed (invalid token) at line 1, column 0, byte 0 at /usr/lib/x86_64-linux-gnu/perl5/5.20/XML/Parser.pm line 187.
+{% endhighlight %}
 
-This indicates the content of the URL was not being handed correctly to the parser. 
-In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
+This indicates the content of the URL is garbled, and it is not being handed correctly to the parser. 
+In my computer, Yarssr is installed on {% highlight shell %}/usr/share/yarssr{% endhighlight %} and there you will find a module called Fetcher. 
 By doing some inspections, it was returning the content without decoding it. 
-The url that I am using (https://kat.cr/etc?rss=1) returns compressed content:
+The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)
+{% highlight shell %}
 $ curl -I https://kat.cr/
 [...]
 Content-Encoding: gzip
 [...]
+{% endhighlight %}
 
 So, I've come up with my own _download method within Fetcher.pm. If you plan to use it:
 1) Backup the current _download function to _download_old
 2) Install Compress::Zlib if you haven't already. To check if you did: 
+{% highlight shell %}
 $ perl -MCompress::Zlib
+{% endhighlight %}
 If you have to install it, just do
+{% highlight shell %}
 $ cpan Compress::Zlib
+{% endhighlight %}
 
 DISCLAIMER: I haven't got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.
 
