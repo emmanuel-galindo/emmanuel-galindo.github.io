@@ -2,7 +2,6 @@
 published: true
 title: Yarssr deletes the feeds, how to deal with it
 layout: post
-comments: true
 ---
 Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
 This is highly inconvenient, and I haven't found a permanent fix. What I am doing as a workaround is a daily backup of the config files. 
