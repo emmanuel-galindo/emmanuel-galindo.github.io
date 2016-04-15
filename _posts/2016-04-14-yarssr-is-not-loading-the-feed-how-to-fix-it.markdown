@@ -2,7 +2,6 @@
 published: true
 title: Yarssr is not loading the feed, how to fix it
 layout: post
-comments: true
 ---
 If you add a feed on yarssr and the icon doesn't turn green, it is time to enable the debug and look for the error.
 First kill the running process:
