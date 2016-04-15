@@ -16,7 +16,7 @@ layout: post
 
 ####Hacer que el blog sea mas ancho
 1. Agregar un archivo custom.css en el dir "_css"
-2.Agregar este contenido (1 rem aprox 16px, 16x62=992px)
++ Agregar este contenido (1 rem aprox 16px, 16x62=992px)
 
 ```css 
 @charset "UTF-8";
@@ -26,4 +26,21 @@ layout: post
 }
 ```
 
+####Modificar el color de la caja para codigo fuente###
+Para cambiar el color de fondo de los bloques de codigo, por ej en [Yarssr is not loading the feed, how to fix it][2]:
+1. Abrir default.html en "_layout"
++ Modificar la línea:
+
+´´´html 
+    <link rel="stylesheet" href="{{ "/css/solarized-dark.css" | prepend: site.baseurl }}" type="text/css">
+´´´
+por
+
+´´´html 
+    <link rel="stylesheet" href="{{ "/css/solarized-ligth.css" | prepend: site.baseurl }}" type="text/css">
+´´´
+
+O viceverza...
+
 [1]: https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/_includes/comments.html
+[2]: http://emmanuel-galindo.github.io/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it.html]
