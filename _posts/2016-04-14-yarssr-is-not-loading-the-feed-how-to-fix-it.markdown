@@ -51,12 +51,12 @@ $ cpan Compress::Zlib
 **DISCLAIMER:** I haven't got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.
 
 You will need the following moduled to get the procedure working.
-{% highlight perl %}
+```perl
 use LWP::UserAgent;
 use HTTP::Request;
 use HTTP::Message;
 use Compress::Zlib;
-{% endhighlight %}
+```
 
 So, my own take of the _download procedure that will allow you to handle encoded content is:
 {% highlight perl %}
