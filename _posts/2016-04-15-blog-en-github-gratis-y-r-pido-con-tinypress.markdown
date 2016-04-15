@@ -11,7 +11,9 @@ layout: post
 + Escoger el nombre y la cantidad de posts a mostrar en el listado inicial
 + Sino tenés GitHub Pages configurado, lo crea automáticamente!!
 + Experimentá agregando dos posts de prueba.
++ TinyPress no genera la pagina de inicio, para ello copiar [index.html][2] de mi repositorio al root del tuyo 
 
 Ya estás listo para empezar a editar tus articulos sin esfuerzo!!
 
 [1]: http://tinypressco.github.io/2015/09/24/how-to-switch-themes.html
+[2]: https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/index.html
