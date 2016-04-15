@@ -65,7 +65,7 @@ sub _download {
         caller eq __PACKAGE__ or die;
 
         my $can_accept = HTTP::Message::decodable;
-        my $agent = LWP::UserAgent->new(env_proxy => 1,keep_alive => 1, timeout => 30,'Accept-Encoding' => $can_accept);
+        my $agent = LWP::UserAgent->new(env_proxy => 1,keep_alive => 1, timeout => 30,'Accept-Encoding' => $can_accept,agent=>'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1');
         my $header = HTTP::Request->new(GET => $url);
         my $request = HTTP::Request->new('GET', $url, $header);
         my $response = $agent->request($request);
