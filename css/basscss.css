@@ -119,11 +119,9 @@ strong, .bold {
   text-align: right;
 }
 
-/*
 .measure {
   max-width: 50rem;
 }
-*/
 
 .measure-narrow {
   max-width: 32rem;
