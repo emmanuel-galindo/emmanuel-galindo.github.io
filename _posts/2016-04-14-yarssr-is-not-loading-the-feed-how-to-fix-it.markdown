@@ -7,8 +7,7 @@ If you add a feed on yarssr and the icon doesn't turn green, it is time to enabl
 First kill the running process:
 
 ```
-$ ps -fea | grep -i yarssr | grep -v grep | \
-awk '{ print $2 }' | xargs kill -9 
+$ ps -fea | grep -i yarssr | grep -v grep | awk '{ print $2 }' | xargs kill -9 
 ```
 
 Then, go to the app folder and start it back w/debug flag:
