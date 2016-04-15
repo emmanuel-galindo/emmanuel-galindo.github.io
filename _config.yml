@@ -8,5 +8,3 @@ author: emmanuel-galindo
 description: Hoping to help
 paginate: 3
 google_analytics: 
-kramdown:
-  input: GFM
