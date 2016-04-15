@@ -40,7 +40,11 @@ por
     <link rel="stylesheet" href="{{ "/css/solarized-ligth.css" | prepend: site.baseurl }}" type="text/css">
 ´´´
 
-O viceverza...
+O viceversa...
+
+####Eliminar la barra de desplazamiento (scrollback) horizontal de los bloques de código, y que muestre el codigo wrapeado
+Yo se, la idea es que sea de facil lectura, pero yo acostumbro a no escribir lineas de mas de 80 columnas.
+
 
 [1]: https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/_includes/comments.html
 [2]: http://emmanuel-galindo.github.io/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it.html]
