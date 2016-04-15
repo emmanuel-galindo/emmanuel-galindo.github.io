@@ -5,7 +5,8 @@ layout: post
 ---
 If you add a feed on yarssr and the icon doesn't turn green, it is time to enable the debug and look for the error.
 First kill the running process:
-```
+
+```shell
 $ ps -fea | grep -i yarssr | grep -v grep | awk '{ print $2 }' | xargs kill -9 
 ````
 
@@ -20,6 +21,7 @@ $ cd ~/.yarssr/;yarssr --debug
 [1]: http://emmanuel-galindo.github.io/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it.html
 
 For me, it was printing:
+
 ```shell
 [17:02:57] 
 not well-formed (invalid token) at line 1, column 0, byte 0 at /usr/lib/x86_64-linux-gnu/perl5/5.20/XML/Parser.pm line 187.
@@ -29,7 +31,8 @@ This indicates the content of the URL is garbled, and it is not being handed cor
 In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
 By doing some inspections, it was returning the content without decoding it. 
 The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)
-```
+
+```shell
 $ curl -I https://kat.cr/
 [...]
 Content-Encoding: gzip
@@ -40,10 +43,13 @@ So, I've come up with my own _download method within Fetcher.pm. If you plan to 
 
 1. Backup the current _download function to _download_old
 + Install Compress::Zlib if you haven't already. To check if you did: 
+
 ``` shell
 $ perl -MCompress::Zlib
 ```
+
 If you have to install it, just do
+
 ``` shell
 $ cpan Compress::Zlib
 ```
@@ -51,6 +57,7 @@ $ cpan Compress::Zlib
 **DISCLAIMER:** I haven't got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.
 
 You will need the following moduled to get the procedure working.
+
 ```perl
 use LWP::UserAgent;
 use HTTP::Request;
@@ -59,7 +66,8 @@ use Compress::Zlib;
 ```
 
 So, my own take of the _download procedure that will allow you to handle encoded content is:
-``` perl
+
+```perl
 sub _download {
         my ($url,$login) = @_;
         caller eq __PACKAGE__ or die;
