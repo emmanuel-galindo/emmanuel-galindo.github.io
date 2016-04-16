@@ -7,3 +7,10 @@ layout: post
 
 ### En esta continuación de [GitHub pages desde linea de comando][2] vamos a agregar iconos y links al footer de social media
 
+
+1. Especificar tus usuarios a _config.yml, por ejemplo los mios son:
+{% highlight text %}
+github_username:  emmanuel-galindo
+linkedin_username: emmanuelgalindo
+{% endhighlight %}
+
