@@ -36,14 +36,13 @@ Para cambiar el color de fondo de los bloques de codigo, por ej en [Yarssr is no
 1. Abrir default.html en "_layout"
 + Modificar la línea:
 
-´´´html 
+{% highlight html %}
     <link rel="stylesheet" href="{{ "/css/solarized-dark.css" | prepend: site.baseurl }}" type="text/css">
-´´´
+{% endhighlight %}
 por
-
-´´´html 
-    <link rel="stylesheet" href="{{ "/css/solarized-ligth.css" | prepend: site.baseurl }}" type="text/css">
-´´´
+{% highlight html %}
+    <link rel="stylesheet" href="{{ "/css/solarized-light.css" | prepend: site.baseurl }}" type="text/css">
+{% endhighlight %}
 
 O viceversa...
 
