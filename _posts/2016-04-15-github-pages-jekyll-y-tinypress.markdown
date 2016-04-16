@@ -6,11 +6,7 @@ layout: post
 
 ### En esta continuación de [Blog en GitHub, gratis y rápido con TinyPress][3] te cuento como agregarle comentarios, hacerlo mas ancho, etc
 
-
-
-
-
-#### Agregar comentarios
+### Agregar comentarios
 1. Generar cuenta en Disqus
 + Lo único que necesitás es asignar un short name y acordartelo
 + Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.
