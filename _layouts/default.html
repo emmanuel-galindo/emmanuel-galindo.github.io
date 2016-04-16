@@ -38,10 +38,10 @@
     <div class="post p2 p-responsive wrap" role="main">
       <div class="measure">
         {{ content }}
+        {% include comments.html %}
       </div>
     </div>
 
-  {% include comments.html %}
     
   {% include footer.html %}
 </body>
