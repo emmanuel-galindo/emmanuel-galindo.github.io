@@ -1,3 +1,31 @@
+---
+published: true
+title: Social media en el footer del Blog Jekyll
+layout: post
+---
+### Te muestro como agregar al footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin... pero usando SVG!!!! 
+
+1. Especificar tus usuarios a _config.yml, por ejemplo los mios son:
+{% highlight text %}
+github_username:  emmanuel-galindo
+linkedin_username: emmanuelgalindo
+{% endhighlight %}
+
+2. Dimensionar los SVG en tu CSS customizado (css/custom.css en mi caso), y otra clase mas que uso en mi ejemplo asi no se ve tan feo
+
+{% highlight text %}
+/** Icons */
+.icon > svg {display: inline-block;width: 16px;height: 16px;vertical-align: middle;}
+.icon > svg path { fill: #828282; }
+
+.social-media-list {list-style: none;margin-left: 0;}
+{% endhighligtht %}
+
+3. Modificar _includes/footer.html. Por ejemplo, el mio actualmente es:
+
+{% highlight html %}
+{% raw %}
+
 <footer class="footer">
   <div class="p2 wrap">
     <div class="measure mt1 center">
@@ -32,17 +60,9 @@
 </div>
 </div>
 </footer>
+{% endraw %}
+{% endhighlight %}
 
+Otra alternativa a los SVG, es usar la libreria de [Font Awesome][1]
 
-{% if site.google_analytics %}
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', '{{ site.google_analytics }}', 'auto');
-ga('send', 'pageview');
-
-</script>
-{% endif %}
+[1]: http://fontawesome.io/examples/
