@@ -19,18 +19,18 @@ layout: post
 5. Modificar algun archivo como prueba
 6. Ejecutar:
 
-`$git commit -a -m "Commit"; git push origin master`
+`$ git commit -a -m "Commit"; git push origin master`
 7. Va a solicitarte usuario y password. Para evitar cargarlo en cada push, se lo puede cachear con dos comandos:
 
-`$git config --global credential.helper cache`
-`$git config --global credential.helper 'cache --timeout=3600'
+`$ git config --global credential.helper cache`
+`$ git config --global credential.helper 'cache --timeout=3600'
 
 3600 segundos, es una hora... durante esa hora, no va a  pedir las credenciales luego de la primera vez que se especifiquen.
 
 8. En el caso de que agregues un nuevo post desde la interfae de tinypress, podes actualizar tu repo local con:
 ** Quizas lo mejor sea hacer un backup... **
 
-`$git pull`
+`$ git pull`
 
 [1]: http://emmanuel-galindo.github.io/2016/04/15/github-pages-jekyll-y-tinypress.html
 
