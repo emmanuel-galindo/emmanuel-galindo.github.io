@@ -24,7 +24,7 @@ linkedin_username: emmanuelgalindo
 .social-media-list {list-style: none;margin-left: 0;}
 {% endhighlight %}
 
-3. Modificar _includes/footer.html. Por ejemplo, el mio actualmente es
+3. Modificar _includes/footer.html. Por ejemplo, el que se usa en este blog actualmente es
 <https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/_includes/footer.html>
 
 Otra alternativa a los SVG, es usar la libreria de [Font Awesome][1]
