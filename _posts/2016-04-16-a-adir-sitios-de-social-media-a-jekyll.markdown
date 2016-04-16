@@ -1,9 +1,9 @@
 ---
 published: true
-title: Añadir sitios de social media a Jekyll
+title: Social media en el footer del Blog Jekyll
 layout: post
 ---
-### Te muestro como mostrar en el footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin... pero usando SVG!!!! 
+### Te muestro como agregar al footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin... pero usando SVG!!!! 
 
 1. Especificar tus usuarios a _config.yml, por ejemplo los mios son:
 {% highlight text %}
