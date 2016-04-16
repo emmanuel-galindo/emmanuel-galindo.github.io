@@ -4,7 +4,6 @@ title: Blog en GitHub, gratis y rápido con TinyPress
 layout: post
 ---
 ### En algunos pasos, te comento mi experiencia desde 0 armando este blog.###
-
 ### No se necesita tener nada, mas que un rato. ###
 
 1. Entrar en tinypress.co, y si no tenés cuenta de Github, crearla, y vincularla a TinyPress aceptando los permisos.
