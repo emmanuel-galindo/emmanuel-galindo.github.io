@@ -8,15 +8,12 @@ layout: post
 ### Los ejemplos son para Linux Debian, pero los pasos son los mismos ###
 
 
-1. Instalar git (como root): 
-
-`# aptitude install git`
+1. Instalar git (como root): `# aptitude install git`
 
 2. Ir a tu repositorio de la pagina en GitHub y copiar la url (aparece entre HTTPS y el botón Download ZIP)
 3. Localmente, ir al directorio donde querés trabajar
-4. Clonar el repositorio (como usuario normal) usando la url del paso 2)
-
-`$ git clone https://github.com/emmanuel-galindo/emmanuel-galindo.github.io.git`
+4. Clonar el repositorio (como usuario normal) usando la url del paso 2) 
+    `$ git clone https://github.com/emmanuel-galindo/emmanuel-galindo.github.io.git`
 5. Modificar algun archivo como prueba
 6. Ejecutar:
 
