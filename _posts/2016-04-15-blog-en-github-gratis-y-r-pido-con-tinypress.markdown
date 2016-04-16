@@ -17,6 +17,7 @@ Ya estás listo para empezar a editar tus articulos sin esfuerzo!!
 
 Links útiles para formatear el texto:
 <https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet>
+
 <https://sourceforge.net/p/jekyllc/bugs/markdown_syntax>
 
 [1]: http://tinypressco.github.io/2015/09/24/how-to-switch-themes.html
