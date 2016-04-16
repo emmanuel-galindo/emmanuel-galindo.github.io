@@ -16,8 +16,7 @@ linkedin_username: emmanuelgalindo
 
 2. Dimensionar los SVG en tu CSS customizado (css/custom.css en mi caso), y otra clase mas que uso en mi ejemplo asi no se ve tan feo
 
-{% highlight text %}
-/** Icons */
+{% highlight css %}
 .icon > svg {display: inline-block;width: 16px;height: 16px;vertical-align: middle;}
 .icon > svg path { fill: #828282; }
 
