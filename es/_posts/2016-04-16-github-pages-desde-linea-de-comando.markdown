@@ -2,8 +2,6 @@
 published: true
 title: GitHub pages desde linea de comando
 layout: post
-categories:
-    - es
 ---
 ### En esta continuación de [GitHub Pages, Jekyll y TinyPress][1] ya tratamos de realizar lo mas posible desde linea de comando
 
