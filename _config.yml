@@ -10,3 +10,5 @@ paginate: 3
 google_analytics: 
 github_username:  emmanuel-galindo
 linkedin_username: emmanuelgalindo
+
+default_category: "en"
