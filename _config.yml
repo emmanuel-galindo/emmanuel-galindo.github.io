@@ -6,10 +6,11 @@ title: Code Bites
 email: egalindo@gmail.com
 author: emmanuel-galindo
 description: Recording the effort...
-paginate: 3
+paginate: 7
 google_analytics: 
 github_username:  emmanuel-galindo
 linkedin_username: emmanuelgalindo
 
 paginate_per_category: true
 default_category: "en"
+default_locale:     "en"
