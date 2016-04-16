@@ -13,7 +13,6 @@ layout: post
 2. Agregá lo siguiente al archivo "_layout/default.html", aproximadamente en la linea 41, abajo de `{ content }` :
 {% highlight text %}
 {% raw %}
-{% include comments.html %}
 {% endraw %}
 {% endhighlight %}
 
