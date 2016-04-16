@@ -19,7 +19,7 @@ layout: post
 7. Va a solicitarte usuario y password. Para evitar cargarlo en cada push, se lo puede cachear con dos comandos:
 
   `$ git config --global credential.helper cache`
-  `$ git config --global credential.helper 'cache --timeout=3600'
+  `$ git config --global credential.helper 'cache --timeout=3600'`
 
 3600 segundos, es una hora... durante esa hora, no va a  pedir las credenciales luego de la primera vez que se especifiquen.
 
