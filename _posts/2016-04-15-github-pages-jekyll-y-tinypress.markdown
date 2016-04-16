@@ -4,6 +4,7 @@ title: GitHub Pages, Jekyll y TinyPress
 layout: post
 ---
 ### Esta es una continuacion de mi articulo anterior
+
 ### Ya tenés el blog, ahora te cuento como agregarle comentarios, hacerlo mas ancho, etc
 
 #### Agregar comentarios
