@@ -22,9 +22,9 @@ layout: post
 
     `$ git config --global credential.helper 'cache --timeout=3600'`
 
-3600 segundos, es una hora... durante esa hora, no va a  pedir las credenciales luego de la primera vez que se especifiquen.
 
 8. En el caso de que agregues un nuevo post desde la interfae de tinypress, podes actualizar tu repo local con:
+
 ** Quizas lo mejor sea hacer un backup... **
 
 `$ git pull`
