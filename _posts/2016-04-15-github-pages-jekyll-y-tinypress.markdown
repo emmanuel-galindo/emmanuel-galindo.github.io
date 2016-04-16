@@ -17,24 +17,24 @@ layout: post
 {% endraw %}
 {% endhighlight %}
 
-#### Hacer que el blog sea mas ancho
+### Hacer que el blog sea mas ancho
 
 1. Agregar un archivo custom.css en el dir "_css"
-+ Agregar este contenido (1 rem aprox 16px, 16x62=992px)
+2. Agregar este contenido (1 rem aprox 16px, 16x62=992px)
 
-```css 
+{% highlight css %}
 @charset "UTF-8";
 
 .measure {
   max-width: 62rem;
 }
-```
+{% endhighlight %}
 
-#### Modificar el color de la caja para codigo fuente###
+### Modificar el color de la caja para codigo fuente###
 Para cambiar el color de fondo de los bloques de codigo, por ej en [Yarssr is not loading the feed, how to fix it][2]:
 
 1. Abrir default.html en "_layout"
-+ Modificar la línea:
+2. Modificar la línea:
 
 {% highlight html %}
     <link rel="stylesheet" href="{{ "/css/solarized-dark.css" | prepend: site.baseurl }}" type="text/css">
@@ -46,7 +46,7 @@ por
 
 O viceversa...
 
-#### Eliminar la barra de desplazamiento (scrollback) horizontal de los bloques de código, y que muestre el codigo wrapeado
+### Eliminar la barra de desplazamiento (scrollback) horizontal de los bloques de código, y que muestre el codigo wrapeado
 Yo se, la idea es que sea de facil lectura, pero yo acostumbro a no escribir lineas de mas de 80 columnas.
 
 
