@@ -30,7 +30,7 @@ layout: post
 }
 {% endhighlight %}
 
-### Que muestre la barra de desplazamiento horizontal (scrollbar) automaticamente, y no siempre 
+### Solo mostrar barra de desplazamiento horizontal (scrollbar) cuando sea necesario
 En el mismo custom.css:
 {% highlight css %}
 pre {
