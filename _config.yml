@@ -11,9 +11,6 @@ google_analytics:
 github_username:  emmanuel-galindo
 linkedin_username: emmanuelgalindo
 
-paginate_path: "/page:num"
 paginate_per_category: true
 default_category: "en"
-default_locale:     "en"
-authorized_locales: ["en", "es"]
 
