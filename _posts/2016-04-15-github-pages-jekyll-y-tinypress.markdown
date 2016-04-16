@@ -3,16 +3,19 @@ published: true
 title: GitHub Pages, Jekyll y TinyPress
 layout: post
 ---
+
 ### Esta es una continuacion de mi articulo anterior
 
 ### Ya tenés el blog, ahora te cuento como agregarle comentarios, hacerlo mas ancho, etc
 
 #### Agregar comentarios
+
 1. Generar cuenta en Disqus
-..* Lo unico que necesitas es asignar un short name y acordartelo
-..* Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.
 + Copiá de mi repositorio [Comments.html][1], al tuyo, en el directorio "_includes"
 + Agregá lo siguiente al archivo "_layout/default.html", aproximadamente en la linea 41, abajo de `{ content }` :
+
+..* Lo unico que necesitas es asignar un short name y acordartelo
+..* Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.
 
 {% highlight text %}
 {% raw %}
