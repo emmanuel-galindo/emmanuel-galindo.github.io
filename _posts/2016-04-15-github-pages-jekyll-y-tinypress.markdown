@@ -31,8 +31,9 @@ layout: post
 }
 ```
 
-####Modificar el color de la caja para codigo fuente###
+#### Modificar el color de la caja para codigo fuente###
 Para cambiar el color de fondo de los bloques de codigo, por ej en [Yarssr is not loading the feed, how to fix it][2]:
+
 1. Abrir default.html en "_layout"
 + Modificar la línea:
 
@@ -46,7 +47,7 @@ por
 
 O viceversa...
 
-####Eliminar la barra de desplazamiento (scrollback) horizontal de los bloques de código, y que muestre el codigo wrapeado
+#### Eliminar la barra de desplazamiento (scrollback) horizontal de los bloques de código, y que muestre el codigo wrapeado
 Yo se, la idea es que sea de facil lectura, pero yo acostumbro a no escribir lineas de mas de 80 columnas.
 
 
