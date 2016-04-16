@@ -30,6 +30,14 @@ layout: post
 }
 {% endhighlight %}
 
+### Que muestre la barra de desplazamiento horizontal (scrollbar) automaticamente, y no siempre 
+En el mismo custom.css:
+{% highlight css %}
+pre {
+ overflow-x: auto;
+}
+{% endhighlight %}
+
 ### Modificar el color de la caja para codigo fuente###
 Para cambiar el color de fondo de los bloques de codigo, por ej en [Yarssr is not loading the feed, how to fix it][2]:
 
@@ -46,8 +54,6 @@ por
 
 O viceversa...
 
-### Eliminar la barra de desplazamiento (scrollback) horizontal de los bloques de código, y que muestre el codigo wrapeado
-Yo se, la idea es que sea de facil lectura, pero yo acostumbro a no escribir lineas de mas de 80 columnas.
 
 
 [1]: https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/_includes/comments.html
