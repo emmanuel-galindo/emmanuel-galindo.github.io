@@ -11,8 +11,12 @@ layout: post
 ..* Lo unico que necesitas es asignar un short name y acordartelo
 ..* Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.
 +. Copiá de mi repositorio [Comments.html][1], al tuyo, en el directorio "_includes"
-+. Agregá lo siguiente al archivo "_layout/default.html", aproximadamente en la linea 41, abajo de `{{ content }}`:
-``` include comments.html ```
++. Agregá lo siguiente al archivo "_layout/default.html", aproximadamente en la linea 41, abajo de content :
+{% highlight text %}
+{% raw %}
+{% include comments.html %}
+{% endraw %}
+{% endhighlight %}
 
 ####Hacer que el blog sea mas ancho
 1. Agregar un archivo custom.css en el dir "_css"
