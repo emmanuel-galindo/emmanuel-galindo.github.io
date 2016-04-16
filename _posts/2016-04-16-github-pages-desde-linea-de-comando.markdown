@@ -23,9 +23,9 @@ layout: post
     `$ git config --global credential.helper 'cache --timeout=3600'`
 
 
-8. En el caso de que agregues un nuevo post desde la interfae de tinypress, podes actualizar tu repo local con:
+8. En el caso de que agregues un nuevo post desde la interface de tinypress, podes actualizar tu repo local con:
 
-** Quizas lo mejor sea hacer un backup... **
+**Quizas lo mejor sea hacer un backup...**
 
 `$ git pull`
 
