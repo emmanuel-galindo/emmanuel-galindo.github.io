@@ -11,12 +11,9 @@ layout: post
 #### Agregar comentarios
 
 1. Generar cuenta en Disqus
-+ Copiá de mi repositorio [Comments.html][1], al tuyo, en el directorio "_includes"
-+ Agregá lo siguiente al archivo "_layout/default.html", aproximadamente en la linea 41, abajo de `{ content }` :
-
-..* Lo unico que necesitas es asignar un short name y acordartelo
-..* Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.
-
++ Lo unico que necesitas es asignar un short name y acordartelo
++ Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.
+2. Agregá lo siguiente al archivo "_layout/default.html", aproximadamente en la linea 41, abajo de `{ content }` :
 {% highlight text %}
 {% raw %}
 {% include comments.html %}
