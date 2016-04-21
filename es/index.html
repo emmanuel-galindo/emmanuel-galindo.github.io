@@ -1,38 +1,337 @@
----
-layout: default
-title: Code Bites Blog
-paginate_path: "/es/page:num"
----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Code Bites</title>
+    <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
+    <link rel="dns-prefetch" href="//cdn.mathjax.org">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Recording the effort...">
+    <meta name="robots" content="all">
+    <meta name="author" content="Emmanuel Galindo">
+    
+    <link rel="canonical" href="http://emmanuel-galindo.github.io/es/">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
-<div class="posts">
-  {% for post in paginator.posts %}
-  <div class="post">
-    <h1 class="post-title">
-      <a href="{{ post.url }}">
-        {{ post.title }}
-      </a>
-    </h1>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/pixyll.css?201604210143" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201604210143" type="text/css">
 
-    <span class="post-date">{{ post.date | date_to_string }}</span>
+    <!-- Fonts -->
+    
+    <link href='//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
+    
+    
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    
+
+    <!-- MathJax -->
+    
+
+    <!-- Verifications -->
+    
+    
+
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Code Bites">
+    <meta property="og:description" content="Recording the effort...">
+    <meta property="og:url" content="http://emmanuel-galindo.github.io/es/">
+    <meta property="og:site_name" content="Code Bites">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    
+    <meta name="twitter:title" content="Code Bites" />
+    <meta name="twitter:description" content="Recording the effort..." />
+    <meta name="twitter:url" content="http://emmanuel-galindo.github.io/es/" />
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+
+    
+</head>
+
+<body class="site">
+  
+	
+
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://emmanuel-galindo.github.io" class="site-title">Code Bites</a>
+      <nav class="site-nav">
+        
+<a href="http://emmanuel-galindo.github.io">Posts in english</a>
 
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+
+    
+        <a href="/contact/">Say Hello</a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+
+      </nav>
+      <div class="clearfix"></div>
+      
+        <div class="social-icons">
+  <div class="social-icons-right">
+    
+      <a class="fa fa-github" href="https://github.com/emmanuel-galindo"></a>
+    
+    
+    
+    <a class="fa fa-rss" href="/feed.xml"></a>
+    
+    
+    
+    
+    
+      <a class="fa fa-envelope" href="mailto:egalindo@gmail.com"></a>
+    
+    
+      <a class="fa fa-linkedin" href="https://www.linkedin.com/in/emmanuelgalindo"></a>
+    
+    
+    
   </div>
-  {% endfor %}
+  <div class="right">
+    
+    
+    
+  </div>
+</div>
+<div class="clearfix"></div>
+
+      
+    </div>
+  </div>
+</header>
+
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
+        <div class="posts">
+  
+  <div class="post py3">
+      <p class="post-meta">Apr 16, 2016</p>
+      <a href="/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/" class="post-link">
+        <h3 class="h1 post-title">
+          Social media en el footer del Blog Jekyll
+        </h3>
+      </a>
+      <p class="post-summary">
+        
+          Agregar íconos SVG para Linkedin y GitHub
+        
+      </p>
+
+    <article class="post-content">
+         <h3 id="te-muestro-como-agregar-al-footer-de-tu-blog-links-a-tus-sitios-de-social-media-los-ejemplos-son-slamente-para-github-y-linkedin-pero-usando-svg">Te muestro como agregar al footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin… pero usando SVG!!!!</h3>
+
+
+    </article>
+  </div>
+  
+  <div class="post py3">
+      <p class="post-meta">Apr 16, 2016</p>
+      <a href="/es/2016/04/16/github-pages-desde-linea-de-comando/" class="post-link">
+        <h3 class="h1 post-title">
+          GitHub pages desde linea de comando
+        </h3>
+      </a>
+      <p class="post-summary">
+        
+          Ya con tantos cambios, lo mejor es desarrollar localmente y publicar los cambios usando Git.
+        
+      </p>
+
+    <article class="post-content">
+         <h3 id="en-esta-continuacin-de-blog-en-github-pages-con-jekyll-parte-21-ya-tratamos-de-realizar-lo-mas-posible-desde-linea-de-comando">En esta continuación de <a href="http://emmanuel-galindo.github.io/2016/04/15/github-pages-jekyll-y-tinypress.html">Blog en GitHub Pages con Jekyll, parte 2</a> ya tratamos de realizar lo mas posible desde linea de comando</h3>
+
+
+    </article>
+  </div>
+  
+  <div class="post py3">
+      <p class="post-meta">Apr 15, 2016</p>
+      <a href="/es/2016/04/15/github-pages-jekyll-y-tinypress/" class="post-link">
+        <h3 class="h1 post-title">
+          Blog en GitHub Pages con Jekyll, parte 2
+        </h3>
+      </a>
+      <p class="post-summary">
+        
+          Vamos a agregarle comentarios, cambiar el formato, y más!
+        
+      </p>
+
+    <article class="post-content">
+         <h3 id="en-esta-continuacin-de-blog-en-github-gratis-y-rpido-con-tinypress3-te-cuento-como-agregarle-comentarios-hacerlo-mas-ancho-etc">En esta continuación de <a href="http://emmanuel-galindo.github.io/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress.html">Blog en GitHub, gratis y rápido con TinyPress</a> te cuento como agregarle comentarios, hacerlo mas ancho, etc</h3>
+
+<h3 id="agregar-comentarios">Agregar comentarios</h3>
+<ol>
+  <li>Generar cuenta en Disqus
+    <ul>
+      <li>Lo único que necesitás es asignar un short name y acordartelo</li>
+      <li>Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.</li>
+    </ul>
+  </li>
+  <li>Agregá lo siguiente al archivo “_layout/default.html”, aproximadamente en la linea 41, abajo de <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">content</span><span class="w"> </span><span class="p">}</span></code> :</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">{% include comments.html %}</code></pre></figure>
+
+<h3 id="hacer-que-el-blog-sea-mas-ancho">Hacer que el blog sea mas ancho</h3>
+
+<ol>
+  <li>Agregar un archivo custom.css en el dir “_css”</li>
+  <li>Agregar este contenido (1 rem aprox 16px, 16x62=992px)</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="k">@charset</span> <span class="s1">"UTF-8"</span><span class="p">;</span>
+
+<span class="nc">.measure</span> <span class="p">{</span>
+  <span class="nl">max-width</span><span class="p">:</span> <span class="m">62rem</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="solo-mostrar-barra-de-desplazamiento-horizontal-scrollbar-cuando-sea-necesario">Solo mostrar barra de desplazamiento horizontal (scrollbar) cuando sea necesario</h3>
+<p>En el mismo custom.css:</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">pre</span> <span class="p">{</span>
+ <span class="nl">overflow-x</span><span class="p">:</span> <span class="nb">auto</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="modificar-el-color-de-la-caja-para-codigo-fuente">Modificar el color de la caja para codigo fuente</h3>
+<p>Para cambiar el color de fondo de los bloques de codigo, por ej en <a href="http://emmanuel-galindo.github.io/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it.html]">Yarssr is not loading the feed, how to fix it</a>:</p>
+
+<ol>
+  <li>Abrir default.html en “_layout”</li>
+  <li>Modificar la línea:</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/css/solarized-dark.css"</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span></code></pre></figure>
+
+<p>por</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/css/solarized-light.css"</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span></code></pre></figure>
+
+<p>O viceversa…</p>
+
+
+    </article>
+  </div>
+  
+  <div class="post py3">
+      <p class="post-meta">Apr 15, 2016</p>
+      <a href="/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/" class="post-link">
+        <h3 class="h1 post-title">
+          Blog en GitHub, gratis y rápido con TinyPress
+        </h3>
+      </a>
+      <p class="post-summary">
+        
+          Primera parte, de como tener un blog compatible con celulares en muy poco tiempo y desde cero.
+        
+      </p>
+
+    <article class="post-content">
+         <h3 id="en-algunos-pasos-te-comento-mi-experiencia-desde-0-armando-este-blog-no-se-necesita-tener-nada-mas-que-un-rato">En algunos pasos, te comento mi experiencia desde 0 armando este blog. No se necesita tener nada, mas que un rato.</h3>
+
+<ol>
+  <li>Entrar en tinypress.co, y si no tenés cuenta de Github, crearla, y vincularla a TinyPress aceptando los permisos.</li>
+  <li>Elegir entre los templates disponibles (para cambiarlos leer <a href="http://tinypressco.github.io/2015/09/24/how-to-switch-themes.html">How to Switch Themes</a>).</li>
+  <li>Escoger el nombre y la cantidad de posts a mostrar en el listado inicial</li>
+  <li>Sino tenés GitHub Pages configurado, lo crea automáticamente!!</li>
+  <li>Experimentá agregando dos posts de prueba.</li>
+  <li>TinyPress no genera la pagina de inicio, para ello copiar <a href="https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/index.html">index.html</a> de mi repositorio al root del tuyo. No te olvides de modificar el Title.</li>
+</ol>
+
+<p>Ya estás listo para empezar a editar tus articulos sin esfuerzo!!</p>
+
+<h3 id="links-tiles-para-formatear-el-texto">Links útiles para formatear el texto:</h3>
+<p><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet</a><br />
+<a href="https://sourceforge.net/p/jekyllc/bugs/markdown_syntax">https://sourceforge.net/p/jekyllc/bugs/markdown_syntax</a></p>
+
+
+    </article>
+  </div>
+  
 </div>
 
 <div class="pagination">
-  {% if paginator.next_page %}
-    <a class="pagination-item older" href="/page{{paginator.next_page}}">Older</a>
-  {% else %}
+  
     <span class="pagination-item older">Older</span>
-  {% endif %}
-  {% if paginator.previous_page %}
-    {% if paginator.page == 2 %}
-      <a class="pagination-item newer" href="/">Newer</a>
-    {% else %}
-      <a class="pagination-item newer" href="/page{{paginator.previous_page}}">Newer</a>
-    {% endif %}
-  {% else %}
+  
+  
     <span class="pagination-item newer">Newer</span>
-  {% endif %}
+  
 </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="center">
+  <div class="measure">
+    <small>
+      Theme crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+      &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+    </small>
+  </div>
+</footer>
+
+
+</body>
+</html>

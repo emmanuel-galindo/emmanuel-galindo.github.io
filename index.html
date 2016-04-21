@@ -1,43 +1,445 @@
----
-layout: default
-title: Code Bites Blog
-paginate_path: "/es/page:num"
----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Code Bites</title>
+    <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
+    <link rel="dns-prefetch" href="//cdn.mathjax.org">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Recording the effort...">
+    <meta name="robots" content="all">
+    <meta name="author" content="Emmanuel Galindo">
+    
+    <link rel="canonical" href="http://emmanuel-galindo.github.io/">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
-<div class="posts">
-  {% for post in paginator.posts %}
-  <div class="post">
-    <h1 class="post-title">
-      <a href="{{ post.url }}">
-        {{ post.title }}
-      </a>
-    </h1>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/pixyll.css?201604210143" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201604210143" type="text/css">
 
-    <span class="post-date">{{ post.date | date_to_string }}</span>
+    <!-- Fonts -->
+    
+    <link href='//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
+    
+    
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    
 
-    {% comment %}
-    <!--
-    {{ post.content }}
-    -->
-    {% endcomment %}
+    <!-- MathJax -->
+    
 
+    <!-- Verifications -->
+    
+    
+
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Code Bites">
+    <meta property="og:description" content="Recording the effort...">
+    <meta property="og:url" content="http://emmanuel-galindo.github.io/">
+    <meta property="og:site_name" content="Code Bites">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    
+    <meta name="twitter:title" content="Code Bites" />
+    <meta name="twitter:description" content="Recording the effort..." />
+    <meta name="twitter:url" content="http://emmanuel-galindo.github.io/" />
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+
+    
+</head>
+
+<body class="site">
+  
+	
+
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://emmanuel-galindo.github.io" class="site-title">Code Bites</a>
+      <nav class="site-nav">
+         
+<a href="/es/">Posts en español</a>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+
+    
+        <a href="/contact/">Say Hello</a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+
+      </nav>
+      <div class="clearfix"></div>
+      
+        <div class="social-icons">
+  <div class="social-icons-right">
+    
+      <a class="fa fa-github" href="https://github.com/emmanuel-galindo"></a>
+    
+    
+    
+    <a class="fa fa-rss" href="/feed.xml"></a>
+    
+    
+    
+    
+    
+      <a class="fa fa-envelope" href="mailto:egalindo@gmail.com"></a>
+    
+    
+      <a class="fa fa-linkedin" href="https://www.linkedin.com/in/emmanuelgalindo"></a>
+    
+    
+    
   </div>
-  {% endfor %}
+  <div class="right">
+    
+    
+    
+  </div>
+</div>
+<div class="clearfix"></div>
+
+      
+    </div>
+  </div>
+</header>
+
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
+        <div class="posts">
+  
+  <div class="post py3">
+      <p class="post-meta">Apr 14, 2016</p>
+      <a href="/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/" class="post-link">
+        <h3 class="h1 post-title">
+          Yarssr deletes the feeds, how to deal with it
+        </h3>
+      </a>
+      <p class="post-summary">
+        
+          <p>Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
+This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>0 5 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> tar rvf /home/manu/.yarssr/yarssr-backup.tar -C /home/manu/.yarssr/ . 2&gt;&amp;1 1&gt;/dev/null
+</code></pre>
+</div>
+
+<p>That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># tar xvf ~/.yarssr/yarssr-back.tar</span>
+</code></pre>
+</div>
+
+<p>If you find the root cause, please share!</p>
+
+        
+      </p>
+
+    <article class="post-content">
+         <p>Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
+This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>0 5 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> tar rvf /home/manu/.yarssr/yarssr-backup.tar -C /home/manu/.yarssr/ . 2&gt;&amp;1 1&gt;/dev/null
+</code></pre>
+</div>
+
+<p>That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># tar xvf ~/.yarssr/yarssr-back.tar</span>
+</code></pre>
+</div>
+
+<p>If you find the root cause, please share!</p>
+
+    </article>
+  </div>
+  
+  <div class="post py3">
+      <p class="post-meta">Apr 14, 2016</p>
+      <a href="/en/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it/" class="post-link">
+        <h3 class="h1 post-title">
+          Yarssr is not loading the feed, how to fix it
+        </h3>
+      </a>
+      <p class="post-summary">
+        
+          <p>If you add a feed on yarssr and the icon doesn’t turn green, it is time to enable the debug and look for the error.
+First kill the running process:</p>
+
+<p><code class="highlighter-rouge">$ ps -fea | grep -i yarssr | grep -v grep | awk '{ print $2 }' | xargs kill -9</code></p>
+
+<p>Then, go to the app folder and start it back w/debug flag:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">cd</span> ~/.yarssr/;yarssr --debug
+</code></pre>
+</div>
+
+<p><strong>HINT</strong>, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post <a href="http://emmanuel-galindo.github.io/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it.html">Yarssr deletes the feeds, how to deal with it</a>.</p>
+
+<p>For me, it was printing:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">[</span>17:02:57] 
+not well-formed <span class="o">(</span>invalid token<span class="o">)</span> at line 1, column 0, byte 0 at /usr/lib/x86_64-linux-gnu/perl5/5.20/XML/Parser.pm line 187.
+</code></pre>
+</div>
+
+<p>This indicates the content of the URL is garbled, and it is not being handed correctly to the parser. 
+In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
+By doing some inspections, it was returning the content without decoding it. 
+The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -I https://kat.cr/
+<span class="o">[</span>...]
+Content-Encoding: gzip
+<span class="o">[</span>...]
+</code></pre>
+</div>
+
+<p>So, I’ve come up with my own _download method within Fetcher.pm. If you plan to use it:</p>
+
+<ol>
+  <li>Backup the current _download function to _download_old
+    <ul>
+      <li>Install Compress::Zlib if you haven’t already. To check if you did:</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>perl -MCompress::Zlib
+</code></pre>
+</div>
+
+<p>If you have to install it, just do</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>cpan Compress::Zlib
+</code></pre>
+</div>
+
+<p><strong>DISCLAIMER:</strong> I haven’t got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.</p>
+
+<p>You will need the following moduled to get the procedure working.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">use</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">HTTP::</span><span class="nv">Message</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">Compress::</span><span class="nv">Zlib</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>So, my own take of the _download procedure that will allow you to handle encoded content is:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">sub </span><span class="nf">_download</span> <span class="p">{</span>
+        <span class="k">my</span> <span class="p">(</span><span class="nv">$url</span><span class="p">,</span><span class="nv">$login</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+        <span class="nb">caller</span> <span class="ow">eq</span> <span class="nv">__PACKAGE__</span> <span class="ow">or</span> <span class="nb">die</span><span class="p">;</span>
+
+        <span class="k">my</span> <span class="nv">$can_accept</span> <span class="o">=</span> <span class="nn">HTTP::Message::</span><span class="nv">decodable</span><span class="p">;</span>
+        <span class="k">my</span> <span class="nv">$agent</span> <span class="o">=</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="nv">env_proxy</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span><span class="nv">keep_alive</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">timeout</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span><span class="s">'Accept-Encoding'</span> <span class="o">=&gt;</span> <span class="nv">$can_accept</span><span class="p">,</span><span class="nv">agent</span><span class="o">=&gt;</span><span class="s">'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'</span><span class="p">);</span>
+        <span class="k">my</span> <span class="nv">$header</span> <span class="o">=</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="nv">GET</span> <span class="o">=&gt;</span> <span class="nv">$url</span><span class="p">);</span>
+        <span class="k">my</span> <span class="nv">$request</span> <span class="o">=</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="s">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$header</span><span class="p">);</span>
+        <span class="k">my</span> <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$agent</span><span class="o">-&gt;</span><span class="nv">request</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+                <span class="k">my</span> <span class="nv">$username</span> <span class="o">=</span> <span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+                <span class="k">my</span> <span class="nv">$pass</span> <span class="o">=</span> <span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+                <span class="nv">$request</span><span class="o">-&gt;</span><span class="nv">authorization_basic</span><span class="p">(</span> <span class="s">"$username"</span><span class="p">,</span> <span class="s">"$pass"</span> <span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Check the outcome of the response</span>
+        <span class="k">my</span> <span class="p">(</span><span class="nv">$content</span><span class="p">,</span><span class="nv">$type</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">is_success</span><span class="p">){</span>
+                <span class="p">(</span><span class="nv">$type</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">headers</span><span class="o">-&gt;</span><span class="p">{</span><span class="s">'content-type'</span><span class="p">}</span><span class="o">=~</span><span class="sr">/(.*);.*/</span><span class="p">);</span>
+                <span class="c1">#$ce = $response-&gt;headers-&gt;{'content-encoding'};</span>
+                <span class="nv">$content</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">decoded_content</span><span class="p">;</span>
+        <span class="p">}</span><span class="k">elsif</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">is_error</span><span class="p">){</span>
+                <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">as_string</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nv">$content</span><span class="p">,</span><span class="nv">$type</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+        
+      </p>
+
+    <article class="post-content">
+         <p>If you add a feed on yarssr and the icon doesn’t turn green, it is time to enable the debug and look for the error.
+First kill the running process:</p>
+
+<p><code class="highlighter-rouge">$ ps -fea | grep -i yarssr | grep -v grep | awk '{ print $2 }' | xargs kill -9</code></p>
+
+<p>Then, go to the app folder and start it back w/debug flag:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">cd</span> ~/.yarssr/;yarssr --debug
+</code></pre>
+</div>
+
+<p><strong>HINT</strong>, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post <a href="http://emmanuel-galindo.github.io/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it.html">Yarssr deletes the feeds, how to deal with it</a>.</p>
+
+<p>For me, it was printing:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">[</span>17:02:57] 
+not well-formed <span class="o">(</span>invalid token<span class="o">)</span> at line 1, column 0, byte 0 at /usr/lib/x86_64-linux-gnu/perl5/5.20/XML/Parser.pm line 187.
+</code></pre>
+</div>
+
+<p>This indicates the content of the URL is garbled, and it is not being handed correctly to the parser. 
+In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
+By doing some inspections, it was returning the content without decoding it. 
+The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -I https://kat.cr/
+<span class="o">[</span>...]
+Content-Encoding: gzip
+<span class="o">[</span>...]
+</code></pre>
+</div>
+
+<p>So, I’ve come up with my own _download method within Fetcher.pm. If you plan to use it:</p>
+
+<ol>
+  <li>Backup the current _download function to _download_old
+    <ul>
+      <li>Install Compress::Zlib if you haven’t already. To check if you did:</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>perl -MCompress::Zlib
+</code></pre>
+</div>
+
+<p>If you have to install it, just do</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>cpan Compress::Zlib
+</code></pre>
+</div>
+
+<p><strong>DISCLAIMER:</strong> I haven’t got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.</p>
+
+<p>You will need the following moduled to get the procedure working.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">use</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">HTTP::</span><span class="nv">Message</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">Compress::</span><span class="nv">Zlib</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>So, my own take of the _download procedure that will allow you to handle encoded content is:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">sub </span><span class="nf">_download</span> <span class="p">{</span>
+        <span class="k">my</span> <span class="p">(</span><span class="nv">$url</span><span class="p">,</span><span class="nv">$login</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+        <span class="nb">caller</span> <span class="ow">eq</span> <span class="nv">__PACKAGE__</span> <span class="ow">or</span> <span class="nb">die</span><span class="p">;</span>
+
+        <span class="k">my</span> <span class="nv">$can_accept</span> <span class="o">=</span> <span class="nn">HTTP::Message::</span><span class="nv">decodable</span><span class="p">;</span>
+        <span class="k">my</span> <span class="nv">$agent</span> <span class="o">=</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="nv">env_proxy</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span><span class="nv">keep_alive</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">timeout</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span><span class="s">'Accept-Encoding'</span> <span class="o">=&gt;</span> <span class="nv">$can_accept</span><span class="p">,</span><span class="nv">agent</span><span class="o">=&gt;</span><span class="s">'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'</span><span class="p">);</span>
+        <span class="k">my</span> <span class="nv">$header</span> <span class="o">=</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="nv">GET</span> <span class="o">=&gt;</span> <span class="nv">$url</span><span class="p">);</span>
+        <span class="k">my</span> <span class="nv">$request</span> <span class="o">=</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="s">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$header</span><span class="p">);</span>
+        <span class="k">my</span> <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$agent</span><span class="o">-&gt;</span><span class="nv">request</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+                <span class="k">my</span> <span class="nv">$username</span> <span class="o">=</span> <span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+                <span class="k">my</span> <span class="nv">$pass</span> <span class="o">=</span> <span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+                <span class="nv">$request</span><span class="o">-&gt;</span><span class="nv">authorization_basic</span><span class="p">(</span> <span class="s">"$username"</span><span class="p">,</span> <span class="s">"$pass"</span> <span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Check the outcome of the response</span>
+        <span class="k">my</span> <span class="p">(</span><span class="nv">$content</span><span class="p">,</span><span class="nv">$type</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">is_success</span><span class="p">){</span>
+                <span class="p">(</span><span class="nv">$type</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">headers</span><span class="o">-&gt;</span><span class="p">{</span><span class="s">'content-type'</span><span class="p">}</span><span class="o">=~</span><span class="sr">/(.*);.*/</span><span class="p">);</span>
+                <span class="c1">#$ce = $response-&gt;headers-&gt;{'content-encoding'};</span>
+                <span class="nv">$content</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">decoded_content</span><span class="p">;</span>
+        <span class="p">}</span><span class="k">elsif</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">is_error</span><span class="p">){</span>
+                <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">as_string</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nv">$content</span><span class="p">,</span><span class="nv">$type</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+    </article>
+  </div>
+  
 </div>
 
 <div class="pagination">
-  {% if paginator.next_page %}
-    <a class="pagination-item older" href="/page{{paginator.next_page}}">Older</a>
-  {% else %}
+  
     <span class="pagination-item older">Older</span>
-  {% endif %}
-  {% if paginator.previous_page %}
-    {% if paginator.page == 2 %}
-      <a class="pagination-item newer" href="/">Newer</a>
-    {% else %}
-      <a class="pagination-item newer" href="/page{{paginator.previous_page}}">Newer</a>
-    {% endif %}
-  {% else %}
+  
+  
     <span class="pagination-item newer">Newer</span>
-  {% endif %}
+  
 </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="center">
+  <div class="measure">
+    <small>
+      Theme crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+      &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+    </small>
+  </div>
+</footer>
+
+
+</body>
+</html>

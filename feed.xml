@@ -1,21 +1,301 @@
----
-layout: null
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ site.title | xml_escape }}</title>
-    <description>{{ site.description | xml_escape }}</description>
-    <link>{{ site.url }}{{ site.baseurl }}/</link>
-    <atom:link href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" rel="self" type="application/rss+xml" />
-    {% for post in site.posts limit:10 %}
+    <title>Code Bites</title>
+    <description>Recording the effort...</description>
+    <link>http://emmanuel-galindo.github.io/</link>
+    <atom:link href="http://emmanuel-galindo.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    
       <item>
-        <title>{{ post.title | xml_escape }}</title>
-        <description>{{ post.content | xml_escape }}</description>
-        <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
-        <link>{{ post.url | prepend: site.baseurl | prepend: site.url }}</link>
-        <guid isPermaLink="true">{{ post.url | prepend: site.baseurl | prepend: site.url }}</guid>
+        <title>Social media en el footer del Blog Jekyll</title>
+        <description>&lt;h3 id=&quot;te-muestro-como-agregar-al-footer-de-tu-blog-links-a-tus-sitios-de-social-media-los-ejemplos-son-slamente-para-github-y-linkedin-pero-usando-svg&quot;&gt;Te muestro como agregar al footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin… pero usando SVG!!!!&lt;/h3&gt;
+
+&lt;h3 id=&quot;en-esta-continuacin-de-github-pages-desde-linea-de-comando2-vamos-a-agregar-iconos-y-links-al-footer-de-social-media&quot;&gt;En esta continuación de &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/15/github-pages-desde-linea-de-comando.html&quot;&gt;GitHub pages desde linea de comando&lt;/a&gt; vamos a agregar iconos y links al footer de social media&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Especificar tus usuarios a _config.yml, por ejemplo los mios son:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;github_username:  emmanuel-galindo
+linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Dimensionar los SVG en tu CSS customizado (css/custom.css en mi caso), y otra clase mas que uso en mi ejemplo asi no se ve tan feo&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;/** Icons */
+.icon &amp;gt; svg {display: inline-block;width: 16px;height: 16px;vertical-align: middle;}
+.icon &amp;gt; svg path { fill: #828282; }
+
+.social-media-list {list-style: none;margin-left: 0;}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Modificar _includes/footer.html. Por ejemplo, el que se usa en este blog actualmente es&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;a href=&quot;https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/_includes/footer.html&quot;&gt;https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/_includes/footer.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Otra alternativa a los SVG, es usar la libreria de &lt;a href=&quot;http://fontawesome.io/examples/&quot;&gt;Font Awesome&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 16 Apr 2016 00:00:00 -0300</pubDate>
+        <link>http://emmanuel-galindo.github.io/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/</link>
+        <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/</guid>
       </item>
-    {% endfor %}
+    
+      <item>
+        <title>GitHub pages desde linea de comando</title>
+        <description>&lt;h3 id=&quot;en-esta-continuacin-de-blog-en-github-pages-con-jekyll-parte-21-ya-tratamos-de-realizar-lo-mas-posible-desde-linea-de-comando&quot;&gt;En esta continuación de &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/15/github-pages-jekyll-y-tinypress.html&quot;&gt;Blog en GitHub Pages con Jekyll, parte 2&lt;/a&gt; ya tratamos de realizar lo mas posible desde linea de comando&lt;/h3&gt;
+
+&lt;h3 id=&quot;los-ejemplos-son-para-linux-debian-pero-los-pasos-son-los-mismos&quot;&gt;Los ejemplos son para Linux Debian, pero los pasos son los mismos&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Instalar git (como root):&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;# aptitude install git&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Ir a tu repositorio de la pagina en GitHub y copiar la url (aparece entre HTTPS y el botón Download ZIP)&lt;/li&gt;
+  &lt;li&gt;Localmente, ir al directorio donde querés trabajar&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Clonar el repositorio (como usuario normal) usando la url del paso 2)&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ git clone https://github.com/emmanuel-galindo/emmanuel-galindo.github.io.git&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Modificar algun archivo como prueba&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Ejecutar:&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ git commit -a -m &quot;Commit&quot;; git push origin master&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Va a solicitarte usuario y password. Para evitar cargarlo en cada push, se lo puede cachear con dos comandos:&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ git config --global credential.helper cache&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ git config --global credential.helper &#39;cache --timeout=3600&#39;&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;En el caso de que agregues un nuevo post desde la interface de tinypress, podes actualizar tu repo local con:&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;Quizas lo mejor sea hacer un backup…&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ git pull&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+        <pubDate>Sat, 16 Apr 2016 00:00:00 -0300</pubDate>
+        <link>http://emmanuel-galindo.github.io/es/2016/04/16/github-pages-desde-linea-de-comando/</link>
+        <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2016/04/16/github-pages-desde-linea-de-comando/</guid>
+      </item>
+    
+      <item>
+        <title>Blog en GitHub Pages con Jekyll, parte 2</title>
+        <description>&lt;h3 id=&quot;en-esta-continuacin-de-blog-en-github-gratis-y-rpido-con-tinypress3-te-cuento-como-agregarle-comentarios-hacerlo-mas-ancho-etc&quot;&gt;En esta continuación de &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress.html&quot;&gt;Blog en GitHub, gratis y rápido con TinyPress&lt;/a&gt; te cuento como agregarle comentarios, hacerlo mas ancho, etc&lt;/h3&gt;
+
+&lt;h3 id=&quot;agregar-comentarios&quot;&gt;Agregar comentarios&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;Generar cuenta en Disqus
+    &lt;ul&gt;
+      &lt;li&gt;Lo único que necesitás es asignar un short name y acordartelo&lt;/li&gt;
+      &lt;li&gt;Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Agregá lo siguiente al archivo “_layout/default.html”, aproximadamente en la linea 41, abajo de &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt; :&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{% include comments.html %}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;hacer-que-el-blog-sea-mas-ancho&quot;&gt;Hacer que el blog sea mas ancho&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Agregar un archivo custom.css en el dir “_css”&lt;/li&gt;
+  &lt;li&gt;Agregar este contenido (1 rem aprox 16px, 16x62=992px)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;k&quot;&gt;@charset&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&quot;UTF-8&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;nc&quot;&gt;.measure&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;max-width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;62rem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;solo-mostrar-barra-de-desplazamiento-horizontal-scrollbar-cuando-sea-necesario&quot;&gt;Solo mostrar barra de desplazamiento horizontal (scrollbar) cuando sea necesario&lt;/h3&gt;
+&lt;p&gt;En el mismo custom.css:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;pre&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;nl&quot;&gt;overflow-x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;auto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;modificar-el-color-de-la-caja-para-codigo-fuente&quot;&gt;Modificar el color de la caja para codigo fuente&lt;/h3&gt;
+&lt;p&gt;Para cambiar el color de fondo de los bloques de codigo, por ej en &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it.html]&quot;&gt;Yarssr is not loading the feed, how to fix it&lt;/a&gt;:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Abrir default.html en “_layout”&lt;/li&gt;
+  &lt;li&gt;Modificar la línea:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/css/solarized-dark.css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;por&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/css/solarized-light.css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;O viceversa…&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 15 Apr 2016 00:00:00 -0300</pubDate>
+        <link>http://emmanuel-galindo.github.io/es/2016/04/15/github-pages-jekyll-y-tinypress/</link>
+        <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2016/04/15/github-pages-jekyll-y-tinypress/</guid>
+      </item>
+    
+      <item>
+        <title>Blog en GitHub, gratis y rápido con TinyPress</title>
+        <description>&lt;h3 id=&quot;en-algunos-pasos-te-comento-mi-experiencia-desde-0-armando-este-blog-no-se-necesita-tener-nada-mas-que-un-rato&quot;&gt;En algunos pasos, te comento mi experiencia desde 0 armando este blog. No se necesita tener nada, mas que un rato.&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Entrar en tinypress.co, y si no tenés cuenta de Github, crearla, y vincularla a TinyPress aceptando los permisos.&lt;/li&gt;
+  &lt;li&gt;Elegir entre los templates disponibles (para cambiarlos leer &lt;a href=&quot;http://tinypressco.github.io/2015/09/24/how-to-switch-themes.html&quot;&gt;How to Switch Themes&lt;/a&gt;).&lt;/li&gt;
+  &lt;li&gt;Escoger el nombre y la cantidad de posts a mostrar en el listado inicial&lt;/li&gt;
+  &lt;li&gt;Sino tenés GitHub Pages configurado, lo crea automáticamente!!&lt;/li&gt;
+  &lt;li&gt;Experimentá agregando dos posts de prueba.&lt;/li&gt;
+  &lt;li&gt;TinyPress no genera la pagina de inicio, para ello copiar &lt;a href=&quot;https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/index.html&quot;&gt;index.html&lt;/a&gt; de mi repositorio al root del tuyo. No te olvides de modificar el Title.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Ya estás listo para empezar a editar tus articulos sin esfuerzo!!&lt;/p&gt;
+
+&lt;h3 id=&quot;links-tiles-para-formatear-el-texto&quot;&gt;Links útiles para formatear el texto:&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&quot;&gt;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://sourceforge.net/p/jekyllc/bugs/markdown_syntax&quot;&gt;https://sourceforge.net/p/jekyllc/bugs/markdown_syntax&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 15 Apr 2016 00:00:00 -0300</pubDate>
+        <link>http://emmanuel-galindo.github.io/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</link>
+        <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</guid>
+      </item>
+    
+      <item>
+        <title>Yarssr is not loading the feed, how to fix it</title>
+        <description>&lt;p&gt;If you add a feed on yarssr and the icon doesn’t turn green, it is time to enable the debug and look for the error.
+First kill the running process:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ ps -fea | grep -i yarssr | grep -v grep | awk &#39;{ print $2 }&#39; | xargs kill -9&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Then, go to the app folder and start it back w/debug flag:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.yarssr/;yarssr --debug
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;HINT&lt;/strong&gt;, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it.html&quot;&gt;Yarssr deletes the feeds, how to deal with it&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;For me, it was printing:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;17:02:57] 
+not well-formed &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;invalid token&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; at line 1, column 0, byte 0 at /usr/lib/x86_64-linux-gnu/perl5/5.20/XML/Parser.pm line 187.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This indicates the content of the URL is garbled, and it is not being handed correctly to the parser. 
+In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
+By doing some inspections, it was returning the content without decoding it. 
+The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;curl -I https://kat.cr/
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;...]
+Content-Encoding: gzip
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;...]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So, I’ve come up with my own _download method within Fetcher.pm. If you plan to use it:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Backup the current _download function to _download_old
+    &lt;ul&gt;
+      &lt;li&gt;Install Compress::Zlib if you haven’t already. To check if you did:&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;perl -MCompress::Zlib
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you have to install it, just do&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;cpan Compress::Zlib
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;DISCLAIMER:&lt;/strong&gt; I haven’t got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.&lt;/p&gt;
+
+&lt;p&gt;You will need the following moduled to get the procedure working.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;LWP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;UserAgent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Compress::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Zlib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So, my own take of the _download procedure that will allow you to handle encoded content is:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;sub &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;_download&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;@_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;caller&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;eq&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;__PACKAGE__&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;die&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$can_accept&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::Message::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;decodable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$agent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;LWP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;UserAgent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;env_proxy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;keep_alive&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;timeout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;Accept-Encoding&#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$can_accept&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;agent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;GET&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$request&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;GET&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$agent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$pass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+                &lt;span class=&quot;nv&quot;&gt;$request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;authorization_basic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;$username&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;$pass&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# Check the outcome of the response&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;is_success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;content-type&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/(.*);.*/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;c1&quot;&gt;#$ce = $response-&amp;gt;headers-&amp;gt;{&#39;content-encoding&#39;};&lt;/span&gt;
+                &lt;span class=&quot;nv&quot;&gt;$content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;decoded_content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elsif&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;is_error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;as_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Thu, 14 Apr 2016 00:00:00 -0300</pubDate>
+        <link>http://emmanuel-galindo.github.io/en/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it/</link>
+        <guid isPermaLink="true">http://emmanuel-galindo.github.io/en/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it/</guid>
+      </item>
+    
+      <item>
+        <title>Yarssr deletes the feeds, how to deal with it</title>
+        <description>&lt;p&gt;Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
+This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0 5 &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; tar rvf /home/manu/.yarssr/yarssr-backup.tar -C /home/manu/.yarssr/ . 2&amp;gt;&amp;amp;1 1&amp;gt;/dev/null
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# tar xvf ~/.yarssr/yarssr-back.tar&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you find the root cause, please share!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 14 Apr 2016 00:00:00 -0300</pubDate>
+        <link>http://emmanuel-galindo.github.io/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/</link>
+        <guid isPermaLink="true">http://emmanuel-galindo.github.io/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/</guid>
+      </item>
+    
   </channel>
 </rss>
