@@ -1116,7 +1116,7 @@ blockquote footer {
     font-size: 20px; } }
 @media screen and (min-width: 78em) {
   em img {
-    max-width: 56rem;
+    max-width: 62rem;
     margin-left: -7em; } }
 .gist,
 .gist .highlight .p {
@@ -1127,7 +1127,7 @@ blockquote footer {
 
 .measure {
   margin: 0 auto;
-  max-width: 42rem; }
+  max-width: 48rem; }
 
 .pagination {
   font-size: 1rem;
