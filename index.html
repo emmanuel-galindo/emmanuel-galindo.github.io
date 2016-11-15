@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?201604211544" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?201604211544" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?201611141546" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201611141546" type="text/css">
 
     <!-- Fonts -->
     
@@ -174,10 +174,10 @@
         <div class="posts">
   
   <div class="post py3">
-      <p class="post-meta">Apr 14, 2016</p>
-      <a href="/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/" class="post-link">
+      <p class="post-meta">Nov 14, 2016</p>
+      <a href="/en/2016/11/14/xpath-date-compare-element/" class="post-link">
         <h3 class="h1 post-title">
-          Yarssr deletes the feeds, how to deal with it
+          Compare dates at elements with XPath
         </h3>
       </a>
       <p class="post-summary">
@@ -421,6 +421,52 @@ Content-Encoding: gzip
 <span class="p">}</span>
 </code></pre>
 </div>
+
+    </article>
+  </div>
+  
+  <div class="post py3">
+      <p class="post-meta">Apr 14, 2016</p>
+      <a href="/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/" class="post-link">
+        <h3 class="h1 post-title">
+          Yarssr deletes the feeds, how to deal with it
+        </h3>
+      </a>
+      <p class="post-summary">
+        
+          <p>Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
+This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>0 5 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> tar rvf /home/manu/.yarssr/yarssr-backup.tar -C /home/manu/.yarssr/ . 2&gt;&amp;1 1&gt;/dev/null
+</code></pre>
+</div>
+
+<p>That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># tar xvf ~/.yarssr/yarssr-back.tar</span>
+</code></pre>
+</div>
+
+<p>If you find the root cause, please share!</p>
+
+        
+      </p>
+
+    <article class="post-content">
+         <p>Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
+This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>0 5 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> tar rvf /home/manu/.yarssr/yarssr-backup.tar -C /home/manu/.yarssr/ . 2&gt;&amp;1 1&gt;/dev/null
+</code></pre>
+</div>
+
+<p>That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># tar xvf ~/.yarssr/yarssr-back.tar</span>
+</code></pre>
+</div>
+
+<p>If you find the root cause, please share!</p>
 
     </article>
   </div>

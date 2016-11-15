@@ -7,6 +7,28 @@
     <atom:link href="http://emmanuel-galindo.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Compare dates at elements with XPath</title>
+        <description>&lt;p&gt;Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
+This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0 5 &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; tar rvf /home/manu/.yarssr/yarssr-backup.tar -C /home/manu/.yarssr/ . 2&amp;gt;&amp;amp;1 1&amp;gt;/dev/null
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# tar xvf ~/.yarssr/yarssr-back.tar&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you find the root cause, please share!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 14 Nov 2016 00:00:00 -0300</pubDate>
+        <link>http://emmanuel-galindo.github.io/en/2016/11/14/xpath-date-compare-element/</link>
+        <guid isPermaLink="true">http://emmanuel-galindo.github.io/en/2016/11/14/xpath-date-compare-element/</guid>
+      </item>
+    
+      <item>
         <title>Social media en el footer del Blog Jekyll</title>
         <description>&lt;h3 id=&quot;te-muestro-como-agregar-al-footer-de-tu-blog-links-a-tus-sitios-de-social-media-los-ejemplos-son-slamente-para-github-y-linkedin-pero-usando-svg&quot;&gt;Te muestro como agregar al footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin… pero usando SVG!!!!&lt;/h3&gt;
 
