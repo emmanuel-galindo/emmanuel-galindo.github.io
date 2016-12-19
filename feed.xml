@@ -7,21 +7,36 @@
     <atom:link href="http://emmanuel-galindo.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
-        <title>Compare dates at elements with XPath</title>
-        <description>&lt;p&gt;Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
-This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.&lt;/p&gt;
+        <title>Compare dates at elements with XPath 1.0</title>
+        <description>&lt;p&gt;Using xmllint limits you to XPath 1.0, but on the other hand you’ll have it available at every box around.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0 5 &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; tar rvf /home/manu/.yarssr/yarssr-backup.tar -C /home/manu/.yarssr/ . 2&amp;gt;&amp;amp;1 1&amp;gt;/dev/null
+&lt;p&gt;For the following example, we want to get the cars that need service. Service data is at the element context.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;xmllint --format ./example.xml
+&amp;lt;?xml &lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1.0&quot;&lt;/span&gt;?&amp;gt;
+&amp;lt;Cars&amp;gt;
+  &amp;lt;Car&amp;gt;
+    &amp;lt;Model&amp;gt;Taurus&amp;lt;/Model&amp;gt;
+    &amp;lt;NextService&amp;gt;2018-04-27T16:02:46+01:00&amp;lt;/NextService&amp;gt;
+  &amp;lt;/Car&amp;gt;
+  &amp;lt;Car&amp;gt;
+    &amp;lt;Model&amp;gt;Corolla&amp;lt;/Model&amp;gt;
+    &amp;lt;NextService&amp;gt;2016-11-01T16:02:46+01:00&amp;lt;/NextService&amp;gt;
+  &amp;lt;/Car&amp;gt;
+  &amp;lt;Car&amp;gt;
+    &amp;lt;Model&amp;gt;Civic&amp;lt;/Model&amp;gt;
+    &amp;lt;NextService&amp;gt;2017-04-01T16:02:46+01:00&amp;lt;/NextService&amp;gt;
+  &amp;lt;/Car&amp;gt;
+&amp;lt;/Cars&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do&lt;/p&gt;
+&lt;p&gt;The important bit below is the ./, that places the search in the context of the element of each item:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# tar xvf ~/.yarssr/yarssr-back.tar&lt;/span&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;today&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;date +&lt;span class=&quot;s2&quot;&gt;&quot;%Y%m%d&quot;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;xmllint --xpath &lt;span class=&quot;s2&quot;&gt;&quot;//Cars/Car[ number(translate(substring(./NextService,0,11), &#39;-&#39;,&#39;&#39;)) &amp;lt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$today&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; ]&quot;&lt;/span&gt; example.xml
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-
-&lt;p&gt;If you find the root cause, please share!&lt;/p&gt;
 </description>
         <pubDate>Mon, 14 Nov 2016 00:00:00 -0300</pubDate>
         <link>http://emmanuel-galindo.github.io/en/2016/11/14/xpath-date-compare-element/</link>
@@ -99,7 +114,7 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
   &lt;li&gt;
     &lt;p&gt;En el caso de que agregues un nuevo post desde la interface de tinypress, podes actualizar tu repo local con:&lt;/p&gt;
 
-    &lt;p&gt;&lt;strong&gt;Quizas lo mejor sea hacer un backup…&lt;/strong&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;em&gt;Quizas lo mejor sea hacer un backup…&lt;/em&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ git pull&lt;/code&gt;&lt;/p&gt;
   &lt;/li&gt;
