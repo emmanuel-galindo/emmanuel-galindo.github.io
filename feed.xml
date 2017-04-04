@@ -7,6 +7,54 @@
     <atom:link href="http://emmanuel-galindo.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Shrink LVM volume for Windows partition</title>
+        <description>&lt;p&gt;In order to release space from an LVM volume to finally get a free physical partition requires the following steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Resize File Sytem in the LVM volume&lt;/li&gt;
+  &lt;li&gt;Resize Physical Volume&lt;/li&gt;
+  &lt;li&gt;Create a NTFS partition&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Also, root access is necessary&lt;/p&gt;
+
+&lt;h2 id=&quot;resize-file-sytem-in-the-lvm-volume&quot;&gt;Resize File Sytem in the LVM volume&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# lvresize --resizefs --verbose -L -30G /dev/machine_vg/root&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;resize-physical-volume&quot;&gt;Resize Physical Volume&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;If you get an error as:
+/dev/sdaX: cannot resize to X extents as later ones are allocated.
+It means there’s another volume between the free space and the end. To see it:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;shell
+# pvs -v --segments /dev/sdaX
+&lt;/code&gt;
+To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;shell
+# pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;create-a-ntfs-partition&quot;&gt;Create a NTFS partition&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# fdisk&lt;/span&gt;
+n
+c
+1-n &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;partition number, probably sdaX+1]
+L
+87
+&lt;span class=&quot;c&quot;&gt;# mkfs.ntfs /dev/sdaX&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Tue, 04 Apr 2017 00:00:00 -0300</pubDate>
+        <link>http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/</link>
+        <guid isPermaLink="true">http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/</guid>
+      </item>
+    
+      <item>
         <title>Compare dates at elements with XPath 1.0</title>
         <description>&lt;p&gt;Using xmllint limits you to XPath 1.0, but on the other hand you’ll have it available at every box around.&lt;/p&gt;
 

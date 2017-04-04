@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?201612192312" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?201612192312" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?201704041516" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201704041516" type="text/css">
 
     <!-- Fonts -->
     
@@ -172,6 +172,104 @@
     <div class="post p2 p-responsive wrap" role="main">
       <div class="measure">
         <div class="posts">
+  
+  <div class="post py3">
+      <p class="post-meta">Apr 4, 2017</p>
+      <a href="/en/2017/04/04/shrink-lvm-for-windows-partition/" class="post-link">
+        <h3 class="h1 post-title">
+          Shrink LVM volume for Windows partition
+        </h3>
+      </a>
+      <p class="post-summary">
+        
+          <p>In order to release space from an LVM volume to finally get a free physical partition requires the following steps:</p>
+
+<ol>
+  <li>Resize File Sytem in the LVM volume</li>
+  <li>Resize Physical Volume</li>
+  <li>Create a NTFS partition</li>
+</ol>
+
+<p>Also, root access is necessary</p>
+
+<h2 id="resize-file-sytem-in-the-lvm-volume">Resize File Sytem in the LVM volume</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># lvresize --resizefs --verbose -L -30G /dev/machine_vg/root</span>
+</code></pre>
+</div>
+
+<h2 id="resize-physical-volume">Resize Physical Volume</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX</span>
+</code></pre>
+</div>
+<p>If you get an error as:
+/dev/sdaX: cannot resize to X extents as later ones are allocated.
+It means there’s another volume between the free space and the end. To see it:
+<code class="highlighter-rouge">shell
+# pvs -v --segments /dev/sdaX
+</code>
+To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:
+<code class="highlighter-rouge">shell
+# pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx
+</code></p>
+
+<h2 id="create-a-ntfs-partition">Create a NTFS partition</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># fdisk</span>
+n
+c
+1-n <span class="o">[</span>partition number, probably sdaX+1]
+L
+87
+<span class="c"># mkfs.ntfs /dev/sdaX</span>
+</code></pre>
+</div>
+
+        
+      </p>
+
+    <article class="post-content">
+         <p>In order to release space from an LVM volume to finally get a free physical partition requires the following steps:</p>
+
+<ol>
+  <li>Resize File Sytem in the LVM volume</li>
+  <li>Resize Physical Volume</li>
+  <li>Create a NTFS partition</li>
+</ol>
+
+<p>Also, root access is necessary</p>
+
+<h2 id="resize-file-sytem-in-the-lvm-volume">Resize File Sytem in the LVM volume</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># lvresize --resizefs --verbose -L -30G /dev/machine_vg/root</span>
+</code></pre>
+</div>
+
+<h2 id="resize-physical-volume">Resize Physical Volume</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX</span>
+</code></pre>
+</div>
+<p>If you get an error as:
+/dev/sdaX: cannot resize to X extents as later ones are allocated.
+It means there’s another volume between the free space and the end. To see it:
+<code class="highlighter-rouge">shell
+# pvs -v --segments /dev/sdaX
+</code>
+To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:
+<code class="highlighter-rouge">shell
+# pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx
+</code></p>
+
+<h2 id="create-a-ntfs-partition">Create a NTFS partition</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># fdisk</span>
+n
+c
+1-n <span class="o">[</span>partition number, probably sdaX+1]
+L
+87
+<span class="c"># mkfs.ntfs /dev/sdaX</span>
+</code></pre>
+</div>
+
+    </article>
+  </div>
   
   <div class="post py3">
       <p class="post-meta">Nov 14, 2016</p>
