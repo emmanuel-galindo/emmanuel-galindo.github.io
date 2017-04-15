@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?201704051728" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?201704051728" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?201704150201" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201704150201" type="text/css">
 
     <!-- Fonts -->
     
@@ -182,190 +182,8 @@
       </a>
       <p class="post-summary">
         
-          <p><strong>Important note:</strong> If you are new to UEFI please read this 30min article to understand what’s happening: <a href="https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/">UEFI boot: how does that actually work, then?</a></p>
-
-<p>The goal of this note is to fix the UEFI Boot Manager (located in the NVRAM) for a Debian installation, by using a Debian Live image to mount a broken system via chroot and then reinstall grub-efi. This will recreate the boot loader for grub2-efi in the EFI System Partition (as /boot/efi) and add an entry for it in the boot manager. 
-A possible scenario to execute this workaround is when your current Linux installation dissapeared from the UEFI Boot Manager. The instructions here were executed on a Debian Jessie box.</p>
-
-<p>Steps summary:</p>
-
-<ol>
-  <li>Download Debian Live</li>
-  <li>Burn it to an USB drive</li>
-  <li>Fix UEFI on the USB drive</li>
-  <li>Boot Debian Live</li>
-  <li>Verify Debian Live was loaded with UEFI</li>
-  <li>Review devices location and current configuration</li>
-  <li>Mount broken system (via chroot)</li>
-  <li>Reinstall grub-efi</li>
-  <li>Verify configuration</li>
-  <li>Logout from chroot and reboot</li>
-</ol>
-
-<h2 id="download-debian-live">Download Debian Live</h2>
-<p>Download it from <a href="https://www.debian.org/CD/live/">Debian Live</a>.</p>
-
-<p><strong><em>Important:</em></strong> At this point, UEFI support exists only in Debian’s installation images. The Live images do not have support for UEFI boot.</p>
-
-<h2 id="burn-it-to-an-usb-drive">Burn it to an USB drive</h2>
-<p>As stated in the initial recommended reading, UEFI works best with FAT32 and GPT partition table. However, Debian Live does not support it yet
-so any method could be chosen. However, be sure to format the USB drive as FAT32. Recommended tools:</p>
-
-<ul>
-  <li>For Debian Linux, <a href="https://github.com/resin-io/etcher">Ether</a>. Note that in the instructions use the retired site pgp.mit.edu, therefore use hkp://pool.sks-keyservers.net instead.</li>
-  <li>For Windows, <a href="https://rufus.akeo.ie">Rufus</a>. It has the advantage of clearly allow to select the Partition scheme and system type.</li>
-</ul>
-
-<h2 id="fix-uefi-on-the-usb-drive">Fix UEFI on the USB drive</h2>
-<ol>
-  <li>Dowload Shell.efi from <a href="https://github.com/tianocore/edk2/tree/master/ShellBinPkg/UefiShell/X64">UEFI Shell</a>.</li>
-  <li>On the USB drive create a EFI folder and a BOOT sub folder, then copy Shell.efi to EFI\BOOT\ and rename it to Bootx64.efi.</li>
-  <li>Using a text editor, create a file called liveboot.nsh on the root of the USB drive and paste the following into the file:</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>live<span class="se">\v</span>mlinuz <span class="nv">initrd</span><span class="o">=</span>live<span class="se">\i</span>nitrd.img append <span class="nv">boot</span><span class="o">=</span>live components
-</code></pre>
-</div>
-
-<h2 id="boot-debian-live">Boot Debian Live</h2>
-<p>Reboot the computer and hit F8 or F12 to bring the UEFI Boot Menu, and select your USB Drive. If it is shown more than one time, ensure to select the one that mentions UEFI.
-After UEFI Shell loads, type liveboot.nsh and press Enter.</p>
-
-<h2 id="verify-debian-live-was-loaded-with-uefi">Verify Debian Live was loaded with UEFI</h2>
-<p>When Debian Live finishes loading, verify it it was loaded with UEFI with two basic methods:</p>
-
-<ol>
-  <li>Checking dmesg output you should see many lines related to EFI or UEFI.</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>dmesg | grep -i efi 
-</code></pre>
-</div>
-<ol>
-  <li>Check the EFI vars are correctly loaded</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ls -l /sys/firmware/efi | grep vars
-</code></pre>
-</div>
-
-<h2 id="review-devices-location-and-current-configuration">Review devices location and current configuration</h2>
-<ol>
-  <li>Identify the root, boot and EFI partitions from the broken system.
-Use fdisk -l to survey the current partition. EFI normally goes into /dev/sdX1. Mount one by one trying to identify which is the correct one. 
-As a reference, /boot would normally look like:</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ls -l /boot
-total 21581
--rw-r--r-- 1 root root   157721 Oct 19 03:45 config-3.16.0-4-amd64
-drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
--rw-r--r-- 1 root root 16023698 Dec  5 09:50 initrd.img-3.16.0-4-amd64
--rw-r--r-- 1 root root  2679264 Oct 19 03:45 System.map-3.16.0-4-amd64
--rw-r--r-- 1 root root  3126448 Oct 19 03:41 vmlinuz-3.16.0-4-amd64
-</code></pre>
-</div>
-<p><strong>Note:</strong> In the case of lvm volumes, you might need to download the lvm2 package and expose the volumes before mounting:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># apt-get install lvm2</span>
-<span class="c"># vgscan</span>
-<span class="c"># vgchange -a -y</span>
-<span class="c"># mount /dev/volumegroup/logicalvolume /mnt</span>
-</code></pre>
-</div>
-<ol>
-  <li>Download efibootmgr and review current UEFI Boot Manager configuration</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># apt-get install efibootmgr</span>
-<span class="c"># efibootmgr -v</span>
-</code></pre>
-</div>
-
-<h2 id="mount-broken-system-via-chroot">Mount broken system (via chroot)</h2>
-<p>Mounting another system via chroot is the usual procedure to recover broken system’s. Once the chroot comand is issues, Debian Live will treat the broken system’s “/” (root) as its own. Commands run in a chroot environment will affect the broken systems filesystems and not those of the Debian Live.
-1. Mount root partition (for example an lvm)</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># mount /dev/volumegroup/logicalvolume /mnt</span>
-</code></pre>
-</div>
-<ol>
-  <li>Mount boot partition (F.e. in drive sda)</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># mount /dev/sda2 /mnt/boot</span>
-</code></pre>
-</div>
-<ol>
-  <li>Mount the EFI System Partition (usually in /dev/sda1)</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># mount /dev/sda1 /mnt/boot/efi</span>
-</code></pre>
-</div>
-<ol>
-  <li>Mount the critical virtual filesystems with the following single command:</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># for i in /dev /dev/pts /proc /sys /run; do sudo mount -B $i /mnt$i; done</span>
-</code></pre>
-</div>
-<ol>
-  <li>Chroot to your normal (and broken) system device</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># chroot /mnt</span>
-</code></pre>
-</div>
-<p><strong>Important:</strong> From now on your changes will affect your normal system.</p>
-
-<h2 id="reinstall-grub-efi">Reinstall grub-efi</h2>
-<p>Download and Install grub-efi package, set the debian bootloader and create a grub config file based on your disk partitioning schema
-1. Install grub-efi package</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># apt-get install --reinstall grub-efi</span>
-</code></pre>
-</div>
-<ol>
-  <li>Put the debian bootloader in /boot/efi and create an appropiate entry in the computer’s UEFI Boot Manager</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># grub-install /dev/sda</span>
-</code></pre>
-</div>
-<ol>
-  <li>Re create a grub config file based on your disk partitioning schema</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># update-grub</span>
-</code></pre>
-</div>
-
-<h2 id="verify-configuration">Verify configuration</h2>
-<ol>
-  <li>Bootloader exists</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># file /boot/efi/EFI/debian/grubx64.efi </span>
-/boot/efi/EFI/debian/grubx64.efi: PE32+ executable <span class="o">(</span>EFI application<span class="o">)</span> x86-64 
-<span class="o">(</span>stripped to external PDB<span class="o">)</span>, <span class="k">for </span>MS Windows
-</code></pre>
-</div>
-<ol>
-  <li>NVRAM entry was properly created</li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># efibootmgr -v | grep debian</span>
-</code></pre>
-</div>
-
-<h2 id="logout-from-chroot-and-reboot">Logout from chroot and reboot</h2>
-<p>Type ctrl+d or exit to quit the chroot session, and reboot.</p>
-
-
-        
       </p>
-
+<!--
     <article class="post-content">
          <p><strong>Important note:</strong> If you are new to UEFI please read this 30min article to understand what’s happening: <a href="https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/">UEFI boot: how does that actually work, then?</a></p>
 
@@ -547,8 +365,8 @@ drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
 <h2 id="logout-from-chroot-and-reboot">Logout from chroot and reboot</h2>
 <p>Type ctrl+d or exit to quit the chroot session, and reboot.</p>
 
-
     </article>
+-->
   </div>
   
   <div class="post py3">
@@ -560,50 +378,8 @@ drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
       </a>
       <p class="post-summary">
         
-          <p>In order to release space from an LVM volume to finally get a free physical partition requires the following steps:</p>
-
-<ol>
-  <li>Resize File Sytem in the LVM volume</li>
-  <li>Resize Physical Volume</li>
-  <li>Create a NTFS partition</li>
-</ol>
-
-<p>Also, root access is necessary</p>
-
-<h2 id="resize-file-sytem-in-the-lvm-volume">Resize File Sytem in the LVM volume</h2>
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># lvresize --resizefs --verbose -L -30G /dev/machine_vg/root</span>
-</code></pre>
-</div>
-
-<h2 id="resize-physical-volume">Resize Physical Volume</h2>
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX</span>
-</code></pre>
-</div>
-<p>If you get an error as:
-/dev/sdaX: cannot resize to X extents as later ones are allocated.
-It means there’s another volume between the free space and the end. To see it:
-<code class="highlighter-rouge">shell
-# pvs -v --segments /dev/sdaX
-</code>
-To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:
-<code class="highlighter-rouge">shell
-# pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx
-</code></p>
-
-<h2 id="create-a-ntfs-partition">Create a NTFS partition</h2>
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># fdisk</span>
-n
-c
-1-n <span class="o">[</span>partition number, probably sdaX+1]
-L
-87
-<span class="c"># mkfs.ntfs /dev/sdaX</span>
-</code></pre>
-</div>
-
-        
       </p>
-
+<!--
     <article class="post-content">
          <p>In order to release space from an LVM volume to finally get a free physical partition requires the following steps:</p>
 
@@ -647,6 +423,7 @@ L
 </div>
 
     </article>
+-->
   </div>
   
   <div class="post py3">
@@ -658,39 +435,8 @@ L
       </a>
       <p class="post-summary">
         
-          <p>Using xmllint limits you to XPath 1.0, but on the other hand you’ll have it available at every box around.</p>
-
-<p>For the following example, we want to get the cars that need service. Service data is at the element context.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>xmllint --format ./example.xml
-&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span>?&gt;
-&lt;Cars&gt;
-  &lt;Car&gt;
-    &lt;Model&gt;Taurus&lt;/Model&gt;
-    &lt;NextService&gt;2018-04-27T16:02:46+01:00&lt;/NextService&gt;
-  &lt;/Car&gt;
-  &lt;Car&gt;
-    &lt;Model&gt;Corolla&lt;/Model&gt;
-    &lt;NextService&gt;2016-11-01T16:02:46+01:00&lt;/NextService&gt;
-  &lt;/Car&gt;
-  &lt;Car&gt;
-    &lt;Model&gt;Civic&lt;/Model&gt;
-    &lt;NextService&gt;2017-04-01T16:02:46+01:00&lt;/NextService&gt;
-  &lt;/Car&gt;
-&lt;/Cars&gt;
-</code></pre>
-</div>
-
-<p>The important bit below is the ./, that places the search in the context of the element of each item:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nv">today</span><span class="o">=</span><span class="sb">`</span>date +<span class="s2">"%Y%m%d"</span><span class="sb">`</span>
-<span class="gp">$ </span>xmllint --xpath <span class="s2">"//Cars/Car[ number(translate(substring(./NextService,0,11), '-','')) &lt; </span><span class="nv">$today</span><span class="s2"> ]"</span> example.xml
-</code></pre>
-</div>
-
-        
       </p>
-
+<!--
     <article class="post-content">
          <p>Using xmllint limits you to XPath 1.0, but on the other hand you’ll have it available at every box around.</p>
 
@@ -723,6 +469,7 @@ L
 </div>
 
     </article>
+-->
   </div>
   
   <div class="post py3">
@@ -734,104 +481,8 @@ L
       </a>
       <p class="post-summary">
         
-          <p>If you add a feed on yarssr and the icon doesn’t turn green, it is time to enable the debug and look for the error.
-First kill the running process:</p>
-
-<p><code class="highlighter-rouge">$ ps -fea | grep -i yarssr | grep -v grep | awk '{ print $2 }' | xargs kill -9</code></p>
-
-<p>Then, go to the app folder and start it back w/debug flag:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">cd</span> ~/.yarssr/;yarssr --debug
-</code></pre>
-</div>
-
-<p><strong>HINT</strong>, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post <a href="http://emmanuel-galindo.github.io/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it.html">Yarssr deletes the feeds, how to deal with it</a>.</p>
-
-<p>For me, it was printing:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">[</span>17:02:57] 
-not well-formed <span class="o">(</span>invalid token<span class="o">)</span> at line 1, column 0, byte 0 at /usr/lib/x86_64-linux-gnu/perl5/5.20/XML/Parser.pm line 187.
-</code></pre>
-</div>
-
-<p>This indicates the content of the URL is garbled, and it is not being handed correctly to the parser. 
-In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
-By doing some inspections, it was returning the content without decoding it. 
-The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -I https://kat.cr/
-<span class="o">[</span>...]
-Content-Encoding: gzip
-<span class="o">[</span>...]
-</code></pre>
-</div>
-
-<p>So, I’ve come up with my own _download method within Fetcher.pm. If you plan to use it:</p>
-
-<ol>
-  <li>Backup the current _download function to _download_old
-    <ul>
-      <li>Install Compress::Zlib if you haven’t already. To check if you did:</li>
-    </ul>
-  </li>
-</ol>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>perl -MCompress::Zlib
-</code></pre>
-</div>
-
-<p>If you have to install it, just do</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>cpan Compress::Zlib
-</code></pre>
-</div>
-
-<p><strong>DISCLAIMER:</strong> I haven’t got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.</p>
-
-<p>You will need the following moduled to get the procedure working.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">use</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="p">;</span>
-<span class="k">use</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="p">;</span>
-<span class="k">use</span> <span class="nn">HTTP::</span><span class="nv">Message</span><span class="p">;</span>
-<span class="k">use</span> <span class="nn">Compress::</span><span class="nv">Zlib</span><span class="p">;</span>
-</code></pre>
-</div>
-
-<p>So, my own take of the _download procedure that will allow you to handle encoded content is:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">sub </span><span class="nf">_download</span> <span class="p">{</span>
-        <span class="k">my</span> <span class="p">(</span><span class="nv">$url</span><span class="p">,</span><span class="nv">$login</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
-        <span class="nb">caller</span> <span class="ow">eq</span> <span class="nv">__PACKAGE__</span> <span class="ow">or</span> <span class="nb">die</span><span class="p">;</span>
-
-        <span class="k">my</span> <span class="nv">$can_accept</span> <span class="o">=</span> <span class="nn">HTTP::Message::</span><span class="nv">decodable</span><span class="p">;</span>
-        <span class="k">my</span> <span class="nv">$agent</span> <span class="o">=</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="nv">env_proxy</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span><span class="nv">keep_alive</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">timeout</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span><span class="s">'Accept-Encoding'</span> <span class="o">=&gt;</span> <span class="nv">$can_accept</span><span class="p">,</span><span class="nv">agent</span><span class="o">=&gt;</span><span class="s">'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'</span><span class="p">);</span>
-        <span class="k">my</span> <span class="nv">$header</span> <span class="o">=</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="nv">GET</span> <span class="o">=&gt;</span> <span class="nv">$url</span><span class="p">);</span>
-        <span class="k">my</span> <span class="nv">$request</span> <span class="o">=</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="s">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$header</span><span class="p">);</span>
-        <span class="k">my</span> <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$agent</span><span class="o">-&gt;</span><span class="nv">request</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
-                <span class="k">my</span> <span class="nv">$username</span> <span class="o">=</span> <span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-                <span class="k">my</span> <span class="nv">$pass</span> <span class="o">=</span> <span class="nv">$login</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-                <span class="nv">$request</span><span class="o">-&gt;</span><span class="nv">authorization_basic</span><span class="p">(</span> <span class="s">"$username"</span><span class="p">,</span> <span class="s">"$pass"</span> <span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="c1"># Check the outcome of the response</span>
-        <span class="k">my</span> <span class="p">(</span><span class="nv">$content</span><span class="p">,</span><span class="nv">$type</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">is_success</span><span class="p">){</span>
-                <span class="p">(</span><span class="nv">$type</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">headers</span><span class="o">-&gt;</span><span class="p">{</span><span class="s">'content-type'</span><span class="p">}</span><span class="o">=~</span><span class="sr">/(.*);.*/</span><span class="p">);</span>
-                <span class="c1">#$ce = $response-&gt;headers-&gt;{'content-encoding'};</span>
-                <span class="nv">$content</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">decoded_content</span><span class="p">;</span>
-        <span class="p">}</span><span class="k">elsif</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">is_error</span><span class="p">){</span>
-                <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">as_string</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="nv">$content</span><span class="p">,</span><span class="nv">$type</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-        
       </p>
-
+<!--
     <article class="post-content">
          <p>If you add a feed on yarssr and the icon doesn’t turn green, it is time to enable the debug and look for the error.
 First kill the running process:</p>
@@ -929,6 +580,7 @@ Content-Encoding: gzip
 </div>
 
     </article>
+-->
   </div>
   
   <div class="post py3">
@@ -940,24 +592,8 @@ Content-Encoding: gzip
       </a>
       <p class="post-summary">
         
-          <p>Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
-This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>0 5 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> tar rvf /home/manu/.yarssr/yarssr-backup.tar -C /home/manu/.yarssr/ . 2&gt;&amp;1 1&gt;/dev/null
-</code></pre>
-</div>
-
-<p>That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># tar xvf ~/.yarssr/yarssr-back.tar</span>
-</code></pre>
-</div>
-
-<p>If you find the root cause, please share!</p>
-
-        
       </p>
-
+<!--
     <article class="post-content">
          <p>Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
 This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.</p>
@@ -975,16 +611,20 @@ This is highly inconvenient, and I haven’t found yet a permanent fix. What I a
 <p>If you find the root cause, please share!</p>
 
     </article>
+-->
   </div>
   
 </div>
-
 <div class="pagination">
   
+  <!--
     <span class="pagination-item older">Older</span>
+  -->
   
   
+    <!--
     <span class="pagination-item newer">Newer</span>
+    -->
   
 </div>
 

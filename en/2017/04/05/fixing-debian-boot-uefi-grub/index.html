@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?201704051728" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?201704051728" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?201704150201" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201704150201" type="text/css">
 
     <!-- Fonts -->
     
@@ -40,7 +40,7 @@
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Fixing Debian UEFI boot manager with Debian Live">
-    <meta property="og:description" content="Recording the effort...">
+    <meta property="og:description" content="The goal of this note is to fix the UEFI Boot Manager (located in the NVRAM) for a Debian installation, by using a Debian Live image to mount a broken system via chroot and then reinstall grub-efi. This will recreate the boot loader for grub2-efi in the EFI System Partition (as /boot/efi) and add an entry for it in the boot manager.">
     <meta property="og:url" content="http://emmanuel-galindo.github.io/en/2017/04/05/fixing-debian-boot-uefi-grub/">
     <meta property="og:site_name" content="Code Bites">
 
@@ -365,7 +365,6 @@ drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
 
 <h2 id="logout-from-chroot-and-reboot">Logout from chroot and reboot</h2>
 <p>Type ctrl+d or exit to quit the chroot session, and reboot.</p>
-
 
 </article>
 
