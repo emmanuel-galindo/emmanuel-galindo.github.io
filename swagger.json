@@ -1,0 +1,24 @@
+{
+  "swagger" : "2.0",
+  "host" : "api-gw-qa.boehringer-ingelheim.com",
+  "basePath" : "/contact",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/Method" : {
+      "post" : {
+        "description" : "",
+        "operationId" : "ContactMethod",
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    }
+  },
+  "info" : {
+    "title" : "(AH) Contact API",
+    "description" : "",
+    "version" : "1.0"
+  }
+}
