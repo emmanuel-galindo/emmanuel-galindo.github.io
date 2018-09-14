@@ -1,24 +1,50 @@
 {
   "swagger" : "2.0",
-  "host" : "api-gw-qa.boehringer-ingelheim.com",
-  "basePath" : "/contact",
-  "schemes" : [ "https" ],
-  "paths" : {
-    "/Method" : {
-      "post" : {
-        "description" : "",
-        "operationId" : "ContactMethod",
-        "responses" : {
-          "204" : {
-            "description" : "No Content"
-          }
-        }
-      }
-    }
-  },
   "info" : {
     "title" : "(AH) Contact API",
     "description" : "",
     "version" : "1.0"
+  }
+  "host" : "api-gw-qa.boehringer-ingelheim.com",
+  "basePath" : "/contact",
+  "schemes" : [ "https" ],
+   "consumes": [
+    "application/xml"
+  ],
+  "produces": [
+    "application/xml"
+  ],
+  "paths" : {
+    "/Method" : {
+      "post" : {
+        "description" : "Modifed Customer Swagger",
+        "operationId" : "ContactMethod",
+         "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "FirstName",
+            "in": "body",
+            "description": "Contact person",
+            "required": false,
+            "schema": {
+              "$ref": "#/contacts/partners"
+            }
+          }
+        ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+         "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+         }
+      }
+    }
   }
 }
