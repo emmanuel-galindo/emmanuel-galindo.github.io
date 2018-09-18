@@ -9,10 +9,10 @@
   "basePath" : "/contact",
   "schemes" : [ "https" ],
    "consumes": [
-    "application/json"
+    "application/xml"
   ],
   "produces": [
-    "application/json"
+    "application/xml"
   ],
   "paths" : {
     "/Method" : {
@@ -27,7 +27,7 @@
             "name": "FirstName",
             "in": "body",
             "description": "Contact person",
-            "required": true,
+            "required": false,
             "schema": {
               "$ref": "#/definitions/partners"
             }
