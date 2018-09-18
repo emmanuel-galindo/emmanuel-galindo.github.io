@@ -4,7 +4,7 @@
     "title" : "(AH) Contact API",
     "description" : "",
     "version" : "1.0"
-  }
+  },
   "host" : "api-gw-qa.boehringer-ingelheim.com",
   "basePath" : "/contact",
   "schemes" : [ "https" ],
