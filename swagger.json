@@ -9,10 +9,10 @@
   "basePath" : "/contact",
   "schemes" : [ "https" ],
    "consumes": [
-    "application/xml"
+    "application/json"
   ],
   "produces": [
-    "application/xml"
+    "application/json"
   ],
   "paths" : {
     "/Method" : {
@@ -27,24 +27,58 @@
             "name": "FirstName",
             "in": "body",
             "description": "Contact person",
-            "required": false,
+            "required": true,
             "schema": {
-              "$ref": "#/contacts/partners"
+              "$ref": "#/definitions/partners"
             }
           }
         ],
         "responses" : {
           "204" : {
             "description" : "No Content"
-          }
-        },
-         "default": {
+          },
+          "default": {
             "description": "unexpected error",
             "schema": {
-              "$ref": "#/definitions/ErrorModel"
+              "$ref": "#/definitions/Error"
             }
-         }
+          }
+        }
       }
     }
-  }
+  },
+  "definitions": {
+    "Error": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "partners": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+         "code": {
+           "type": "integer",
+           "format": "int32"
+         },
+         "message": {
+           "type": "string"
+        }
+       }
+     }
+  }  
 }
