@@ -6,7 +6,7 @@
     "version" : "1.0"
   },
   "host" : "api-gw-qa.boehringer-ingelheim.com",
-  "basePath" : "/contact",
+  "basePath" : "/contact2",
   "schemes" : [ "https" ],
    "consumes": [
     "application/xml"
