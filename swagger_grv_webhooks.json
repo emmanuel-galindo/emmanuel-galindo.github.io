@@ -1,0 +1,59 @@
+{
+  "swagger" : "2.0",
+  "host" : "api-gw-qa.boehringer-ingelheim.com",
+  "basePath" : "/ms/grv/v1",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/activities/opt" : {
+      "post" : {
+        "description" : "",
+        "operationId" : "Update Activities Opts",
+        "parameters" : [ {
+          "description" : "",
+          "required" : true,
+          "in" : "query",
+          "name" : "type",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "/sync" : {
+      "post" : {
+        "description" : "",
+        "operationId" : "Sync Customer",
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "API Key" : {
+      "type" : "apiKey",
+      "description" : "API Key",
+      "name" : "key",
+      "in" : "query"
+    }
+  },
+  "security" : [ {
+    "API Key" : [ ]
+  } ],
+  "info" : {
+    "title" : "(MS) GRV Webhooks API",
+    "description" : "",
+    "version" : "1.0"
+  }
+}
