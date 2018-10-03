@@ -16,7 +16,7 @@
           "type" : "string"
         } ],
         "responses" : {
-          "201" : {
+          "200" : {
             "description" : "Created",
             "schema" : {
               "type" : "string"
@@ -30,7 +30,7 @@
         "description" : "",
         "operationId" : "Sync Customer",
         "responses" : {
-          "201" : {
+          "200" : {
             "description" : "Created",
             "schema" : {
               "type" : "string"
