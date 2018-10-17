@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Shrink LVM volume for Windows partition &#8211; Code Bites</title>
+    <title>Code Bites</title>
     <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
     <link rel="dns-prefetch" href="//cdn.mathjax.org">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
@@ -11,8 +11,8 @@
     <meta name="description" content="Recording the effort...">
     <meta name="robots" content="all">
     <meta name="author" content="Emmanuel Galindo">
-    <meta name="keywords" content="en">
-    <link rel="canonical" href="http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/">
+    
+    <link rel="canonical" href="http://emmanuel-galindo.github.io/es/page2/">
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
@@ -39,17 +39,17 @@
     <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Shrink LVM volume for Windows partition">
+    <meta property="og:title" content="Code Bites">
     <meta property="og:description" content="Recording the effort...">
-    <meta property="og:url" content="http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/">
+    <meta property="og:url" content="http://emmanuel-galindo.github.io/es/page2/">
     <meta property="og:site_name" content="Code Bites">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
     
-    <meta name="twitter:title" content="Shrink LVM volume for Windows partition" />
+    <meta name="twitter:title" content="Code Bites" />
     <meta name="twitter:description" content="Recording the effort..." />
-    <meta name="twitter:url" content="http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/" />
+    <meta name="twitter:url" content="http://emmanuel-galindo.github.io/es/page2/" />
 
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
@@ -89,8 +89,8 @@
     <div class="measure">
       <a href="http://emmanuel-galindo.github.io" class="site-title">Code Bites</a>
       <nav class="site-nav">
-         
-<a href="/es/">Posts en español</a>
+        
+<a href="http://emmanuel-galindo.github.io">Posts in english</a>
 
 
     
@@ -183,85 +183,91 @@
 
     <div class="post p2 p-responsive wrap" role="main">
       <div class="measure">
+        <div class="posts">
+  
+  <div class="post py3">
+      <p class="post-meta">Apr 15, 2016</p>
+      <a href="/es/2016/04/15/github-pages-jekyll-y-tinypress/" class="post-link">
+        <h3 class="h1 post-title">
+          Blog en GitHub Pages con Jekyll, parte 2
+        </h3>
+      </a>
+      <p class="post-summary">
         
+          Vamos a agregarle comentarios, cambiar el formato, y más!
+        
+      </p>
+<!--
+    <article class="post-content">
+         <h3 id="en-esta-continuación-de-blog-en-github-gratis-y-rápido-con-tinypress-te-cuento-como-agregarle-comentarios-hacerlo-mas-ancho-etc">En esta continuación de <a href="http://emmanuel-galindo.github.io/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress.html">Blog en GitHub, gratis y rápido con TinyPress</a> te cuento como agregarle comentarios, hacerlo mas ancho, etc</h3>
 
-
-<div class="post-header mb2">
-  <h1>Shrink LVM volume for Windows partition</h1>
-  <span class="post-meta">Apr 4, 2017</span><br>
-  
-  <span class="post-meta small">
-  
-    1 minute read
-  
-  </span>
-</div>
-
-<article class="post-content">
-  <p>In order to release space from an LVM volume to finally get a free physical partition requires the following steps:</p>
-
+<h3 id="agregar-comentarios">Agregar comentarios</h3>
 <ol>
-  <li>Resize File Sytem in the LVM volume</li>
-  <li>Resize Physical Volume</li>
-  <li>Create a NTFS partition</li>
+  <li>Generar cuenta en Disqus
+    <ul>
+      <li>Lo único que necesitás es asignar un short name y acordartelo</li>
+      <li>Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.</li>
+    </ul>
+  </li>
+  <li>Agregá lo siguiente al archivo “_layout/default.html”, aproximadamente en la linea 41, abajo de <code class="highlighter-rouge">{ content }</code> :</li>
 </ol>
 
-<p>Also, root access is necessary</p>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">{% include comments.html %}</code></pre></figure>
 
-<h2 id="resize-file-sytem-in-the-lvm-volume">Resize File Sytem in the LVM volume</h2>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># lvresize --resizefs --verbose -L -30G /dev/machine_vg/root</span>
-</code></pre></div></div>
+<h3 id="hacer-que-el-blog-sea-mas-ancho">Hacer que el blog sea mas ancho</h3>
 
-<h2 id="resize-physical-volume">Resize Physical Volume</h2>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX</span>
-</code></pre></div></div>
-<p>If you get an error as:
-/dev/sdaX: cannot resize to X extents as later ones are allocated.
-It means there’s another volume between the free space and the end. To see it:</p>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvs -v --segments /dev/sdaX</span>
-</code></pre></div></div>
-<p>To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:</p>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx</span>
-</code></pre></div></div>
+<ol>
+  <li>Agregar un archivo custom.css en el dir “_css”</li>
+  <li>Agregar este contenido (1 rem aprox 16px, 16x62=992px)</li>
+</ol>
 
-<h2 id="create-a-ntfs-partition">Create a NTFS partition</h2>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># fdisk</span>
-n
-c
-1-n <span class="o">[</span>partition number, probably sdaX+1]
-L
-87
-<span class="c"># mkfs.ntfs /dev/sdaX</span>
-</code></pre></div></div>
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="k">@charset</span> <span class="s1">"UTF-8"</span><span class="p">;</span>
 
-</article>
+<span class="nc">.measure</span> <span class="p">{</span>
+  <span class="nl">max-width</span><span class="p">:</span> <span class="m">62rem</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
 
+<h3 id="solo-mostrar-barra-de-desplazamiento-horizontal-scrollbar-cuando-sea-necesario">Solo mostrar barra de desplazamiento horizontal (scrollbar) cuando sea necesario</h3>
+<p>En el mismo custom.css:</p>
 
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">pre</span> <span class="p">{</span>
+ <span class="nl">overflow-x</span><span class="p">:</span> <span class="nb">auto</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
 
+<h3 id="modificar-el-color-de-la-caja-para-codigo-fuente">Modificar el color de la caja para codigo fuente###</h3>
+<p>Para cambiar el color de fondo de los bloques de codigo, por ej en <a href="http://emmanuel-galindo.github.io/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it.html]">Yarssr is not loading the feed, how to fix it</a>:</p>
 
+<ol>
+  <li>Abrir default.html en “_layout”</li>
+  <li>Modificar la línea:</li>
+</ol>
 
+<figure class="highlight"><pre><code class="language-html" data-lang="html">    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/css/solarized-dark.css"</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span></code></pre></figure>
 
-  <div id="disqus_thread"></div>
-  <script type="text/javascript">
-    var disqus_shortname  = 'codebites-blog';
-    var disqus_identifier = '/en/2017/04/04/shrink-lvm-for-windows-partition';
-    var disqus_title      = 'Shrink LVM volume for Windows partition';
+<p>por</p>
 
-    (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<figure class="highlight"><pre><code class="language-html" data-lang="html">    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/css/solarized-light.css"</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span></code></pre></figure>
+
+<p>O viceversa…</p>
 
 
-
-
-<!--
-
+    </article>
 -->
-
+  </div>
+  
+</div>
+<div class="pagination">
+  
+  <!--
+    <span class="pagination-item older">Older</span>
+  -->
+  
+  
+    
+      <a class="pagination-item newer" href="/./es/index.html">Newer</a>
+    
+  
+</div>
 
       </div>
     </div>

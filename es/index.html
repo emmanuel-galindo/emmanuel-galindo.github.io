@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?201704150201" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?201704150201" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?201810162316" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201810162316" type="text/css">
 
     <!-- Fonts -->
     
@@ -109,11 +109,23 @@
 
     
 
+    
+
+    
+
+    
+
 
     
 
     
         <a href="/contact/">Say Hello</a>
+    
+
+    
+
+    
+
     
 
     
@@ -174,21 +186,101 @@
         <div class="posts">
   
   <div class="post py3">
-      <p class="post-meta">Apr 16, 2016</p>
-      <a href="/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/" class="post-link">
+      <p class="post-meta">Oct 16, 2018</p>
+      <a href="/es/2018/10/16/acceso-remoto-via-ssh/" class="post-link">
         <h3 class="h1 post-title">
-          Social media en el footer del Blog Jekyll
+          Acceso remoto via SSH
         </h3>
       </a>
       <p class="post-summary">
         
-          Agregar íconos SVG para Linkedin y GitHub
+      </p>
+<!--
+    <article class="post-content">
+         <p>Una forma segura de acceder a nuestros recursos cuando no estamos en la red local es usando SSH. Esto incluye la ejecución de aplicaciones desde dentro de la red local (p2p, movie and music players, etc).</p>
+
+<p>Para instalar el server sshd, en linux:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>aptitude <span class="nb">install </span>openssh-server
+</code></pre></div></div>
+
+<p>La forma segura de configurar esta comunicación es realizar una regla de port forwarding con un puerto no  comun (i.e. 46022). Luego se deberá habilitar ese puerto en el modem router hogareño.</p>
+
+<p>Una vez probada la comunicación usando usuario y password local, el siguiente paso es desalentar los ataques por fuerza bruta. Para ello, hay que agregar una directiva en la configuración de SSH para que sólo permita autenticarse con usuario y password en la red local. Siendo para los accesos de internet solo posible usando clave privada.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PasswordAuthentication no
+ChallengeResponseAuthentication no
+
+Match Address 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+    PasswordAuthentication yes
+</code></pre></div></div>
+
+<p>Notar que el bloque Match debe ser agregado al final del archivo, de otra manera todas las directivas siguientes van a ser matcheadas hasta el proximo bloque Match. Agregar en el lugar incorrecto del archivo esta instuccion puede ocasionar imposibilidad para conectarse.</p>
+
+<p>Para generar la clave privada, ejecutar</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen -t rsa -b 4096
+</code></pre></div></div>
+
+<p>Al consultar por una clave privada, es posible dejarlo vacio pero se recomienda establecer una clave segura. Esta clave sera solicitada unicamente al momento de cargar la clave privada en el cliente.</p>
+
+<p>Si el resto de las opciones se dejan como estaban, en ~/.ssh/ estarán la clave privada y la publica en formato PEM y openssh respectivamente.</p>
+
+<p>La publica debe cargarse al archivo ~/.ssh/authorized_keys</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat id.pub &gt;&gt; ~/.ssh/authorized_keys
+</code></pre></div></div>
+
+<p>La clave privada hay que instalarla en los clientes.</p>
+
+<p>Para el caso de putty en windows, hay que convertir la clave a Putty Private Key usando la utilidad putty-gen, e importando la clave PEM. Luego salvar como ppk y ya será posible usarla desde putty o winscp.</p>
+
+    </article>
+-->
+  </div>
+  
+  <div class="post py3">
+      <p class="post-meta">Oct 16, 2018</p>
+      <a href="/es/2018/10/16/proteger-router-wifi-tp-link/" class="post-link">
+        <h3 class="h1 post-title">
+          Proteger Router WIFI TP Link
+        </h3>
+      </a>
+      <p class="post-summary">
         
       </p>
 <!--
     <article class="post-content">
-         <h3 id="te-muestro-como-agregar-al-footer-de-tu-blog-links-a-tus-sitios-de-social-media-los-ejemplos-son-slamente-para-github-y-linkedin-pero-usando-svg">Te muestro como agregar al footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin… pero usando SVG!!!!</h3>
+         <p>Los ataques a los modem routers que las proveedoras de servicio colocan en muchos casos estan expuestos a ataques. Son el eslabon debil donde logran escalar a todos los dispositivos conectados (telefonos, computadoras, tablets, camaras ip, televisiones, etc).</p>
 
+<p>Esto siempre sucedio, pero con la popularizacion de la compra online, y el agregado de mineria de criptomonedas a las herramientas de los bot malignos, los analisis y ataques se han industrializado, donde se intenta no ser detectados y cada nodo infectado intenta expandiendirse por si mismo.</p>
+
+<p>https://www.darkreading.com/attacks-breaches/100000-plus-home-routers-hijacked-in-campaign-to-steal-banking-credentials/d/d-id/1332946</p>
+
+<p>https://www.scmagazine.com/home/security-news/ghostdns-hijacking-campaign-steps-up-attacks-on-brazilians-100k-devices-compromised/</p>
+
+<p>Es importante por lo tanto comenzar por establecer una contraseña segura, pero como paso adicional le sigue verificar cuan expuesto esta el router (y por lo tanto nuestros datos) hacia internet.</p>
+
+<p>Para lograr esto, primero es necesario conocer la IP externa que nos corresponde.  En la interfase de administracion del router, buscar la sección de status y donde diga WAN va a mencionar una IP ( que no comienza con 10, 172.16 o 192.168).</p>
+
+<p>Para realizar el escaneo de los puertos en Linux esto es relativamente simple con nmap. Por ejemplo, si nuestra ip fuera 45.33.32.156 (scanme.nmap.org)</p>
+
+<pre><code class="language-b">nmap -p0- -v -A -T4 45.33.32.156
+</code></pre>
+
+<p>El resultado de puertos puede incluir alguno que esta disponible solo en la red local, por lo tanto es necesario verificar cada uno de ellos a través de un servicio online, como por ejemplo http://www.t1shopper.com/tools/port-scan/</p>
+
+<p>Servicios online similares pueden encontrarse con “port scan online” en google.</p>
+
+<p>Al confirmar los puertos disponibles, ya los pasos son muy especificos para cada router. Para el caso del TP-Link TD-W8901N se configura desde Access Management -&gt; ACL, donde si esta desactivado permite trafico a la interfase de administracion del router desde la red interna como desde internet. Al activar ACL, todo acceso será bloqueado por lo que hay que agregar una regla para autorizar a la red interna “Interface LAN”.</p>
+
+<p><img src="/images/1539710479563.png" alt="1539710479563" /></p>
+
+<p>Con este paso pueden haberse bloqueado varios puertos (por ejemplo el 80). Para bloquear el tráfico external hacia el resto de los puertos detectados, en este modelo de router se establecen filtros (Access Management -&gt; Filter). Es importante notar la opcion para rule unmatched, con valores “Forward” o “Next”. Con Next, al fallar la regla continua con la siguiente.</p>
+
+<p><img src="/images/1539710779454.png" alt="1539710779454" /></p>
+
+<p>Mayor información del router puede encontrarse en https://www.tp-link.com/ar/download/TD-W8901N.html</p>
 
     </article>
 -->
@@ -208,7 +300,7 @@
       </p>
 <!--
     <article class="post-content">
-         <h3 id="en-esta-continuacin-de-blog-en-github-pages-con-jekyll-parte-21-ya-tratamos-de-realizar-lo-mas-posible-desde-linea-de-comando">En esta continuación de <a href="http://emmanuel-galindo.github.io/2016/04/15/github-pages-jekyll-y-tinypress.html">Blog en GitHub Pages con Jekyll, parte 2</a> ya tratamos de realizar lo mas posible desde linea de comando</h3>
+         <h3 id="en-esta-continuación-de-blog-en-github-pages-con-jekyll-parte-2-ya-tratamos-de-realizar-lo-mas-posible-desde-linea-de-comando">En esta continuación de <a href="http://emmanuel-galindo.github.io/2016/04/15/github-pages-jekyll-y-tinypress.html">Blog en GitHub Pages con Jekyll, parte 2</a> ya tratamos de realizar lo mas posible desde linea de comando</h3>
 
 
     </article>
@@ -216,69 +308,20 @@
   </div>
   
   <div class="post py3">
-      <p class="post-meta">Apr 15, 2016</p>
-      <a href="/es/2016/04/15/github-pages-jekyll-y-tinypress/" class="post-link">
+      <p class="post-meta">Apr 16, 2016</p>
+      <a href="/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/" class="post-link">
         <h3 class="h1 post-title">
-          Blog en GitHub Pages con Jekyll, parte 2
+          Social media en el footer del Blog Jekyll
         </h3>
       </a>
       <p class="post-summary">
         
-          Vamos a agregarle comentarios, cambiar el formato, y más!
+          Agregar íconos SVG para Linkedin y GitHub
         
       </p>
 <!--
     <article class="post-content">
-         <h3 id="en-esta-continuacin-de-blog-en-github-gratis-y-rpido-con-tinypress3-te-cuento-como-agregarle-comentarios-hacerlo-mas-ancho-etc">En esta continuación de <a href="http://emmanuel-galindo.github.io/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress.html">Blog en GitHub, gratis y rápido con TinyPress</a> te cuento como agregarle comentarios, hacerlo mas ancho, etc</h3>
-
-<h3 id="agregar-comentarios">Agregar comentarios</h3>
-<ol>
-  <li>Generar cuenta en Disqus
-    <ul>
-      <li>Lo único que necesitás es asignar un short name y acordartelo</li>
-      <li>Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.</li>
-    </ul>
-  </li>
-  <li>Agregá lo siguiente al archivo “_layout/default.html”, aproximadamente en la linea 41, abajo de <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">content</span><span class="w"> </span><span class="p">}</span></code> :</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text">{% include comments.html %}</code></pre></figure>
-
-<h3 id="hacer-que-el-blog-sea-mas-ancho">Hacer que el blog sea mas ancho</h3>
-
-<ol>
-  <li>Agregar un archivo custom.css en el dir “_css”</li>
-  <li>Agregar este contenido (1 rem aprox 16px, 16x62=992px)</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="k">@charset</span> <span class="s1">"UTF-8"</span><span class="p">;</span>
-
-<span class="nc">.measure</span> <span class="p">{</span>
-  <span class="nl">max-width</span><span class="p">:</span> <span class="m">62rem</span><span class="p">;</span>
-<span class="p">}</span></code></pre></figure>
-
-<h3 id="solo-mostrar-barra-de-desplazamiento-horizontal-scrollbar-cuando-sea-necesario">Solo mostrar barra de desplazamiento horizontal (scrollbar) cuando sea necesario</h3>
-<p>En el mismo custom.css:</p>
-
-<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">pre</span> <span class="p">{</span>
- <span class="nl">overflow-x</span><span class="p">:</span> <span class="nb">auto</span><span class="p">;</span>
-<span class="p">}</span></code></pre></figure>
-
-<h3 id="modificar-el-color-de-la-caja-para-codigo-fuente">Modificar el color de la caja para codigo fuente</h3>
-<p>Para cambiar el color de fondo de los bloques de codigo, por ej en <a href="http://emmanuel-galindo.github.io/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it.html]">Yarssr is not loading the feed, how to fix it</a>:</p>
-
-<ol>
-  <li>Abrir default.html en “_layout”</li>
-  <li>Modificar la línea:</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-html" data-lang="html">    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/css/solarized-dark.css"</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span></code></pre></figure>
-
-<p>por</p>
-
-<figure class="highlight"><pre><code class="language-html" data-lang="html">    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/css/solarized-light.css"</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span></code></pre></figure>
-
-<p>O viceversa…</p>
+         <h3 id="te-muestro-como-agregar-al-footer-de-tu-blog-links-a-tus-sitios-de-social-media-los-ejemplos-son-sólamente-para-github-y-linkedin-pero-usando-svg">Te muestro como agregar al footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin… pero usando SVG!!!!</h3>
 
 
     </article>
@@ -312,7 +355,7 @@
 
 <p>Ya estás listo para empezar a editar tus articulos sin esfuerzo!!</p>
 
-<h3 id="links-tiles-para-formatear-el-texto">Links útiles para formatear el texto:</h3>
+<h3 id="links-útiles-para-formatear-el-texto">Links útiles para formatear el texto:</h3>
 <p><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet</a><br />
 <a href="https://sourceforge.net/p/jekyllc/bugs/markdown_syntax">https://sourceforge.net/p/jekyllc/bugs/markdown_syntax</a></p>
 
@@ -324,9 +367,7 @@
 </div>
 <div class="pagination">
   
-  <!--
-    <span class="pagination-item older">Older</span>
-  -->
+    <a class="pagination-item older" href="/./es/page2.html">Older</a>
   
   
     <!--

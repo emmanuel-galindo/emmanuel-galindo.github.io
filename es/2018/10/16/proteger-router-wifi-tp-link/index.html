@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Shrink LVM volume for Windows partition &#8211; Code Bites</title>
+    <title>Proteger Router WIFI TP Link &#8211; Code Bites</title>
     <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
     <link rel="dns-prefetch" href="//cdn.mathjax.org">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
@@ -11,8 +11,8 @@
     <meta name="description" content="Recording the effort...">
     <meta name="robots" content="all">
     <meta name="author" content="Emmanuel Galindo">
-    <meta name="keywords" content="en">
-    <link rel="canonical" href="http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/">
+    <meta name="keywords" content="es">
+    <link rel="canonical" href="http://emmanuel-galindo.github.io/es/2018/10/16/proteger-router-wifi-tp-link/">
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
@@ -39,17 +39,17 @@
     <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Shrink LVM volume for Windows partition">
+    <meta property="og:title" content="Proteger Router WIFI TP Link">
     <meta property="og:description" content="Recording the effort...">
-    <meta property="og:url" content="http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/">
+    <meta property="og:url" content="http://emmanuel-galindo.github.io/es/2018/10/16/proteger-router-wifi-tp-link/">
     <meta property="og:site_name" content="Code Bites">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
     
-    <meta name="twitter:title" content="Shrink LVM volume for Windows partition" />
+    <meta name="twitter:title" content="Proteger Router WIFI TP Link" />
     <meta name="twitter:description" content="Recording the effort..." />
-    <meta name="twitter:url" content="http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/" />
+    <meta name="twitter:url" content="http://emmanuel-galindo.github.io/es/2018/10/16/proteger-router-wifi-tp-link/" />
 
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
@@ -89,8 +89,8 @@
     <div class="measure">
       <a href="http://emmanuel-galindo.github.io" class="site-title">Code Bites</a>
       <nav class="site-nav">
-         
-<a href="/es/">Posts en español</a>
+        
+<a href="http://emmanuel-galindo.github.io">Posts in english</a>
 
 
     
@@ -187,52 +187,47 @@
 
 
 <div class="post-header mb2">
-  <h1>Shrink LVM volume for Windows partition</h1>
-  <span class="post-meta">Apr 4, 2017</span><br>
+  <h1>Proteger Router WIFI TP Link</h1>
+  <span class="post-meta">Oct 16, 2018</span><br>
   
   <span class="post-meta small">
   
-    1 minute read
+    2 minute read
   
   </span>
 </div>
 
 <article class="post-content">
-  <p>In order to release space from an LVM volume to finally get a free physical partition requires the following steps:</p>
+  <p>Los ataques a los modem routers que las proveedoras de servicio colocan en muchos casos estan expuestos a ataques. Son el eslabon debil donde logran escalar a todos los dispositivos conectados (telefonos, computadoras, tablets, camaras ip, televisiones, etc).</p>
 
-<ol>
-  <li>Resize File Sytem in the LVM volume</li>
-  <li>Resize Physical Volume</li>
-  <li>Create a NTFS partition</li>
-</ol>
+<p>Esto siempre sucedio, pero con la popularizacion de la compra online, y el agregado de mineria de criptomonedas a las herramientas de los bot malignos, los analisis y ataques se han industrializado, donde se intenta no ser detectados y cada nodo infectado intenta expandiendirse por si mismo.</p>
 
-<p>Also, root access is necessary</p>
+<p>https://www.darkreading.com/attacks-breaches/100000-plus-home-routers-hijacked-in-campaign-to-steal-banking-credentials/d/d-id/1332946</p>
 
-<h2 id="resize-file-sytem-in-the-lvm-volume">Resize File Sytem in the LVM volume</h2>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># lvresize --resizefs --verbose -L -30G /dev/machine_vg/root</span>
-</code></pre></div></div>
+<p>https://www.scmagazine.com/home/security-news/ghostdns-hijacking-campaign-steps-up-attacks-on-brazilians-100k-devices-compromised/</p>
 
-<h2 id="resize-physical-volume">Resize Physical Volume</h2>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX</span>
-</code></pre></div></div>
-<p>If you get an error as:
-/dev/sdaX: cannot resize to X extents as later ones are allocated.
-It means there’s another volume between the free space and the end. To see it:</p>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvs -v --segments /dev/sdaX</span>
-</code></pre></div></div>
-<p>To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:</p>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx</span>
-</code></pre></div></div>
+<p>Es importante por lo tanto comenzar por establecer una contraseña segura, pero como paso adicional le sigue verificar cuan expuesto esta el router (y por lo tanto nuestros datos) hacia internet.</p>
 
-<h2 id="create-a-ntfs-partition">Create a NTFS partition</h2>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># fdisk</span>
-n
-c
-1-n <span class="o">[</span>partition number, probably sdaX+1]
-L
-87
-<span class="c"># mkfs.ntfs /dev/sdaX</span>
-</code></pre></div></div>
+<p>Para lograr esto, primero es necesario conocer la IP externa que nos corresponde.  En la interfase de administracion del router, buscar la sección de status y donde diga WAN va a mencionar una IP ( que no comienza con 10, 172.16 o 192.168).</p>
+
+<p>Para realizar el escaneo de los puertos en Linux esto es relativamente simple con nmap. Por ejemplo, si nuestra ip fuera 45.33.32.156 (scanme.nmap.org)</p>
+
+<pre><code class="language-b">nmap -p0- -v -A -T4 45.33.32.156
+</code></pre>
+
+<p>El resultado de puertos puede incluir alguno que esta disponible solo en la red local, por lo tanto es necesario verificar cada uno de ellos a través de un servicio online, como por ejemplo http://www.t1shopper.com/tools/port-scan/</p>
+
+<p>Servicios online similares pueden encontrarse con “port scan online” en google.</p>
+
+<p>Al confirmar los puertos disponibles, ya los pasos son muy especificos para cada router. Para el caso del TP-Link TD-W8901N se configura desde Access Management -&gt; ACL, donde si esta desactivado permite trafico a la interfase de administracion del router desde la red interna como desde internet. Al activar ACL, todo acceso será bloqueado por lo que hay que agregar una regla para autorizar a la red interna “Interface LAN”.</p>
+
+<p><img src="/images/1539710479563.png" alt="1539710479563" /></p>
+
+<p>Con este paso pueden haberse bloqueado varios puertos (por ejemplo el 80). Para bloquear el tráfico external hacia el resto de los puertos detectados, en este modelo de router se establecen filtros (Access Management -&gt; Filter). Es importante notar la opcion para rule unmatched, con valores “Forward” o “Next”. Con Next, al fallar la regla continua con la siguiente.</p>
+
+<p><img src="/images/1539710779454.png" alt="1539710779454" /></p>
+
+<p>Mayor información del router puede encontrarse en https://www.tp-link.com/ar/download/TD-W8901N.html</p>
 
 </article>
 
@@ -244,8 +239,8 @@ L
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname  = 'codebites-blog';
-    var disqus_identifier = '/en/2017/04/04/shrink-lvm-for-windows-partition';
-    var disqus_title      = 'Shrink LVM volume for Windows partition';
+    var disqus_identifier = '/es/2018/10/16/proteger-router-wifi-tp-link';
+    var disqus_title      = 'Proteger Router WIFI TP Link';
 
     (function() {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

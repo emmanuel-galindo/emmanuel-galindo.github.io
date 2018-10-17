@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?201704150201" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?201704150201" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?201810162316" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201810162316" type="text/css">
 
     <!-- Fonts -->
     
@@ -109,11 +109,23 @@
 
     
 
+    
+
+    
+
+    
+
 
     
 
     
         <a href="/contact/">Say Hello</a>
+    
+
+    
+
+    
+
     
 
     
@@ -190,7 +202,7 @@
 
 <p>For the following example, we want to get the cars that need service. Service data is at the element context.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>xmllint --format ./example.xml
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>xmllint <span class="nt">--format</span> ./example.xml
 &lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span>?&gt;
 &lt;Cars&gt;
   &lt;Car&gt;
@@ -206,15 +218,13 @@
     &lt;NextService&gt;2017-04-01T16:02:46+01:00&lt;/NextService&gt;
   &lt;/Car&gt;
 &lt;/Cars&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The important bit below is the ./, that places the search in the context of the element of each item:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nv">today</span><span class="o">=</span><span class="sb">`</span>date +<span class="s2">"%Y%m%d"</span><span class="sb">`</span>
-<span class="gp">$ </span>xmllint --xpath <span class="s2">"//Cars/Car[ number(translate(substring(./NextService,0,11), '-','')) &lt; </span><span class="nv">$today</span><span class="s2"> ]"</span> example.xml
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ today</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> +<span class="s2">"%Y%m%d"</span><span class="sb">`</span>
+<span class="nv">$ </span>xmllint <span class="nt">--xpath</span> <span class="s2">"//Cars/Car[ number(translate(substring(./NextService,0,11), '-','')) &lt; </span><span class="nv">$today</span><span class="s2"> ]"</span> example.xml
+</code></pre></div></div>
 
 </article>
 
@@ -242,66 +252,8 @@
 
 <!--
 
-  <h3 class="related-post-title">Related Posts</h3>
-  
-    <div class="post ml2">
-      <a href="/en/2017/04/05/fixing-debian-boot-uefi-grub/" class="post-link">
-        <h4 class="post-title">Fixing Debian UEFI boot manager with Debian Live</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/en/2017/04/04/shrink-lvm-for-windows-partition/" class="post-link">
-        <h4 class="post-title">Shrink LVM volume for Windows partition</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/" class="post-link">
-        <h4 class="post-title">Social media en el footer del Blog Jekyll</h4>
-        <p class="post-summary">Agregar íconos SVG para Linkedin y GitHub</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/16/github-pages-desde-linea-de-comando/" class="post-link">
-        <h4 class="post-title">GitHub pages desde linea de comando</h4>
-        <p class="post-summary">Ya con tantos cambios, lo mejor es desarrollar localmente y publicar los cambios usando Git.</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/15/github-pages-jekyll-y-tinypress/" class="post-link">
-        <h4 class="post-title">Blog en GitHub Pages con Jekyll, parte 2</h4>
-        <p class="post-summary">Vamos a agregarle comentarios, cambiar el formato, y más!</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/" class="post-link">
-        <h4 class="post-title">Blog en GitHub, gratis y rápido con TinyPress</h4>
-        <p class="post-summary">Primera parte, de como tener un blog compatible con celulares en muy poco tiempo y desde cero.</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/en/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it/" class="post-link">
-        <h4 class="post-title">Yarssr is not loading the feed, how to fix it</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/" class="post-link">
-        <h4 class="post-title">Yarssr deletes the feeds, how to deal with it</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-
 -->
+
 
       </div>
     </div>

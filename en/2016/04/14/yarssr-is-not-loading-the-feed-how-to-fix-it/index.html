@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?201704150201" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?201704150201" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?201810162316" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201810162316" type="text/css">
 
     <!-- Fonts -->
     
@@ -109,11 +109,23 @@
 
     
 
+    
+
+    
+
+    
+
 
     
 
     
         <a href="/contact/">Say Hello</a>
+    
+
+    
+
+    
+
     
 
     
@@ -193,30 +205,27 @@ First kill the running process:</p>
 
 <p>Then, go to the app folder and start it back w/debug flag:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">cd</span> ~/.yarssr/;yarssr --debug
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cd</span> ~/.yarssr/<span class="p">;</span>yarssr <span class="nt">--debug</span>
+</code></pre></div></div>
 
 <p><strong>HINT</strong>, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post <a href="http://emmanuel-galindo.github.io/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it.html">Yarssr deletes the feeds, how to deal with it</a>.</p>
 
 <p>For me, it was printing:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">[</span>17:02:57] 
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>17:02:57] 
 not well-formed <span class="o">(</span>invalid token<span class="o">)</span> at line 1, column 0, byte 0 at /usr/lib/x86_64-linux-gnu/perl5/5.20/XML/Parser.pm line 187.
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This indicates the content of the URL is garbled, and it is not being handed correctly to the parser. 
 In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
 By doing some inspections, it was returning the content without decoding it. 
 The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -I https://kat.cr/
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-I</span> https://kat.cr/
 <span class="o">[</span>...]
-Content-Encoding: gzip
+Content-Encoding: <span class="nb">gzip</span>
 <span class="o">[</span>...]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>So, I’ve come up with my own _download method within Fetcher.pm. If you plan to use it:</p>
 
@@ -228,30 +237,27 @@ Content-Encoding: gzip
   </li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>perl -MCompress::Zlib
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>perl <span class="nt">-MCompress</span>::Zlib
+</code></pre></div></div>
 
 <p>If you have to install it, just do</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>cpan Compress::Zlib
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cpan Compress::Zlib
+</code></pre></div></div>
 
 <p><strong>DISCLAIMER:</strong> I haven’t got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.</p>
 
 <p>You will need the following moduled to get the procedure working.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">use</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="p">;</span>
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="p">;</span>
 <span class="k">use</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="p">;</span>
 <span class="k">use</span> <span class="nn">HTTP::</span><span class="nv">Message</span><span class="p">;</span>
 <span class="k">use</span> <span class="nn">Compress::</span><span class="nv">Zlib</span><span class="p">;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>So, my own take of the _download procedure that will allow you to handle encoded content is:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">sub </span><span class="nf">_download</span> <span class="p">{</span>
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">sub </span><span class="nf">_download</span> <span class="p">{</span>
         <span class="k">my</span> <span class="p">(</span><span class="nv">$url</span><span class="p">,</span><span class="nv">$login</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
         <span class="nb">caller</span> <span class="ow">eq</span> <span class="nv">__PACKAGE__</span> <span class="ow">or</span> <span class="nb">die</span><span class="p">;</span>
 
@@ -278,8 +284,7 @@ Content-Encoding: gzip
         <span class="p">}</span>
         <span class="k">return</span> <span class="nv">$content</span><span class="p">,</span><span class="nv">$type</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 </article>
 
@@ -307,66 +312,8 @@ Content-Encoding: gzip
 
 <!--
 
-  <h3 class="related-post-title">Related Posts</h3>
-  
-    <div class="post ml2">
-      <a href="/en/2017/04/05/fixing-debian-boot-uefi-grub/" class="post-link">
-        <h4 class="post-title">Fixing Debian UEFI boot manager with Debian Live</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/en/2017/04/04/shrink-lvm-for-windows-partition/" class="post-link">
-        <h4 class="post-title">Shrink LVM volume for Windows partition</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/en/2016/11/14/xpath-date-compare-element/" class="post-link">
-        <h4 class="post-title">Compare dates at elements with XPath 1.0</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/" class="post-link">
-        <h4 class="post-title">Social media en el footer del Blog Jekyll</h4>
-        <p class="post-summary">Agregar íconos SVG para Linkedin y GitHub</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/16/github-pages-desde-linea-de-comando/" class="post-link">
-        <h4 class="post-title">GitHub pages desde linea de comando</h4>
-        <p class="post-summary">Ya con tantos cambios, lo mejor es desarrollar localmente y publicar los cambios usando Git.</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/15/github-pages-jekyll-y-tinypress/" class="post-link">
-        <h4 class="post-title">Blog en GitHub Pages con Jekyll, parte 2</h4>
-        <p class="post-summary">Vamos a agregarle comentarios, cambiar el formato, y más!</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/" class="post-link">
-        <h4 class="post-title">Blog en GitHub, gratis y rápido con TinyPress</h4>
-        <p class="post-summary">Primera parte, de como tener un blog compatible con celulares en muy poco tiempo y desde cero.</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/" class="post-link">
-        <h4 class="post-title">Yarssr deletes the feeds, how to deal with it</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-
 -->
+
 
       </div>
     </div>
