@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Shrink LVM volume for Windows partition &#8211; Code Bites</title>
+    <title>Acceso remoto via SSH &#8211; Code Bites</title>
     <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
     <link rel="dns-prefetch" href="//cdn.mathjax.org">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
@@ -11,8 +11,8 @@
     <meta name="description" content="Recording the effort...">
     <meta name="robots" content="all">
     <meta name="author" content="Emmanuel Galindo">
-    <meta name="keywords" content="en">
-    <link rel="canonical" href="http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/">
+    <meta name="keywords" content="es">
+    <link rel="canonical" href="http://emmanuel-galindo.github.io/es/2018/10/16/acceso-remoto-via-ssh/">
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
@@ -39,17 +39,17 @@
     <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Shrink LVM volume for Windows partition">
+    <meta property="og:title" content="Acceso remoto via SSH">
     <meta property="og:description" content="Recording the effort...">
-    <meta property="og:url" content="http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/">
+    <meta property="og:url" content="http://emmanuel-galindo.github.io/es/2018/10/16/acceso-remoto-via-ssh/">
     <meta property="og:site_name" content="Code Bites">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
     
-    <meta name="twitter:title" content="Shrink LVM volume for Windows partition" />
+    <meta name="twitter:title" content="Acceso remoto via SSH" />
     <meta name="twitter:description" content="Recording the effort..." />
-    <meta name="twitter:url" content="http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/" />
+    <meta name="twitter:url" content="http://emmanuel-galindo.github.io/es/2018/10/16/acceso-remoto-via-ssh/" />
 
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
@@ -89,8 +89,8 @@
     <div class="measure">
       <a href="http://emmanuel-galindo.github.io" class="site-title">Code Bites</a>
       <nav class="site-nav">
-         
-<a href="/es/">Posts en español</a>
+        
+<a href="http://emmanuel-galindo.github.io">Posts in english</a>
 
 
     
@@ -187,8 +187,8 @@
 
 
 <div class="post-header mb2">
-  <h1>Shrink LVM volume for Windows partition</h1>
-  <span class="post-meta">Apr 4, 2017</span><br>
+  <h1>Acceso remoto via SSH</h1>
+  <span class="post-meta">Oct 16, 2018</span><br>
   
   <span class="post-meta small">
   
@@ -198,41 +198,43 @@
 </div>
 
 <article class="post-content">
-  <p>In order to release space from an LVM volume to finally get a free physical partition requires the following steps:</p>
+  <p>Una forma segura de acceder a nuestros recursos cuando no estamos en la red local es usando SSH. Esto incluye la ejecución de aplicaciones desde dentro de la red local (p2p, movie and music players, etc).</p>
 
-<ol>
-  <li>Resize File Sytem in the LVM volume</li>
-  <li>Resize Physical Volume</li>
-  <li>Create a NTFS partition</li>
-</ol>
+<p>Para instalar el server sshd, en linux:</p>
 
-<p>Also, root access is necessary</p>
-
-<h2 id="resize-file-sytem-in-the-lvm-volume">Resize File Sytem in the LVM volume</h2>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># lvresize --resizefs --verbose -L -30G /dev/machine_vg/root</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>aptitude <span class="nb">install </span>openssh-server
 </code></pre></div></div>
 
-<h2 id="resize-physical-volume">Resize Physical Volume</h2>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX</span>
-</code></pre></div></div>
-<p>If you get an error as:
-/dev/sdaX: cannot resize to X extents as later ones are allocated.
-It means there’s another volume between the free space and the end. To see it:</p>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvs -v --segments /dev/sdaX</span>
-</code></pre></div></div>
-<p>To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:</p>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx</span>
+<p>La forma segura de configurar esta comunicación es realizar una regla de port forwarding con un puerto no  comun (i.e. 46022). Luego se deberá habilitar ese puerto en el modem router hogareño.</p>
+
+<p>Una vez probada la comunicación usando usuario y password local, el siguiente paso es desalentar los ataques por fuerza bruta. Para ello, hay que agregar una directiva en la configuración de SSH para que sólo permita autenticarse con usuario y password en la red local. Siendo para los accesos de internet solo posible usando clave privada.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PasswordAuthentication no
+ChallengeResponseAuthentication no
+
+Match Address 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+    PasswordAuthentication yes
 </code></pre></div></div>
 
-<h2 id="create-a-ntfs-partition">Create a NTFS partition</h2>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># fdisk</span>
-n
-c
-1-n <span class="o">[</span>partition number, probably sdaX+1]
-L
-87
-<span class="c"># mkfs.ntfs /dev/sdaX</span>
+<p>Notar que el bloque Match debe ser agregado al final del archivo, de otra manera todas las directivas siguientes van a ser matcheadas hasta el proximo bloque Match. Agregar en el lugar incorrecto del archivo esta instuccion puede ocasionar imposibilidad para conectarse.</p>
+
+<p>Para generar la clave privada, ejecutar</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen -t rsa -b 4096
 </code></pre></div></div>
+
+<p>Al consultar por una clave privada, es posible dejarlo vacio pero se recomienda establecer una clave segura. Esta clave sera solicitada unicamente al momento de cargar la clave privada en el cliente.</p>
+
+<p>Si el resto de las opciones se dejan como estaban, en ~/.ssh/ estarán la clave privada y la publica en formato PEM y openssh respectivamente.</p>
+
+<p>La publica debe cargarse al archivo ~/.ssh/authorized_keys</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat id.pub &gt;&gt; ~/.ssh/authorized_keys
+</code></pre></div></div>
+
+<p>La clave privada hay que instalarla en los clientes.</p>
+
+<p>Para el caso de putty en windows, hay que convertir la clave a Putty Private Key usando la utilidad putty-gen, e importando la clave PEM. Luego salvar como ppk y ya será posible usarla desde putty o winscp.</p>
 
 </article>
 
@@ -244,8 +246,8 @@ L
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname  = 'codebites-blog';
-    var disqus_identifier = '/en/2017/04/04/shrink-lvm-for-windows-partition';
-    var disqus_title      = 'Shrink LVM volume for Windows partition';
+    var disqus_identifier = '/es/2018/10/16/acceso-remoto-via-ssh';
+    var disqus_title      = 'Acceso remoto via SSH';
 
     (function() {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

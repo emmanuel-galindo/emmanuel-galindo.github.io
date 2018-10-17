@@ -7,6 +7,89 @@
     <atom:link href="http://emmanuel-galindo.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Proteger Router WIFI TP Link</title>
+      <description>&lt;p&gt;Los ataques a los modem routers que las proveedoras de servicio colocan en muchos casos estan expuestos a ataques. Son el eslabon debil donde logran escalar a todos los dispositivos conectados (telefonos, computadoras, tablets, camaras ip, televisiones, etc).&lt;/p&gt;
+
+&lt;p&gt;Esto siempre sucedio, pero con la popularizacion de la compra online, y el agregado de mineria de criptomonedas a las herramientas de los bot malignos, los analisis y ataques se han industrializado, donde se intenta no ser detectados y cada nodo infectado intenta expandiendirse por si mismo.&lt;/p&gt;
+
+&lt;p&gt;https://www.darkreading.com/attacks-breaches/100000-plus-home-routers-hijacked-in-campaign-to-steal-banking-credentials/d/d-id/1332946&lt;/p&gt;
+
+&lt;p&gt;https://www.scmagazine.com/home/security-news/ghostdns-hijacking-campaign-steps-up-attacks-on-brazilians-100k-devices-compromised/&lt;/p&gt;
+
+&lt;p&gt;Es importante por lo tanto comenzar por establecer una contraseña segura, pero como paso adicional le sigue verificar cuan expuesto esta el router (y por lo tanto nuestros datos) hacia internet.&lt;/p&gt;
+
+&lt;p&gt;Para lograr esto, primero es necesario conocer la IP externa que nos corresponde.  En la interfase de administracion del router, buscar la sección de status y donde diga WAN va a mencionar una IP ( que no comienza con 10, 172.16 o 192.168).&lt;/p&gt;
+
+&lt;p&gt;Para realizar el escaneo de los puertos en Linux esto es relativamente simple con nmap. Por ejemplo, si nuestra ip fuera 45.33.32.156 (scanme.nmap.org)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-b&quot;&gt;nmap -p0- -v -A -T4 45.33.32.156
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;El resultado de puertos puede incluir alguno que esta disponible solo en la red local, por lo tanto es necesario verificar cada uno de ellos a través de un servicio online, como por ejemplo http://www.t1shopper.com/tools/port-scan/&lt;/p&gt;
+
+&lt;p&gt;Servicios online similares pueden encontrarse con “port scan online” en google.&lt;/p&gt;
+
+&lt;p&gt;Al confirmar los puertos disponibles, ya los pasos son muy especificos para cada router. Para el caso del TP-Link TD-W8901N se configura desde Access Management -&amp;gt; ACL, donde si esta desactivado permite trafico a la interfase de administracion del router desde la red interna como desde internet. Al activar ACL, todo acceso será bloqueado por lo que hay que agregar una regla para autorizar a la red interna “Interface LAN”.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/1539710479563.png&quot; alt=&quot;1539710479563&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Con este paso pueden haberse bloqueado varios puertos (por ejemplo el 80). Para bloquear el tráfico external hacia el resto de los puertos detectados, en este modelo de router se establecen filtros (Access Management -&amp;gt; Filter). Es importante notar la opcion para rule unmatched, con valores “Forward” o “Next”. Con Next, al fallar la regla continua con la siguiente.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/1539710779454.png&quot; alt=&quot;1539710779454&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Mayor información del router puede encontrarse en https://www.tp-link.com/ar/download/TD-W8901N.html&lt;/p&gt;
+</description>
+      <pubDate>Tue, 16 Oct 2018 00:00:00 -0300</pubDate>
+      <link>http://emmanuel-galindo.github.io/es/2018/10/16/proteger-router-wifi-tp-link/</link>
+      <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2018/10/16/proteger-router-wifi-tp-link/</guid>
+    </item>
+    
+    <item>
+      <title>Acceso remoto via SSH</title>
+      <description>&lt;p&gt;Una forma segura de acceder a nuestros recursos cuando no estamos en la red local es usando SSH. Esto incluye la ejecución de aplicaciones desde dentro de la red local (p2p, movie and music players, etc).&lt;/p&gt;
+
+&lt;p&gt;Para instalar el server sshd, en linux:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;aptitude &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openssh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;La forma segura de configurar esta comunicación es realizar una regla de port forwarding con un puerto no  comun (i.e. 46022). Luego se deberá habilitar ese puerto en el modem router hogareño.&lt;/p&gt;
+
+&lt;p&gt;Una vez probada la comunicación usando usuario y password local, el siguiente paso es desalentar los ataques por fuerza bruta. Para ello, hay que agregar una directiva en la configuración de SSH para que sólo permita autenticarse con usuario y password en la red local. Siendo para los accesos de internet solo posible usando clave privada.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PasswordAuthentication no
+ChallengeResponseAuthentication no
+
+Match Address 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+    PasswordAuthentication yes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Notar que el bloque Match debe ser agregado al final del archivo, de otra manera todas las directivas siguientes van a ser matcheadas hasta el proximo bloque Match. Agregar en el lugar incorrecto del archivo esta instuccion puede ocasionar imposibilidad para conectarse.&lt;/p&gt;
+
+&lt;p&gt;Para generar la clave privada, ejecutar&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-keygen -t rsa -b 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Al consultar por una clave privada, es posible dejarlo vacio pero se recomienda establecer una clave segura. Esta clave sera solicitada unicamente al momento de cargar la clave privada en el cliente.&lt;/p&gt;
+
+&lt;p&gt;Si el resto de las opciones se dejan como estaban, en ~/.ssh/ estarán la clave privada y la publica en formato PEM y openssh respectivamente.&lt;/p&gt;
+
+&lt;p&gt;La publica debe cargarse al archivo ~/.ssh/authorized_keys&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat id.pub &amp;gt;&amp;gt; ~/.ssh/authorized_keys
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;La clave privada hay que instalarla en los clientes.&lt;/p&gt;
+
+&lt;p&gt;Para el caso de putty en windows, hay que convertir la clave a Putty Private Key usando la utilidad putty-gen, e importando la clave PEM. Luego salvar como ppk y ya será posible usarla desde putty o winscp.&lt;/p&gt;
+</description>
+      <pubDate>Tue, 16 Oct 2018 00:00:00 -0300</pubDate>
+      <link>http://emmanuel-galindo.github.io/es/2018/10/16/acceso-remoto-via-ssh/</link>
+      <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2018/10/16/acceso-remoto-via-ssh/</guid>
+    </item>
+    
+    <item>
       <title>Fixing Debian UEFI boot manager with Debian Live</title>
       <description>&lt;p&gt;&lt;strong&gt;Important note:&lt;/strong&gt; If you are new to UEFI please read this 30min article to understand what’s happening: &lt;a href=&quot;https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/&quot;&gt;UEFI boot: how does that actually work, then?&lt;/a&gt;&lt;/p&gt;
 
@@ -49,9 +132,8 @@ so any method could be chosen. However, be sure to format the USB drive as FAT32
   &lt;li&gt;Using a text editor, create a file called liveboot.nsh on the root of the USB drive and paste the following into the file:&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;live&lt;span class=&quot;se&quot;&gt;\v&lt;/span&gt;mlinuz &lt;span class=&quot;nv&quot;&gt;initrd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;live&lt;span class=&quot;se&quot;&gt;\i&lt;/span&gt;nitrd.img append &lt;span class=&quot;nv&quot;&gt;boot&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;live components
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;live&lt;span class=&quot;se&quot;&gt;\v&lt;/span&gt;mlinuz &lt;span class=&quot;nv&quot;&gt;initrd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;live&lt;span class=&quot;se&quot;&gt;\i&lt;/span&gt;nitrd.img append &lt;span class=&quot;nv&quot;&gt;boot&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;live components
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;boot-debian-live&quot;&gt;Boot Debian Live&lt;/h2&gt;
 &lt;p&gt;Reboot the computer and hit F8 or F12 to bring the UEFI Boot Menu, and select your USB Drive. If it is shown more than one time, ensure to select the one that mentions UEFI.
@@ -64,16 +146,14 @@ After UEFI Shell loads, type liveboot.nsh and press Enter.&lt;/p&gt;
   &lt;li&gt;Checking dmesg output you should see many lines related to EFI or UEFI.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;dmesg | grep -i efi 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;dmesg | &lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; efi 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ol&gt;
   &lt;li&gt;Check the EFI vars are correctly loaded&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ls -l /sys/firmware/efi | grep vars
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; /sys/firmware/efi | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;vars
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;review-devices-location-and-current-configuration&quot;&gt;Review devices location and current configuration&lt;/h2&gt;
 &lt;ol&gt;
@@ -82,108 +162,99 @@ Use fdisk -l to survey the current partition. EFI normally goes into /dev/sdX1. 
 As a reference, /boot would normally look like:&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ls -l /boot
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; /boot
 total 21581
--rw-r--r-- 1 root root   157721 Oct 19 03:45 config-3.16.0-4-amd64
+&lt;span class=&quot;nt&quot;&gt;-rw-r--r--&lt;/span&gt; 1 root root   157721 Oct 19 03:45 config-3.16.0-4-amd64
 drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
--rw-r--r-- 1 root root 16023698 Dec  5 09:50 initrd.img-3.16.0-4-amd64
--rw-r--r-- 1 root root  2679264 Oct 19 03:45 System.map-3.16.0-4-amd64
--rw-r--r-- 1 root root  3126448 Oct 19 03:41 vmlinuz-3.16.0-4-amd64
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;span class=&quot;nt&quot;&gt;-rw-r--r--&lt;/span&gt; 1 root root 16023698 Dec  5 09:50 initrd.img-3.16.0-4-amd64
+&lt;span class=&quot;nt&quot;&gt;-rw-r--r--&lt;/span&gt; 1 root root  2679264 Oct 19 03:45 System.map-3.16.0-4-amd64
+&lt;span class=&quot;nt&quot;&gt;-rw-r--r--&lt;/span&gt; 1 root root  3126448 Oct 19 03:41 vmlinuz-3.16.0-4-amd64
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; In the case of lvm volumes, you might need to download the lvm2 package and expose the volumes before mounting:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# apt-get install lvm2&lt;/span&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# apt-get install lvm2&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# vgscan&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# vgchange -a -y&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# mount /dev/volumegroup/logicalvolume /mnt&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ol&gt;
   &lt;li&gt;Download efibootmgr and review current UEFI Boot Manager configuration&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# apt-get install efibootmgr&lt;/span&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# apt-get install efibootmgr&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# efibootmgr -v&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;mount-broken-system-via-chroot&quot;&gt;Mount broken system (via chroot)&lt;/h2&gt;
-&lt;p&gt;Mounting another system via chroot is the usual procedure to recover broken system’s. Once the chroot comand is issues, Debian Live will treat the broken system’s “/” (root) as its own. Commands run in a chroot environment will affect the broken systems filesystems and not those of the Debian Live.
-1. Mount root partition (for example an lvm)&lt;/p&gt;
+&lt;p&gt;Mounting another system via chroot is the usual procedure to recover broken system’s. Once the chroot comand is issues, Debian Live will treat the broken system’s “/” (root) as its own. Commands run in a chroot environment will affect the broken systems filesystems and not those of the Debian Live.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Mount root partition (for example an lvm)&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# mount /dev/volumegroup/logicalvolume /mnt&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# mount /dev/volumegroup/logicalvolume /mnt&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ol&gt;
   &lt;li&gt;Mount boot partition (F.e. in drive sda)&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# mount /dev/sda2 /mnt/boot&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# mount /dev/sda2 /mnt/boot&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ol&gt;
   &lt;li&gt;Mount the EFI System Partition (usually in /dev/sda1)&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# mount /dev/sda1 /mnt/boot/efi&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# mount /dev/sda1 /mnt/boot/efi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ol&gt;
   &lt;li&gt;Mount the critical virtual filesystems with the following single command:&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# for i in /dev /dev/pts /proc /sys /run; do sudo mount -B $i /mnt$i; done&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# for i in /dev /dev/pts /proc /sys /run; do sudo mount -B $i /mnt$i; done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ol&gt;
   &lt;li&gt;Chroot to your normal (and broken) system device&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# chroot /mnt&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# chroot /mnt&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Important:&lt;/strong&gt; From now on your changes will affect your normal system.&lt;/p&gt;
 
 &lt;h2 id=&quot;reinstall-grub-efi&quot;&gt;Reinstall grub-efi&lt;/h2&gt;
-&lt;p&gt;Download and Install grub-efi package, set the debian bootloader and create a grub config file based on your disk partitioning schema
-1. Install grub-efi package&lt;/p&gt;
+&lt;p&gt;Download and Install grub-efi package, set the debian bootloader and create a grub config file based on your disk partitioning schema&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Install grub-efi package&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# apt-get install --reinstall grub-efi&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# apt-get install --reinstall grub-efi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ol&gt;
   &lt;li&gt;Put the debian bootloader in /boot/efi and create an appropiate entry in the computer’s UEFI Boot Manager&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# grub-install /dev/sda&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# grub-install /dev/sda&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ol&gt;
   &lt;li&gt;Re create a grub config file based on your disk partitioning schema&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# update-grub&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# update-grub&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;verify-configuration&quot;&gt;Verify configuration&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;Bootloader exists&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# file /boot/efi/EFI/debian/grubx64.efi &lt;/span&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# file /boot/efi/EFI/debian/grubx64.efi &lt;/span&gt;
 /boot/efi/EFI/debian/grubx64.efi: PE32+ executable &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;EFI application&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; x86-64 
 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;stripped to external PDB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;MS Windows
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ol&gt;
   &lt;li&gt;NVRAM entry was properly created&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# efibootmgr -v | grep debian&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# efibootmgr -v | grep debian&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;logout-from-chroot-and-reboot&quot;&gt;Logout from chroot and reboot&lt;/h2&gt;
 &lt;p&gt;Type ctrl+d or exit to quit the chroot session, and reboot.&lt;/p&gt;
@@ -206,35 +277,30 @@ drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
 &lt;p&gt;Also, root access is necessary&lt;/p&gt;
 
 &lt;h2 id=&quot;resize-file-sytem-in-the-lvm-volume&quot;&gt;Resize File Sytem in the LVM volume&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# lvresize --resizefs --verbose -L -30G /dev/machine_vg/root&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# lvresize --resizefs --verbose -L -30G /dev/machine_vg/root&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;resize-physical-volume&quot;&gt;Resize Physical Volume&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;If you get an error as:
 /dev/sdaX: cannot resize to X extents as later ones are allocated.
-It means there’s another volume between the free space and the end. To see it:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;shell
-# pvs -v --segments /dev/sdaX
-&lt;/code&gt;
-To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;shell
-# pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx
-&lt;/code&gt;&lt;/p&gt;
+It means there’s another volume between the free space and the end. To see it:&lt;/p&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# pvs -v --segments /dev/sdaX&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:&lt;/p&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;create-a-ntfs-partition&quot;&gt;Create a NTFS partition&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# fdisk&lt;/span&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# fdisk&lt;/span&gt;
 n
 c
 1-n &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;partition number, probably sdaX+1]
 L
 87
 &lt;span class=&quot;c&quot;&gt;# mkfs.ntfs /dev/sdaX&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
       <pubDate>Tue, 04 Apr 2017 00:00:00 -0300</pubDate>
       <link>http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/</link>
@@ -247,7 +313,7 @@ L
 
 &lt;p&gt;For the following example, we want to get the cars that need service. Service data is at the element context.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;xmllint --format ./example.xml
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;xmllint &lt;span class=&quot;nt&quot;&gt;--format&lt;/span&gt; ./example.xml
 &amp;lt;?xml &lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1.0&quot;&lt;/span&gt;?&amp;gt;
 &amp;lt;Cars&amp;gt;
   &amp;lt;Car&amp;gt;
@@ -263,15 +329,13 @@ L
     &amp;lt;NextService&amp;gt;2017-04-01T16:02:46+01:00&amp;lt;/NextService&amp;gt;
   &amp;lt;/Car&amp;gt;
 &amp;lt;/Cars&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;The important bit below is the ./, that places the search in the context of the element of each item:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;today&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;date +&lt;span class=&quot;s2&quot;&gt;&quot;%Y%m%d&quot;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;xmllint --xpath &lt;span class=&quot;s2&quot;&gt;&quot;//Cars/Car[ number(translate(substring(./NextService,0,11), &#39;-&#39;,&#39;&#39;)) &amp;lt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$today&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; ]&quot;&lt;/span&gt; example.xml
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ today&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;date&lt;/span&gt; +&lt;span class=&quot;s2&quot;&gt;&quot;%Y%m%d&quot;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;xmllint &lt;span class=&quot;nt&quot;&gt;--xpath&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;//Cars/Car[ number(translate(substring(./NextService,0,11), '-','')) &amp;lt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$today&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; ]&quot;&lt;/span&gt; example.xml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
       <pubDate>Mon, 14 Nov 2016 00:00:00 -0300</pubDate>
       <link>http://emmanuel-galindo.github.io/en/2016/11/14/xpath-date-compare-element/</link>
@@ -280,9 +344,9 @@ L
     
     <item>
       <title>Social media en el footer del Blog Jekyll</title>
-      <description>&lt;h3 id=&quot;te-muestro-como-agregar-al-footer-de-tu-blog-links-a-tus-sitios-de-social-media-los-ejemplos-son-slamente-para-github-y-linkedin-pero-usando-svg&quot;&gt;Te muestro como agregar al footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin… pero usando SVG!!!!&lt;/h3&gt;
+      <description>&lt;h3 id=&quot;te-muestro-como-agregar-al-footer-de-tu-blog-links-a-tus-sitios-de-social-media-los-ejemplos-son-sólamente-para-github-y-linkedin-pero-usando-svg&quot;&gt;Te muestro como agregar al footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin… pero usando SVG!!!!&lt;/h3&gt;
 
-&lt;h3 id=&quot;en-esta-continuacin-de-github-pages-desde-linea-de-comando2-vamos-a-agregar-iconos-y-links-al-footer-de-social-media&quot;&gt;En esta continuación de &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/15/github-pages-desde-linea-de-comando.html&quot;&gt;GitHub pages desde linea de comando&lt;/a&gt; vamos a agregar iconos y links al footer de social media&lt;/h3&gt;
+&lt;h3 id=&quot;en-esta-continuación-de-github-pages-desde-linea-de-comando-vamos-a-agregar-iconos-y-links-al-footer-de-social-media&quot;&gt;En esta continuación de &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/15/github-pages-desde-linea-de-comando.html&quot;&gt;GitHub pages desde linea de comando&lt;/a&gt; vamos a agregar iconos y links al footer de social media&lt;/h3&gt;
 
 &lt;ol&gt;
   &lt;li&gt;Especificar tus usuarios a _config.yml, por ejemplo los mios son:&lt;/li&gt;
@@ -316,7 +380,7 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
     
     <item>
       <title>GitHub pages desde linea de comando</title>
-      <description>&lt;h3 id=&quot;en-esta-continuacin-de-blog-en-github-pages-con-jekyll-parte-21-ya-tratamos-de-realizar-lo-mas-posible-desde-linea-de-comando&quot;&gt;En esta continuación de &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/15/github-pages-jekyll-y-tinypress.html&quot;&gt;Blog en GitHub Pages con Jekyll, parte 2&lt;/a&gt; ya tratamos de realizar lo mas posible desde linea de comando&lt;/h3&gt;
+      <description>&lt;h3 id=&quot;en-esta-continuación-de-blog-en-github-pages-con-jekyll-parte-2-ya-tratamos-de-realizar-lo-mas-posible-desde-linea-de-comando&quot;&gt;En esta continuación de &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/15/github-pages-jekyll-y-tinypress.html&quot;&gt;Blog en GitHub Pages con Jekyll, parte 2&lt;/a&gt; ya tratamos de realizar lo mas posible desde linea de comando&lt;/h3&gt;
 
 &lt;h3 id=&quot;los-ejemplos-son-para-linux-debian-pero-los-pasos-son-los-mismos&quot;&gt;Los ejemplos son para Linux Debian, pero los pasos son los mismos&lt;/h3&gt;
 
@@ -344,7 +408,7 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
     &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ git config --global credential.helper cache&lt;/code&gt;&lt;/p&gt;
 
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ git config --global credential.helper &#39;cache --timeout=3600&#39;&lt;/code&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ git config --global credential.helper 'cache --timeout=3600'&lt;/code&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;En el caso de que agregues un nuevo post desde la interface de tinypress, podes actualizar tu repo local con:&lt;/p&gt;
@@ -363,7 +427,7 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
     
     <item>
       <title>Blog en GitHub Pages con Jekyll, parte 2</title>
-      <description>&lt;h3 id=&quot;en-esta-continuacin-de-blog-en-github-gratis-y-rpido-con-tinypress3-te-cuento-como-agregarle-comentarios-hacerlo-mas-ancho-etc&quot;&gt;En esta continuación de &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress.html&quot;&gt;Blog en GitHub, gratis y rápido con TinyPress&lt;/a&gt; te cuento como agregarle comentarios, hacerlo mas ancho, etc&lt;/h3&gt;
+      <description>&lt;h3 id=&quot;en-esta-continuación-de-blog-en-github-gratis-y-rápido-con-tinypress-te-cuento-como-agregarle-comentarios-hacerlo-mas-ancho-etc&quot;&gt;En esta continuación de &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress.html&quot;&gt;Blog en GitHub, gratis y rápido con TinyPress&lt;/a&gt; te cuento como agregarle comentarios, hacerlo mas ancho, etc&lt;/h3&gt;
 
 &lt;h3 id=&quot;agregar-comentarios&quot;&gt;Agregar comentarios&lt;/h3&gt;
 &lt;ol&gt;
@@ -373,7 +437,7 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
       &lt;li&gt;Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;Agregá lo siguiente al archivo “_layout/default.html”, aproximadamente en la linea 41, abajo de &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt; :&lt;/li&gt;
+  &lt;li&gt;Agregá lo siguiente al archivo “_layout/default.html”, aproximadamente en la linea 41, abajo de &lt;code class=&quot;highlighter-rouge&quot;&gt;{ content }&lt;/code&gt; :&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{% include comments.html %}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
@@ -398,7 +462,7 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
  &lt;span class=&quot;nl&quot;&gt;overflow-x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;auto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;h3 id=&quot;modificar-el-color-de-la-caja-para-codigo-fuente&quot;&gt;Modificar el color de la caja para codigo fuente&lt;/h3&gt;
+&lt;h3 id=&quot;modificar-el-color-de-la-caja-para-codigo-fuente&quot;&gt;Modificar el color de la caja para codigo fuente###&lt;/h3&gt;
 &lt;p&gt;Para cambiar el color de fondo de los bloques de codigo, por ej en &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it.html]&quot;&gt;Yarssr is not loading the feed, how to fix it&lt;/a&gt;:&lt;/p&gt;
 
 &lt;ol&gt;
@@ -435,7 +499,7 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Ya estás listo para empezar a editar tus articulos sin esfuerzo!!&lt;/p&gt;
 
-&lt;h3 id=&quot;links-tiles-para-formatear-el-texto&quot;&gt;Links útiles para formatear el texto:&lt;/h3&gt;
+&lt;h3 id=&quot;links-útiles-para-formatear-el-texto&quot;&gt;Links útiles para formatear el texto:&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&quot;&gt;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&quot;https://sourceforge.net/p/jekyllc/bugs/markdown_syntax&quot;&gt;https://sourceforge.net/p/jekyllc/bugs/markdown_syntax&lt;/a&gt;&lt;/p&gt;
 
@@ -450,34 +514,31 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
       <description>&lt;p&gt;If you add a feed on yarssr and the icon doesn’t turn green, it is time to enable the debug and look for the error.
 First kill the running process:&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ ps -fea | grep -i yarssr | grep -v grep | awk &#39;{ print $2 }&#39; | xargs kill -9&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ ps -fea | grep -i yarssr | grep -v grep | awk '{ print $2 }' | xargs kill -9&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Then, go to the app folder and start it back w/debug flag:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.yarssr/;yarssr --debug
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.yarssr/&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;yarssr &lt;span class=&quot;nt&quot;&gt;--debug&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;HINT&lt;/strong&gt;, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it.html&quot;&gt;Yarssr deletes the feeds, how to deal with it&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;For me, it was printing:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;17:02:57] 
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;17:02:57] 
 not well-formed &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;invalid token&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; at line 1, column 0, byte 0 at /usr/lib/x86_64-linux-gnu/perl5/5.20/XML/Parser.pm line 187.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;This indicates the content of the URL is garbled, and it is not being handed correctly to the parser. 
 In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
 By doing some inspections, it was returning the content without decoding it. 
 The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;curl -I https://kat.cr/
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; https://kat.cr/
 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;...]
-Content-Encoding: gzip
+Content-Encoding: &lt;span class=&quot;nb&quot;&gt;gzip&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;...]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;So, I’ve come up with my own _download method within Fetcher.pm. If you plan to use it:&lt;/p&gt;
 
@@ -489,37 +550,34 @@ Content-Encoding: gzip
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;perl -MCompress::Zlib
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;perl &lt;span class=&quot;nt&quot;&gt;-MCompress&lt;/span&gt;::Zlib
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;If you have to install it, just do&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;cpan Compress::Zlib
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cpan Compress::Zlib
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;DISCLAIMER:&lt;/strong&gt; I haven’t got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.&lt;/p&gt;
 
 &lt;p&gt;You will need the following moduled to get the procedure working.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;LWP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;UserAgent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;div class=&quot;language-perl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;LWP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;UserAgent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Compress::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Zlib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;So, my own take of the _download procedure that will allow you to handle encoded content is:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;sub &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;_download&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;language-perl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;sub &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;_download&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;@_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
         &lt;span class=&quot;nb&quot;&gt;caller&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;eq&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;__PACKAGE__&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;die&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
         &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$can_accept&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::Message::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;decodable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$agent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;LWP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;UserAgent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;env_proxy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;keep_alive&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;timeout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;Accept-Encoding&#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$can_accept&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;agent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$agent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;LWP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;UserAgent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;env_proxy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;keep_alive&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;timeout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Accept-Encoding'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$can_accept&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;agent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;GET&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$request&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;GET&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$request&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'GET'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$agent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 
         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -531,42 +589,19 @@ Content-Encoding: gzip
         &lt;span class=&quot;c1&quot;&gt;# Check the outcome of the response&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;is_success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-                &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;content-type&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/(.*);.*/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;c1&quot;&gt;#$ce = $response-&amp;gt;headers-&amp;gt;{&#39;content-encoding&#39;};&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'content-type'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/(.*);.*/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;c1&quot;&gt;#$ce = $response-&amp;gt;headers-&amp;gt;{'content-encoding'};&lt;/span&gt;
                 &lt;span class=&quot;nv&quot;&gt;$content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;decoded_content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elsif&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;is_error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
                 &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;as_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
       <pubDate>Thu, 14 Apr 2016 00:00:00 -0300</pubDate>
       <link>http://emmanuel-galindo.github.io/en/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it/</link>
       <guid isPermaLink="true">http://emmanuel-galindo.github.io/en/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it/</guid>
-    </item>
-    
-    <item>
-      <title>Yarssr deletes the feeds, how to deal with it</title>
-      <description>&lt;p&gt;Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
-This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0 5 &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; tar rvf /home/manu/.yarssr/yarssr-backup.tar -C /home/manu/.yarssr/ . 2&amp;gt;&amp;amp;1 1&amp;gt;/dev/null
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# tar xvf ~/.yarssr/yarssr-back.tar&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;If you find the root cause, please share!&lt;/p&gt;
-</description>
-      <pubDate>Thu, 14 Apr 2016 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/</guid>
     </item>
     
   </channel>

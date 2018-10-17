@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?201704150201" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?201704150201" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?201810162316" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201810162316" type="text/css">
 
     <!-- Fonts -->
     
@@ -109,11 +109,23 @@
 
     
 
+    
+
+    
+
+    
+
 
     
 
     
         <a href="/contact/">Say Hello</a>
+    
+
+    
+
+    
+
     
 
     
@@ -227,9 +239,8 @@ so any method could be chosen. However, be sure to format the USB drive as FAT32
   <li>Using a text editor, create a file called liveboot.nsh on the root of the USB drive and paste the following into the file:</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>live<span class="se">\v</span>mlinuz <span class="nv">initrd</span><span class="o">=</span>live<span class="se">\i</span>nitrd.img append <span class="nv">boot</span><span class="o">=</span>live components
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>live<span class="se">\v</span>mlinuz <span class="nv">initrd</span><span class="o">=</span>live<span class="se">\i</span>nitrd.img append <span class="nv">boot</span><span class="o">=</span>live components
+</code></pre></div></div>
 
 <h2 id="boot-debian-live">Boot Debian Live</h2>
 <p>Reboot the computer and hit F8 or F12 to bring the UEFI Boot Menu, and select your USB Drive. If it is shown more than one time, ensure to select the one that mentions UEFI.
@@ -242,16 +253,14 @@ After UEFI Shell loads, type liveboot.nsh and press Enter.</p>
   <li>Checking dmesg output you should see many lines related to EFI or UEFI.</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>dmesg | grep -i efi 
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>dmesg | <span class="nb">grep</span> <span class="nt">-i</span> efi 
+</code></pre></div></div>
 <ol>
   <li>Check the EFI vars are correctly loaded</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ls -l /sys/firmware/efi | grep vars
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> /sys/firmware/efi | <span class="nb">grep </span>vars
+</code></pre></div></div>
 
 <h2 id="review-devices-location-and-current-configuration">Review devices location and current configuration</h2>
 <ol>
@@ -260,108 +269,99 @@ Use fdisk -l to survey the current partition. EFI normally goes into /dev/sdX1. 
 As a reference, /boot would normally look like:</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ls -l /boot
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> /boot
 total 21581
--rw-r--r-- 1 root root   157721 Oct 19 03:45 config-3.16.0-4-amd64
+<span class="nt">-rw-r--r--</span> 1 root root   157721 Oct 19 03:45 config-3.16.0-4-amd64
 drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
--rw-r--r-- 1 root root 16023698 Dec  5 09:50 initrd.img-3.16.0-4-amd64
--rw-r--r-- 1 root root  2679264 Oct 19 03:45 System.map-3.16.0-4-amd64
--rw-r--r-- 1 root root  3126448 Oct 19 03:41 vmlinuz-3.16.0-4-amd64
-</code></pre>
-</div>
+<span class="nt">-rw-r--r--</span> 1 root root 16023698 Dec  5 09:50 initrd.img-3.16.0-4-amd64
+<span class="nt">-rw-r--r--</span> 1 root root  2679264 Oct 19 03:45 System.map-3.16.0-4-amd64
+<span class="nt">-rw-r--r--</span> 1 root root  3126448 Oct 19 03:41 vmlinuz-3.16.0-4-amd64
+</code></pre></div></div>
 <p><strong>Note:</strong> In the case of lvm volumes, you might need to download the lvm2 package and expose the volumes before mounting:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># apt-get install lvm2</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># apt-get install lvm2</span>
 <span class="c"># vgscan</span>
 <span class="c"># vgchange -a -y</span>
 <span class="c"># mount /dev/volumegroup/logicalvolume /mnt</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <ol>
   <li>Download efibootmgr and review current UEFI Boot Manager configuration</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># apt-get install efibootmgr</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># apt-get install efibootmgr</span>
 <span class="c"># efibootmgr -v</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="mount-broken-system-via-chroot">Mount broken system (via chroot)</h2>
-<p>Mounting another system via chroot is the usual procedure to recover broken system’s. Once the chroot comand is issues, Debian Live will treat the broken system’s “/” (root) as its own. Commands run in a chroot environment will affect the broken systems filesystems and not those of the Debian Live.
-1. Mount root partition (for example an lvm)</p>
+<p>Mounting another system via chroot is the usual procedure to recover broken system’s. Once the chroot comand is issues, Debian Live will treat the broken system’s “/” (root) as its own. Commands run in a chroot environment will affect the broken systems filesystems and not those of the Debian Live.</p>
+<ol>
+  <li>Mount root partition (for example an lvm)</li>
+</ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># mount /dev/volumegroup/logicalvolume /mnt</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># mount /dev/volumegroup/logicalvolume /mnt</span>
+</code></pre></div></div>
 <ol>
   <li>Mount boot partition (F.e. in drive sda)</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># mount /dev/sda2 /mnt/boot</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># mount /dev/sda2 /mnt/boot</span>
+</code></pre></div></div>
 <ol>
   <li>Mount the EFI System Partition (usually in /dev/sda1)</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># mount /dev/sda1 /mnt/boot/efi</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># mount /dev/sda1 /mnt/boot/efi</span>
+</code></pre></div></div>
 <ol>
   <li>Mount the critical virtual filesystems with the following single command:</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># for i in /dev /dev/pts /proc /sys /run; do sudo mount -B $i /mnt$i; done</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># for i in /dev /dev/pts /proc /sys /run; do sudo mount -B $i /mnt$i; done</span>
+</code></pre></div></div>
 <ol>
   <li>Chroot to your normal (and broken) system device</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># chroot /mnt</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># chroot /mnt</span>
+</code></pre></div></div>
 <p><strong>Important:</strong> From now on your changes will affect your normal system.</p>
 
 <h2 id="reinstall-grub-efi">Reinstall grub-efi</h2>
-<p>Download and Install grub-efi package, set the debian bootloader and create a grub config file based on your disk partitioning schema
-1. Install grub-efi package</p>
+<p>Download and Install grub-efi package, set the debian bootloader and create a grub config file based on your disk partitioning schema</p>
+<ol>
+  <li>Install grub-efi package</li>
+</ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># apt-get install --reinstall grub-efi</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># apt-get install --reinstall grub-efi</span>
+</code></pre></div></div>
 <ol>
   <li>Put the debian bootloader in /boot/efi and create an appropiate entry in the computer’s UEFI Boot Manager</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># grub-install /dev/sda</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># grub-install /dev/sda</span>
+</code></pre></div></div>
 <ol>
   <li>Re create a grub config file based on your disk partitioning schema</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># update-grub</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># update-grub</span>
+</code></pre></div></div>
 
 <h2 id="verify-configuration">Verify configuration</h2>
 <ol>
   <li>Bootloader exists</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># file /boot/efi/EFI/debian/grubx64.efi </span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># file /boot/efi/EFI/debian/grubx64.efi </span>
 /boot/efi/EFI/debian/grubx64.efi: PE32+ executable <span class="o">(</span>EFI application<span class="o">)</span> x86-64 
 <span class="o">(</span>stripped to external PDB<span class="o">)</span>, <span class="k">for </span>MS Windows
-</code></pre>
-</div>
+</code></pre></div></div>
 <ol>
   <li>NVRAM entry was properly created</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># efibootmgr -v | grep debian</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># efibootmgr -v | grep debian</span>
+</code></pre></div></div>
 
 <h2 id="logout-from-chroot-and-reboot">Logout from chroot and reboot</h2>
 <p>Type ctrl+d or exit to quit the chroot session, and reboot.</p>
@@ -392,66 +392,8 @@ drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
 
 <!--
 
-  <h3 class="related-post-title">Related Posts</h3>
-  
-    <div class="post ml2">
-      <a href="/en/2017/04/04/shrink-lvm-for-windows-partition/" class="post-link">
-        <h4 class="post-title">Shrink LVM volume for Windows partition</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/en/2016/11/14/xpath-date-compare-element/" class="post-link">
-        <h4 class="post-title">Compare dates at elements with XPath 1.0</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/" class="post-link">
-        <h4 class="post-title">Social media en el footer del Blog Jekyll</h4>
-        <p class="post-summary">Agregar íconos SVG para Linkedin y GitHub</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/16/github-pages-desde-linea-de-comando/" class="post-link">
-        <h4 class="post-title">GitHub pages desde linea de comando</h4>
-        <p class="post-summary">Ya con tantos cambios, lo mejor es desarrollar localmente y publicar los cambios usando Git.</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/15/github-pages-jekyll-y-tinypress/" class="post-link">
-        <h4 class="post-title">Blog en GitHub Pages con Jekyll, parte 2</h4>
-        <p class="post-summary">Vamos a agregarle comentarios, cambiar el formato, y más!</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/" class="post-link">
-        <h4 class="post-title">Blog en GitHub, gratis y rápido con TinyPress</h4>
-        <p class="post-summary">Primera parte, de como tener un blog compatible con celulares en muy poco tiempo y desde cero.</p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/en/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it/" class="post-link">
-        <h4 class="post-title">Yarssr is not loading the feed, how to fix it</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-    <div class="post ml2">
-      <a href="/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/" class="post-link">
-        <h4 class="post-title">Yarssr deletes the feeds, how to deal with it</h4>
-        <p class="post-summary"></p>
-      </a>
-    </div>
-  
-
 -->
+
 
       </div>
     </div>

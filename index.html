@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?201704150201" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?201704150201" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?201810162316" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?201810162316" type="text/css">
 
     <!-- Fonts -->
     
@@ -109,11 +109,23 @@
 
     
 
+    
+
+    
+
+    
+
 
     
 
     
         <a href="/contact/">Say Hello</a>
+    
+
+    
+
+    
+
     
 
     
@@ -226,9 +238,8 @@ so any method could be chosen. However, be sure to format the USB drive as FAT32
   <li>Using a text editor, create a file called liveboot.nsh on the root of the USB drive and paste the following into the file:</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>live<span class="se">\v</span>mlinuz <span class="nv">initrd</span><span class="o">=</span>live<span class="se">\i</span>nitrd.img append <span class="nv">boot</span><span class="o">=</span>live components
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>live<span class="se">\v</span>mlinuz <span class="nv">initrd</span><span class="o">=</span>live<span class="se">\i</span>nitrd.img append <span class="nv">boot</span><span class="o">=</span>live components
+</code></pre></div></div>
 
 <h2 id="boot-debian-live">Boot Debian Live</h2>
 <p>Reboot the computer and hit F8 or F12 to bring the UEFI Boot Menu, and select your USB Drive. If it is shown more than one time, ensure to select the one that mentions UEFI.
@@ -241,16 +252,14 @@ After UEFI Shell loads, type liveboot.nsh and press Enter.</p>
   <li>Checking dmesg output you should see many lines related to EFI or UEFI.</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>dmesg | grep -i efi 
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>dmesg | <span class="nb">grep</span> <span class="nt">-i</span> efi 
+</code></pre></div></div>
 <ol>
   <li>Check the EFI vars are correctly loaded</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ls -l /sys/firmware/efi | grep vars
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> /sys/firmware/efi | <span class="nb">grep </span>vars
+</code></pre></div></div>
 
 <h2 id="review-devices-location-and-current-configuration">Review devices location and current configuration</h2>
 <ol>
@@ -259,108 +268,99 @@ Use fdisk -l to survey the current partition. EFI normally goes into /dev/sdX1. 
 As a reference, /boot would normally look like:</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ls -l /boot
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> /boot
 total 21581
--rw-r--r-- 1 root root   157721 Oct 19 03:45 config-3.16.0-4-amd64
+<span class="nt">-rw-r--r--</span> 1 root root   157721 Oct 19 03:45 config-3.16.0-4-amd64
 drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
--rw-r--r-- 1 root root 16023698 Dec  5 09:50 initrd.img-3.16.0-4-amd64
--rw-r--r-- 1 root root  2679264 Oct 19 03:45 System.map-3.16.0-4-amd64
--rw-r--r-- 1 root root  3126448 Oct 19 03:41 vmlinuz-3.16.0-4-amd64
-</code></pre>
-</div>
+<span class="nt">-rw-r--r--</span> 1 root root 16023698 Dec  5 09:50 initrd.img-3.16.0-4-amd64
+<span class="nt">-rw-r--r--</span> 1 root root  2679264 Oct 19 03:45 System.map-3.16.0-4-amd64
+<span class="nt">-rw-r--r--</span> 1 root root  3126448 Oct 19 03:41 vmlinuz-3.16.0-4-amd64
+</code></pre></div></div>
 <p><strong>Note:</strong> In the case of lvm volumes, you might need to download the lvm2 package and expose the volumes before mounting:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># apt-get install lvm2</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># apt-get install lvm2</span>
 <span class="c"># vgscan</span>
 <span class="c"># vgchange -a -y</span>
 <span class="c"># mount /dev/volumegroup/logicalvolume /mnt</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <ol>
   <li>Download efibootmgr and review current UEFI Boot Manager configuration</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># apt-get install efibootmgr</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># apt-get install efibootmgr</span>
 <span class="c"># efibootmgr -v</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="mount-broken-system-via-chroot">Mount broken system (via chroot)</h2>
-<p>Mounting another system via chroot is the usual procedure to recover broken system’s. Once the chroot comand is issues, Debian Live will treat the broken system’s “/” (root) as its own. Commands run in a chroot environment will affect the broken systems filesystems and not those of the Debian Live.
-1. Mount root partition (for example an lvm)</p>
+<p>Mounting another system via chroot is the usual procedure to recover broken system’s. Once the chroot comand is issues, Debian Live will treat the broken system’s “/” (root) as its own. Commands run in a chroot environment will affect the broken systems filesystems and not those of the Debian Live.</p>
+<ol>
+  <li>Mount root partition (for example an lvm)</li>
+</ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># mount /dev/volumegroup/logicalvolume /mnt</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># mount /dev/volumegroup/logicalvolume /mnt</span>
+</code></pre></div></div>
 <ol>
   <li>Mount boot partition (F.e. in drive sda)</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># mount /dev/sda2 /mnt/boot</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># mount /dev/sda2 /mnt/boot</span>
+</code></pre></div></div>
 <ol>
   <li>Mount the EFI System Partition (usually in /dev/sda1)</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># mount /dev/sda1 /mnt/boot/efi</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># mount /dev/sda1 /mnt/boot/efi</span>
+</code></pre></div></div>
 <ol>
   <li>Mount the critical virtual filesystems with the following single command:</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># for i in /dev /dev/pts /proc /sys /run; do sudo mount -B $i /mnt$i; done</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># for i in /dev /dev/pts /proc /sys /run; do sudo mount -B $i /mnt$i; done</span>
+</code></pre></div></div>
 <ol>
   <li>Chroot to your normal (and broken) system device</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># chroot /mnt</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># chroot /mnt</span>
+</code></pre></div></div>
 <p><strong>Important:</strong> From now on your changes will affect your normal system.</p>
 
 <h2 id="reinstall-grub-efi">Reinstall grub-efi</h2>
-<p>Download and Install grub-efi package, set the debian bootloader and create a grub config file based on your disk partitioning schema
-1. Install grub-efi package</p>
+<p>Download and Install grub-efi package, set the debian bootloader and create a grub config file based on your disk partitioning schema</p>
+<ol>
+  <li>Install grub-efi package</li>
+</ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># apt-get install --reinstall grub-efi</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># apt-get install --reinstall grub-efi</span>
+</code></pre></div></div>
 <ol>
   <li>Put the debian bootloader in /boot/efi and create an appropiate entry in the computer’s UEFI Boot Manager</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># grub-install /dev/sda</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># grub-install /dev/sda</span>
+</code></pre></div></div>
 <ol>
   <li>Re create a grub config file based on your disk partitioning schema</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># update-grub</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># update-grub</span>
+</code></pre></div></div>
 
 <h2 id="verify-configuration">Verify configuration</h2>
 <ol>
   <li>Bootloader exists</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># file /boot/efi/EFI/debian/grubx64.efi </span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># file /boot/efi/EFI/debian/grubx64.efi </span>
 /boot/efi/EFI/debian/grubx64.efi: PE32+ executable <span class="o">(</span>EFI application<span class="o">)</span> x86-64 
 <span class="o">(</span>stripped to external PDB<span class="o">)</span>, <span class="k">for </span>MS Windows
-</code></pre>
-</div>
+</code></pre></div></div>
 <ol>
   <li>NVRAM entry was properly created</li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># efibootmgr -v | grep debian</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># efibootmgr -v | grep debian</span>
+</code></pre></div></div>
 
 <h2 id="logout-from-chroot-and-reboot">Logout from chroot and reboot</h2>
 <p>Type ctrl+d or exit to quit the chroot session, and reboot.</p>
@@ -392,35 +392,30 @@ drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
 <p>Also, root access is necessary</p>
 
 <h2 id="resize-file-sytem-in-the-lvm-volume">Resize File Sytem in the LVM volume</h2>
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># lvresize --resizefs --verbose -L -30G /dev/machine_vg/root</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># lvresize --resizefs --verbose -L -30G /dev/machine_vg/root</span>
+</code></pre></div></div>
 
 <h2 id="resize-physical-volume">Resize Physical Volume</h2>
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvresize --setphysicalvolumesize [the size of your volume - 30G] /dev/sdaX</span>
+</code></pre></div></div>
 <p>If you get an error as:
 /dev/sdaX: cannot resize to X extents as later ones are allocated.
-It means there’s another volume between the free space and the end. To see it:
-<code class="highlighter-rouge">shell
-# pvs -v --segments /dev/sdaX
-</code>
-To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:
-<code class="highlighter-rouge">shell
-# pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx
-</code></p>
+It means there’s another volume between the free space and the end. To see it:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvs -v --segments /dev/sdaX</span>
+</code></pre></div></div>
+<p>To move the free space towards the end, grab the last column from the output for the volume to move and use it in pvmove:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pvmove --alloc anywhere /dev/sdaX:xxxxx-xxxx</span>
+</code></pre></div></div>
 
 <h2 id="create-a-ntfs-partition">Create a NTFS partition</h2>
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># fdisk</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># fdisk</span>
 n
 c
 1-n <span class="o">[</span>partition number, probably sdaX+1]
 L
 87
 <span class="c"># mkfs.ntfs /dev/sdaX</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
     </article>
 -->
@@ -442,7 +437,7 @@ L
 
 <p>For the following example, we want to get the cars that need service. Service data is at the element context.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>xmllint --format ./example.xml
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>xmllint <span class="nt">--format</span> ./example.xml
 &lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span>?&gt;
 &lt;Cars&gt;
   &lt;Car&gt;
@@ -458,15 +453,42 @@ L
     &lt;NextService&gt;2017-04-01T16:02:46+01:00&lt;/NextService&gt;
   &lt;/Car&gt;
 &lt;/Cars&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The important bit below is the ./, that places the search in the context of the element of each item:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nv">today</span><span class="o">=</span><span class="sb">`</span>date +<span class="s2">"%Y%m%d"</span><span class="sb">`</span>
-<span class="gp">$ </span>xmllint --xpath <span class="s2">"//Cars/Car[ number(translate(substring(./NextService,0,11), '-','')) &lt; </span><span class="nv">$today</span><span class="s2"> ]"</span> example.xml
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ today</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> +<span class="s2">"%Y%m%d"</span><span class="sb">`</span>
+<span class="nv">$ </span>xmllint <span class="nt">--xpath</span> <span class="s2">"//Cars/Car[ number(translate(substring(./NextService,0,11), '-','')) &lt; </span><span class="nv">$today</span><span class="s2"> ]"</span> example.xml
+</code></pre></div></div>
+
+    </article>
+-->
+  </div>
+  
+  <div class="post py3">
+      <p class="post-meta">Apr 14, 2016</p>
+      <a href="/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/" class="post-link">
+        <h3 class="h1 post-title">
+          Yarssr deletes the feeds, how to deal with it
+        </h3>
+      </a>
+      <p class="post-summary">
+        
+      </p>
+<!--
+    <article class="post-content">
+         <p>Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
+This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 5 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> <span class="nb">tar </span>rvf /home/manu/.yarssr/yarssr-backup.tar <span class="nt">-C</span> /home/manu/.yarssr/ <span class="nb">.</span> 2&gt;&amp;1 1&gt;/dev/null
+</code></pre></div></div>
+
+<p>That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># tar xvf ~/.yarssr/yarssr-back.tar</span>
+</code></pre></div></div>
+
+<p>If you find the root cause, please share!</p>
 
     </article>
 -->
@@ -491,30 +513,27 @@ First kill the running process:</p>
 
 <p>Then, go to the app folder and start it back w/debug flag:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">cd</span> ~/.yarssr/;yarssr --debug
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cd</span> ~/.yarssr/<span class="p">;</span>yarssr <span class="nt">--debug</span>
+</code></pre></div></div>
 
 <p><strong>HINT</strong>, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post <a href="http://emmanuel-galindo.github.io/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it.html">Yarssr deletes the feeds, how to deal with it</a>.</p>
 
 <p>For me, it was printing:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">[</span>17:02:57] 
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>17:02:57] 
 not well-formed <span class="o">(</span>invalid token<span class="o">)</span> at line 1, column 0, byte 0 at /usr/lib/x86_64-linux-gnu/perl5/5.20/XML/Parser.pm line 187.
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This indicates the content of the URL is garbled, and it is not being handed correctly to the parser. 
 In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
 By doing some inspections, it was returning the content without decoding it. 
 The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -I https://kat.cr/
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-I</span> https://kat.cr/
 <span class="o">[</span>...]
-Content-Encoding: gzip
+Content-Encoding: <span class="nb">gzip</span>
 <span class="o">[</span>...]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>So, I’ve come up with my own _download method within Fetcher.pm. If you plan to use it:</p>
 
@@ -526,30 +545,27 @@ Content-Encoding: gzip
   </li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>perl -MCompress::Zlib
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>perl <span class="nt">-MCompress</span>::Zlib
+</code></pre></div></div>
 
 <p>If you have to install it, just do</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>cpan Compress::Zlib
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cpan Compress::Zlib
+</code></pre></div></div>
 
 <p><strong>DISCLAIMER:</strong> I haven’t got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.</p>
 
 <p>You will need the following moduled to get the procedure working.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">use</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="p">;</span>
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="p">;</span>
 <span class="k">use</span> <span class="nn">HTTP::</span><span class="nv">Request</span><span class="p">;</span>
 <span class="k">use</span> <span class="nn">HTTP::</span><span class="nv">Message</span><span class="p">;</span>
 <span class="k">use</span> <span class="nn">Compress::</span><span class="nv">Zlib</span><span class="p">;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>So, my own take of the _download procedure that will allow you to handle encoded content is:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">sub </span><span class="nf">_download</span> <span class="p">{</span>
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">sub </span><span class="nf">_download</span> <span class="p">{</span>
         <span class="k">my</span> <span class="p">(</span><span class="nv">$url</span><span class="p">,</span><span class="nv">$login</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
         <span class="nb">caller</span> <span class="ow">eq</span> <span class="nv">__PACKAGE__</span> <span class="ow">or</span> <span class="nb">die</span><span class="p">;</span>
 
@@ -576,39 +592,7 @@ Content-Encoding: gzip
         <span class="p">}</span>
         <span class="k">return</span> <span class="nv">$content</span><span class="p">,</span><span class="nv">$type</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
-    </article>
--->
-  </div>
-  
-  <div class="post py3">
-      <p class="post-meta">Apr 14, 2016</p>
-      <a href="/en/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it/" class="post-link">
-        <h3 class="h1 post-title">
-          Yarssr deletes the feeds, how to deal with it
-        </h3>
-      </a>
-      <p class="post-summary">
-        
-      </p>
-<!--
-    <article class="post-content">
-         <p>Intermittently, after OS reboot, yarssr seems to lose all the feeds. This can be observed by checking ~/.yarssr/config, it should be zero bytes.
-This is highly inconvenient, and I haven’t found yet a permanent fix. What I am doing as a workaround is a daily backup of the config files.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>0 5 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> tar rvf /home/manu/.yarssr/yarssr-backup.tar -C /home/manu/.yarssr/ . 2&gt;&amp;1 1&gt;/dev/null
-</code></pre>
-</div>
-
-<p>That at least avoids the annoyance of losing everything. I don’t think I’ll ever have the time to resolve this bug. It is easier to do</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># tar xvf ~/.yarssr/yarssr-back.tar</span>
-</code></pre>
-</div>
-
-<p>If you find the root cause, please share!</p>
+</code></pre></div></div>
 
     </article>
 -->
