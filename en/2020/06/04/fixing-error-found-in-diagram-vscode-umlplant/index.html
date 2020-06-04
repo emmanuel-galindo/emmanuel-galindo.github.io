@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Compare dates at elements with XPath 1.0 &#8211; Code Bites</title>
+    <title>Fixing Error found in diagram Picked up _JAVA_OPTIONS -Dawt.useSystemAAFontSettings=gasp &#8211; Code Bites</title>
     <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
     <link rel="dns-prefetch" href="//cdn.mathjax.org">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
@@ -12,7 +12,7 @@
     <meta name="robots" content="all">
     <meta name="author" content="Emmanuel Galindo">
     <meta name="keywords" content="en">
-    <link rel="canonical" href="http://192.168.10.30:4000/en/2016/11/14/xpath-date-compare-element/">
+    <link rel="canonical" href="http://192.168.10.30:4000/en/2020/06/04/fixing-error-found-in-diagram-vscode-umlplant/">
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
@@ -39,17 +39,17 @@
     <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Compare dates at elements with XPath 1.0">
-    <meta property="og:description" content="Recording the effort...">
-    <meta property="og:url" content="http://192.168.10.30:4000/en/2016/11/14/xpath-date-compare-element/">
+    <meta property="og:title" content="Fixing Error found in diagram Picked up _JAVA_OPTIONS -Dawt.useSystemAAFontSettings=gasp">
+    <meta property="og:description" content="UMLPlant VSCode extesion will fail to render the diagram code without these steps">
+    <meta property="og:url" content="http://192.168.10.30:4000/en/2020/06/04/fixing-error-found-in-diagram-vscode-umlplant/">
     <meta property="og:site_name" content="Code Bites">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
     
-    <meta name="twitter:title" content="Compare dates at elements with XPath 1.0" />
+    <meta name="twitter:title" content="Fixing Error found in diagram Picked up _JAVA_OPTIONS -Dawt.useSystemAAFontSettings=gasp" />
     <meta name="twitter:description" content="Recording the effort..." />
-    <meta name="twitter:url" content="http://192.168.10.30:4000/en/2016/11/14/xpath-date-compare-element/" />
+    <meta name="twitter:url" content="http://192.168.10.30:4000/en/2020/06/04/fixing-error-found-in-diagram-vscode-umlplant/" />
 
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
@@ -191,8 +191,8 @@
 
 
 <div class="post-header mb2">
-  <h1>Compare dates at elements with XPath 1.0</h1>
-  <span class="post-meta">Nov 14, 2016</span><br>
+  <h1>Fixing Error found in diagram Picked up _JAVA_OPTIONS -Dawt.useSystemAAFontSettings=gasp</h1>
+  <span class="post-meta">Jun 4, 2020</span><br>
   
   <span class="post-meta small">
   
@@ -202,33 +202,25 @@
 </div>
 
 <article class="post-content">
-  <p>Using xmllint limits you to XPath 1.0, but on the other hand you’ll have it available at every box around.</p>
+  <p>UMLPlant VSCode extesion will fail to render the diagram code without these steps…
+If you’re getting “Error found in diagram Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=gasp”</p>
 
-<p>For the following example, we want to get the cars that need service. Service data is at the element context.</p>
+<p>You’ll get a similar warning when running “java -version”</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>xmllint <span class="nt">--format</span> ./example.xml
-&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span>?&gt;
-&lt;Cars&gt;
-  &lt;Car&gt;
-    &lt;Model&gt;Taurus&lt;/Model&gt;
-    &lt;NextService&gt;2018-04-27T16:02:46+01:00&lt;/NextService&gt;
-  &lt;/Car&gt;
-  &lt;Car&gt;
-    &lt;Model&gt;Corolla&lt;/Model&gt;
-    &lt;NextService&gt;2016-11-01T16:02:46+01:00&lt;/NextService&gt;
-  &lt;/Car&gt;
-  &lt;Car&gt;
-    &lt;Model&gt;Civic&lt;/Model&gt;
-    &lt;NextService&gt;2017-04-01T16:02:46+01:00&lt;/NextService&gt;
-  &lt;/Car&gt;
-&lt;/Cars&gt;
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>java <span class="nt">-version</span>
+Picked up _JAVA_OPTIONS:   <span class="nt">-Dawt</span>.useSystemAAFontSettings<span class="o">=</span>gasp
+openjdk version <span class="s2">"1.8.0_171"</span>
+OpenJDK Runtime Environment <span class="o">(</span>build 1.8.0_171-8u171-b11-2-b11<span class="o">)</span>
+OpenJDK 64-Bit Server VM <span class="o">(</span>build 25.171-b11, mixed mode<span class="o">)</span>
 </code></pre></div></div>
 
-<p>The important bit below is the ./, that places the search in the context of the element of each item:</p>
+<p>To fix this, add these lines to your ~/.bashrc (or the one you use):</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ today</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> +<span class="s2">"%Y%m%d"</span><span class="sb">`</span>
-<span class="nv">$ </span>xmllint <span class="nt">--xpath</span> <span class="s2">"//Cars/Car[ number(translate(substring(./NextService,0,11), '-','')) &lt; </span><span class="nv">$today</span><span class="s2"> ]"</span> example.xml
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">_SILENT_JAVA_OPTIONS</span><span class="o">=</span><span class="s2">"</span><span class="nv">$_JAVA_OPTIONS</span><span class="s2">"</span>
+<span class="nb">unset </span>_JAVA_OPTIONS
+<span class="nb">alias </span><span class="nv">java</span><span class="o">=</span><span class="s1">'java "$_SILENT_JAVA_OPTIONS"'</span>
 </code></pre></div></div>
+
 
 </article>
 
@@ -240,8 +232,8 @@
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname  = 'codebites-blog';
-    var disqus_identifier = '/en/2016/11/14/xpath-date-compare-element';
-    var disqus_title      = 'Compare dates at elements with XPath 1.0';
+    var disqus_identifier = '/en/2020/06/04/fixing-error-found-in-diagram-vscode-umlplant';
+    var disqus_title      = 'Fixing Error found in diagram Picked up _JAVA_OPTIONS -Dawt.useSystemAAFontSettings=gasp';
 
     (function() {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

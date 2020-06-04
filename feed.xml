@@ -3,8 +3,35 @@
   <channel>
     <title>Code Bites</title>
     <description>Recording the effort...</description>
-    <link>http://emmanuel-galindo.github.io/</link>
-    <atom:link href="http://emmanuel-galindo.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://192.168.10.30:4000/</link>
+    <atom:link href="http://192.168.10.30:4000/feed.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Fixing Error found in diagram Picked up _JAVA_OPTIONS -Dawt.useSystemAAFontSettings=gasp</title>
+      <description>&lt;p&gt;UMLPlant VSCode extesion will fail to render the diagram code without these steps…
+If you’re getting “Error found in diagram Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=gasp”&lt;/p&gt;
+
+&lt;p&gt;You’ll get a similar warning when running “java -version”&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;java &lt;span class=&quot;nt&quot;&gt;-version&lt;/span&gt;
+Picked up _JAVA_OPTIONS:   &lt;span class=&quot;nt&quot;&gt;-Dawt&lt;/span&gt;.useSystemAAFontSettings&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;gasp
+openjdk version &lt;span class=&quot;s2&quot;&gt;&quot;1.8.0_171&quot;&lt;/span&gt;
+OpenJDK Runtime Environment &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;build 1.8.0_171-8u171-b11-2-b11&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+OpenJDK 64-Bit Server VM &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;build 25.171-b11, mixed mode&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To fix this, add these lines to your ~/.bashrc (or the one you use):&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;_SILENT_JAVA_OPTIONS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_JAVA_OPTIONS&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;unset &lt;/span&gt;_JAVA_OPTIONS
+&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'java &quot;$_SILENT_JAVA_OPTIONS&quot;'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+      <pubDate>Thu, 04 Jun 2020 00:00:00 -0300</pubDate>
+      <link>http://192.168.10.30:4000/en/2020/06/04/fixing-error-found-in-diagram-vscode-umlplant/</link>
+      <guid isPermaLink="true">http://192.168.10.30:4000/en/2020/06/04/fixing-error-found-in-diagram-vscode-umlplant/</guid>
+    </item>
     
     <item>
       <title>Proteger Router WIFI TP Link</title>
@@ -40,8 +67,8 @@
 &lt;p&gt;Mayor información del router puede encontrarse en https://www.tp-link.com/ar/download/TD-W8901N.html&lt;/p&gt;
 </description>
       <pubDate>Tue, 16 Oct 2018 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/es/2018/10/16/proteger-router-wifi-tp-link/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2018/10/16/proteger-router-wifi-tp-link/</guid>
+      <link>http://192.168.10.30:4000/es/2018/10/16/proteger-router-wifi-tp-link/</link>
+      <guid isPermaLink="true">http://192.168.10.30:4000/es/2018/10/16/proteger-router-wifi-tp-link/</guid>
     </item>
     
     <item>
@@ -85,8 +112,8 @@ Match Address 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
 &lt;p&gt;Para el caso de putty en windows, hay que convertir la clave a Putty Private Key usando la utilidad putty-gen, e importando la clave PEM. Luego salvar como ppk y ya será posible usarla desde putty o winscp.&lt;/p&gt;
 </description>
       <pubDate>Tue, 16 Oct 2018 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/es/2018/10/16/acceso-remoto-via-ssh/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2018/10/16/acceso-remoto-via-ssh/</guid>
+      <link>http://192.168.10.30:4000/es/2018/10/16/acceso-remoto-via-ssh/</link>
+      <guid isPermaLink="true">http://192.168.10.30:4000/es/2018/10/16/acceso-remoto-via-ssh/</guid>
     </item>
     
     <item>
@@ -260,8 +287,8 @@ drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
 &lt;p&gt;Type ctrl+d or exit to quit the chroot session, and reboot.&lt;/p&gt;
 </description>
       <pubDate>Wed, 05 Apr 2017 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/en/2017/04/05/fixing-debian-boot-uefi-grub/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/en/2017/04/05/fixing-debian-boot-uefi-grub/</guid>
+      <link>http://192.168.10.30:4000/en/2017/04/05/fixing-debian-boot-uefi-grub/</link>
+      <guid isPermaLink="true">http://192.168.10.30:4000/en/2017/04/05/fixing-debian-boot-uefi-grub/</guid>
     </item>
     
     <item>
@@ -303,8 +330,8 @@ L
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
       <pubDate>Tue, 04 Apr 2017 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/</guid>
+      <link>http://192.168.10.30:4000/en/2017/04/04/shrink-lvm-for-windows-partition/</link>
+      <guid isPermaLink="true">http://192.168.10.30:4000/en/2017/04/04/shrink-lvm-for-windows-partition/</guid>
     </item>
     
     <item>
@@ -338,8 +365,8 @@ L
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
       <pubDate>Mon, 14 Nov 2016 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/en/2016/11/14/xpath-date-compare-element/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/en/2016/11/14/xpath-date-compare-element/</guid>
+      <link>http://192.168.10.30:4000/en/2016/11/14/xpath-date-compare-element/</link>
+      <guid isPermaLink="true">http://192.168.10.30:4000/en/2016/11/14/xpath-date-compare-element/</guid>
     </item>
     
     <item>
@@ -374,8 +401,8 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 </description>
       <pubDate>Sat, 16 Apr 2016 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/</guid>
+      <link>http://192.168.10.30:4000/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/</link>
+      <guid isPermaLink="true">http://192.168.10.30:4000/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/</guid>
     </item>
     
     <item>
@@ -421,8 +448,8 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 </description>
       <pubDate>Sat, 16 Apr 2016 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/es/2016/04/16/github-pages-desde-linea-de-comando/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2016/04/16/github-pages-desde-linea-de-comando/</guid>
+      <link>http://192.168.10.30:4000/es/2016/04/16/github-pages-desde-linea-de-comando/</link>
+      <guid isPermaLink="true">http://192.168.10.30:4000/es/2016/04/16/github-pages-desde-linea-de-comando/</guid>
     </item>
     
     <item>
@@ -480,8 +507,8 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 </description>
       <pubDate>Fri, 15 Apr 2016 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/es/2016/04/15/github-pages-jekyll-y-tinypress/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2016/04/15/github-pages-jekyll-y-tinypress/</guid>
+      <link>http://192.168.10.30:4000/es/2016/04/15/github-pages-jekyll-y-tinypress/</link>
+      <guid isPermaLink="true">http://192.168.10.30:4000/es/2016/04/15/github-pages-jekyll-y-tinypress/</guid>
     </item>
     
     <item>
@@ -505,103 +532,8 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 </description>
       <pubDate>Fri, 15 Apr 2016 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</guid>
-    </item>
-    
-    <item>
-      <title>Yarssr is not loading the feed, how to fix it</title>
-      <description>&lt;p&gt;If you add a feed on yarssr and the icon doesn’t turn green, it is time to enable the debug and look for the error.
-First kill the running process:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ ps -fea | grep -i yarssr | grep -v grep | awk '{ print $2 }' | xargs kill -9&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Then, go to the app folder and start it back w/debug flag:&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.yarssr/&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;yarssr &lt;span class=&quot;nt&quot;&gt;--debug&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;HINT&lt;/strong&gt;, if you happen to have many feeds as me, it might be easier to clean up the config file to only leave the one that is not working. Do a back before that by reading my previous post &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/14/yarssr-deletes-the-feeds-how-to-deal-with-it.html&quot;&gt;Yarssr deletes the feeds, how to deal with it&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;For me, it was printing:&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;17:02:57] 
-not well-formed &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;invalid token&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; at line 1, column 0, byte 0 at /usr/lib/x86_64-linux-gnu/perl5/5.20/XML/Parser.pm line 187.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This indicates the content of the URL is garbled, and it is not being handed correctly to the parser. 
-In my computer, Yarssr is installed on /usr/share/yarssr and there you will find a module called Fetcher. 
-By doing some inspections, it was returning the content without decoding it. 
-The url that I am using (https://kat.cr/etc?rss=1) returns compressed content (use curl or wget)&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; https://kat.cr/
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;...]
-Content-Encoding: &lt;span class=&quot;nb&quot;&gt;gzip&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;...]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;So, I’ve come up with my own _download method within Fetcher.pm. If you plan to use it:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Backup the current _download function to _download_old
-    &lt;ul&gt;
-      &lt;li&gt;Install Compress::Zlib if you haven’t already. To check if you did:&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;perl &lt;span class=&quot;nt&quot;&gt;-MCompress&lt;/span&gt;::Zlib
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;If you have to install it, just do&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cpan Compress::Zlib
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;DISCLAIMER:&lt;/strong&gt; I haven’t got the change to test against a protected RSS feed, therefore I have not tested the credentials part of the new procedure.&lt;/p&gt;
-
-&lt;p&gt;You will need the following moduled to get the procedure working.&lt;/p&gt;
-
-&lt;div class=&quot;language-perl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;LWP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;UserAgent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Compress::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Zlib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;So, my own take of the _download procedure that will allow you to handle encoded content is:&lt;/p&gt;
-
-&lt;div class=&quot;language-perl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;sub &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;_download&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;@_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;caller&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;eq&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;__PACKAGE__&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;die&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$can_accept&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::Message::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;decodable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$agent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;LWP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;UserAgent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;env_proxy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;keep_alive&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;timeout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Accept-Encoding'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$can_accept&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;agent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;GET&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$request&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;HTTP::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'GET'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$agent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$pass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-                &lt;span class=&quot;nv&quot;&gt;$request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;authorization_basic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;$username&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;$pass&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;c1&quot;&gt;# Check the outcome of the response&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;is_success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-                &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'content-type'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/(.*);.*/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;c1&quot;&gt;#$ce = $response-&amp;gt;headers-&amp;gt;{'content-encoding'};&lt;/span&gt;
-                &lt;span class=&quot;nv&quot;&gt;$content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;decoded_content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elsif&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;is_error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;as_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-      <pubDate>Thu, 14 Apr 2016 00:00:00 -0300</pubDate>
-      <link>http://emmanuel-galindo.github.io/en/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it/</link>
-      <guid isPermaLink="true">http://emmanuel-galindo.github.io/en/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it/</guid>
+      <link>http://192.168.10.30:4000/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</link>
+      <guid isPermaLink="true">http://192.168.10.30:4000/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</guid>
     </item>
     
   </channel>
