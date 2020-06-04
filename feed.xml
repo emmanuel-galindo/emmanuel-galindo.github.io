@@ -3,8 +3,8 @@
   <channel>
     <title>Code Bites</title>
     <description>Recording the effort...</description>
-    <link>http://192.168.10.30:4000/</link>
-    <atom:link href="http://192.168.10.30:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <link>https://emmanuel-galindo.github.io/</link>
+    <atom:link href="https://emmanuel-galindo.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Fixing Error found in diagram Picked up _JAVA_OPTIONS -Dawt.useSystemAAFontSettings=gasp</title>
@@ -29,8 +29,8 @@ OpenJDK 64-Bit Server VM &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;build 25.
 
 </description>
       <pubDate>Thu, 04 Jun 2020 00:00:00 -0300</pubDate>
-      <link>http://192.168.10.30:4000/en/2020/06/04/fixing-error-found-in-diagram-vscode-umlplant/</link>
-      <guid isPermaLink="true">http://192.168.10.30:4000/en/2020/06/04/fixing-error-found-in-diagram-vscode-umlplant/</guid>
+      <link>https://emmanuel-galindo.github.io/en/2020/06/04/fixing-error-found-in-diagram-vscode-umlplant/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/en/2020/06/04/fixing-error-found-in-diagram-vscode-umlplant/</guid>
     </item>
     
     <item>
@@ -67,8 +67,8 @@ OpenJDK 64-Bit Server VM &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;build 25.
 &lt;p&gt;Mayor información del router puede encontrarse en https://www.tp-link.com/ar/download/TD-W8901N.html&lt;/p&gt;
 </description>
       <pubDate>Tue, 16 Oct 2018 00:00:00 -0300</pubDate>
-      <link>http://192.168.10.30:4000/es/2018/10/16/proteger-router-wifi-tp-link/</link>
-      <guid isPermaLink="true">http://192.168.10.30:4000/es/2018/10/16/proteger-router-wifi-tp-link/</guid>
+      <link>https://emmanuel-galindo.github.io/es/2018/10/16/proteger-router-wifi-tp-link/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/es/2018/10/16/proteger-router-wifi-tp-link/</guid>
     </item>
     
     <item>
@@ -112,8 +112,8 @@ Match Address 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
 &lt;p&gt;Para el caso de putty en windows, hay que convertir la clave a Putty Private Key usando la utilidad putty-gen, e importando la clave PEM. Luego salvar como ppk y ya será posible usarla desde putty o winscp.&lt;/p&gt;
 </description>
       <pubDate>Tue, 16 Oct 2018 00:00:00 -0300</pubDate>
-      <link>http://192.168.10.30:4000/es/2018/10/16/acceso-remoto-via-ssh/</link>
-      <guid isPermaLink="true">http://192.168.10.30:4000/es/2018/10/16/acceso-remoto-via-ssh/</guid>
+      <link>https://emmanuel-galindo.github.io/es/2018/10/16/acceso-remoto-via-ssh/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/es/2018/10/16/acceso-remoto-via-ssh/</guid>
     </item>
     
     <item>
@@ -287,8 +287,8 @@ drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
 &lt;p&gt;Type ctrl+d or exit to quit the chroot session, and reboot.&lt;/p&gt;
 </description>
       <pubDate>Wed, 05 Apr 2017 00:00:00 -0300</pubDate>
-      <link>http://192.168.10.30:4000/en/2017/04/05/fixing-debian-boot-uefi-grub/</link>
-      <guid isPermaLink="true">http://192.168.10.30:4000/en/2017/04/05/fixing-debian-boot-uefi-grub/</guid>
+      <link>https://emmanuel-galindo.github.io/en/2017/04/05/fixing-debian-boot-uefi-grub/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/en/2017/04/05/fixing-debian-boot-uefi-grub/</guid>
     </item>
     
     <item>
@@ -330,8 +330,8 @@ L
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
       <pubDate>Tue, 04 Apr 2017 00:00:00 -0300</pubDate>
-      <link>http://192.168.10.30:4000/en/2017/04/04/shrink-lvm-for-windows-partition/</link>
-      <guid isPermaLink="true">http://192.168.10.30:4000/en/2017/04/04/shrink-lvm-for-windows-partition/</guid>
+      <link>https://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/en/2017/04/04/shrink-lvm-for-windows-partition/</guid>
     </item>
     
     <item>
@@ -365,8 +365,8 @@ L
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
       <pubDate>Mon, 14 Nov 2016 00:00:00 -0300</pubDate>
-      <link>http://192.168.10.30:4000/en/2016/11/14/xpath-date-compare-element/</link>
-      <guid isPermaLink="true">http://192.168.10.30:4000/en/2016/11/14/xpath-date-compare-element/</guid>
+      <link>https://emmanuel-galindo.github.io/en/2016/11/14/xpath-date-compare-element/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/en/2016/11/14/xpath-date-compare-element/</guid>
     </item>
     
     <item>
@@ -401,8 +401,8 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 </description>
       <pubDate>Sat, 16 Apr 2016 00:00:00 -0300</pubDate>
-      <link>http://192.168.10.30:4000/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/</link>
-      <guid isPermaLink="true">http://192.168.10.30:4000/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/</guid>
+      <link>https://emmanuel-galindo.github.io/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/</guid>
     </item>
     
     <item>
@@ -448,8 +448,8 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 </description>
       <pubDate>Sat, 16 Apr 2016 00:00:00 -0300</pubDate>
-      <link>http://192.168.10.30:4000/es/2016/04/16/github-pages-desde-linea-de-comando/</link>
-      <guid isPermaLink="true">http://192.168.10.30:4000/es/2016/04/16/github-pages-desde-linea-de-comando/</guid>
+      <link>https://emmanuel-galindo.github.io/es/2016/04/16/github-pages-desde-linea-de-comando/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/es/2016/04/16/github-pages-desde-linea-de-comando/</guid>
     </item>
     
     <item>
@@ -507,8 +507,8 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 </description>
       <pubDate>Fri, 15 Apr 2016 00:00:00 -0300</pubDate>
-      <link>http://192.168.10.30:4000/es/2016/04/15/github-pages-jekyll-y-tinypress/</link>
-      <guid isPermaLink="true">http://192.168.10.30:4000/es/2016/04/15/github-pages-jekyll-y-tinypress/</guid>
+      <link>https://emmanuel-galindo.github.io/es/2016/04/15/github-pages-jekyll-y-tinypress/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/es/2016/04/15/github-pages-jekyll-y-tinypress/</guid>
     </item>
     
     <item>
@@ -532,8 +532,8 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 </description>
       <pubDate>Fri, 15 Apr 2016 00:00:00 -0300</pubDate>
-      <link>http://192.168.10.30:4000/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</link>
-      <guid isPermaLink="true">http://192.168.10.30:4000/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</guid>
+      <link>https://emmanuel-galindo.github.io/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</guid>
     </item>
     
   </channel>
