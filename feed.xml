@@ -7,6 +7,75 @@
     <atom:link href="https://emmanuel-galindo.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Avoid adding credit card in heroku to get MongoDB</title>
+      <description>&lt;h2 id=&quot;connecting-mongodb-from-heroku-free-tier&quot;&gt;Connecting MongoDB from Heroku free tier&lt;/h2&gt;
+
+&lt;p&gt;Heroku out of the box provide a simple way to spin MongoDB instances, and automatically configures it to your running application:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;heroku addons:create mongolab
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;A good tutorial on this topic is &lt;a href=&quot;https://devcenter.heroku.com/articles/mean-apps-restful-api#provision-a-mongodb-database&quot;&gt;https://devcenter.heroku.com/articles/mean-apps-restful-api#provision-a-mongodb-database&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;However, when running the command in the free tier, it will ask you validate a credit card in their site to verify your account:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;heroku addons:create mongolab
+Creating mongolab on ⬢ radiant-lowlands-14472... &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+ ▸    Please verify your account to &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;this add-on plan &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;please enter a credit card&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; For more information, see https://devcenter.heroku.com/categories/billing Verify now
+ ▸    at https://heroku.com/verify
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;configuring-mongodb&quot;&gt;Configuring MongoDB&lt;/h3&gt;
+
+&lt;p&gt;Luckily, MongoDB has Atlas offering a free tier as well and we could connect to it from Heroku following these steps:&lt;/p&gt;
+
+&lt;p&gt;1) Register into MongoDB site
+2) Select Shared Cluster offering for the free tier
+3) Select the region to deploy the cluster. It might be a good idea to have in consideration the region your heroku is running to match it.
+4) MongoDB will take several minutos to provision the cluster
+5) Once provisioned it will look like below, and click Connect:
+&lt;img src=&quot;2020-06-05-15-19-48.png&quot; alt=&quot;&quot; /&gt;
+5) On whitelist, it asks for the IP ranges to allow connectivity from the remote client, in this case Heroku. Not sure if Heroku publish this, but you could select 0.0.0.0/0. This will enable connectivity from any source.
+6) For the user, fill your desired username and password
+7) Move to the next page by clicking “Choose a connection method” 
+8) Select “Connect your application”
+9) Copy the URL and Close the dialog&lt;/p&gt;
+
+&lt;p&gt;You’ll have something like&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mongodb+srv://user:&amp;lt;password&amp;gt;@cluster0-cmmbk.mongodb.net/&amp;lt;dbname&amp;gt;?retryWrites=true&amp;amp;w=majority
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Replace password, and dbname use “test”:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mongodb+srv://user:password@cluster0-cmmbk.mongodb.net/test?retryWrites=true&amp;amp;w=majority
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;configuring-heroku-to-connect-to-mongodb&quot;&gt;Configuring Heroku to connect to MongoDB&lt;/h3&gt;
+
+&lt;h4 id=&quot;note&quot;&gt;Note:&lt;/h4&gt;
+&lt;p&gt;if you get below output when executing an heroku command:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; ›   Error: Missing required flag:
+ ›     -a, --app APP  app to run command against
+ ›   See more help with --help
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Execute the command with the app name as part of the heroku command with -a modifier. For example:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ heroku apps
+== user@email.com Apps
+radiant-lowlands-14321
+$ heroku ps -a radiant-lowlands-14321  
+
+
+Now the DB is ready to receive connections. Go to your local heroku app folder and generate this config env var:
+
+```shell
+$ heroku config:set MONGODB_URI=mongodb+srv://user:password@cluster0-cmmbk.mongodb.net/test?retryWrites=true&amp;amp;w=majority
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+      <pubDate>Fri, 05 Jun 2020 00:00:00 -0300</pubDate>
+      <link>https://emmanuel-galindo.github.io/en/2020/06/05/Avoid-adding-credit-card-in-heroku-to-get-MongoDB/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/en/2020/06/05/Avoid-adding-credit-card-in-heroku-to-get-MongoDB/</guid>
+    </item>
+    
+    <item>
       <title>Fixing Error found in diagram Picked up _JAVA_OPTIONS -Dawt.useSystemAAFontSettings=gasp</title>
       <description>&lt;p&gt;UMLPlant VSCode extesion will fail to render the diagram code without these steps…
 If you’re getting “Error found in diagram Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=gasp”&lt;/p&gt;
@@ -509,31 +578,6 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
       <pubDate>Fri, 15 Apr 2016 00:00:00 -0300</pubDate>
       <link>https://emmanuel-galindo.github.io/es/2016/04/15/github-pages-jekyll-y-tinypress/</link>
       <guid isPermaLink="true">https://emmanuel-galindo.github.io/es/2016/04/15/github-pages-jekyll-y-tinypress/</guid>
-    </item>
-    
-    <item>
-      <title>Blog en GitHub, gratis y rápido con TinyPress</title>
-      <description>&lt;h3 id=&quot;en-algunos-pasos-te-comento-mi-experiencia-desde-0-armando-este-blog-no-se-necesita-tener-nada-mas-que-un-rato&quot;&gt;En algunos pasos, te comento mi experiencia desde 0 armando este blog. No se necesita tener nada, mas que un rato.&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Entrar en tinypress.co, y si no tenés cuenta de Github, crearla, y vincularla a TinyPress aceptando los permisos.&lt;/li&gt;
-  &lt;li&gt;Elegir entre los templates disponibles (para cambiarlos leer &lt;a href=&quot;http://tinypressco.github.io/2015/09/24/how-to-switch-themes.html&quot;&gt;How to Switch Themes&lt;/a&gt;).&lt;/li&gt;
-  &lt;li&gt;Escoger el nombre y la cantidad de posts a mostrar en el listado inicial&lt;/li&gt;
-  &lt;li&gt;Sino tenés GitHub Pages configurado, lo crea automáticamente!!&lt;/li&gt;
-  &lt;li&gt;Experimentá agregando dos posts de prueba.&lt;/li&gt;
-  &lt;li&gt;TinyPress no genera la pagina de inicio, para ello copiar &lt;a href=&quot;https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/index.html&quot;&gt;index.html&lt;/a&gt; de mi repositorio al root del tuyo. No te olvides de modificar el Title.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Ya estás listo para empezar a editar tus articulos sin esfuerzo!!&lt;/p&gt;
-
-&lt;h3 id=&quot;links-útiles-para-formatear-el-texto&quot;&gt;Links útiles para formatear el texto:&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&quot;&gt;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&quot;https://sourceforge.net/p/jekyllc/bugs/markdown_syntax&quot;&gt;https://sourceforge.net/p/jekyllc/bugs/markdown_syntax&lt;/a&gt;&lt;/p&gt;
-
-</description>
-      <pubDate>Fri, 15 Apr 2016 00:00:00 -0300</pubDate>
-      <link>https://emmanuel-galindo.github.io/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</link>
-      <guid isPermaLink="true">https://emmanuel-galindo.github.io/es/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress/</guid>
     </item>
     
   </channel>

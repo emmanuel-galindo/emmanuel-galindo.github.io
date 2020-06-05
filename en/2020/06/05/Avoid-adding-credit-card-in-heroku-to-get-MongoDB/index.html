@@ -3,16 +3,16 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Social media en el footer del Blog Jekyll &#8211; Code Bites</title>
+    <title>Avoid adding credit card in heroku to get MongoDB &#8211; Code Bites</title>
     <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
     <link rel="dns-prefetch" href="//cdn.mathjax.org">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Agregar íconos SVG para Linkedin y GitHub">
+    <meta name="description" content="Recording the effort...">
     <meta name="robots" content="all">
     <meta name="author" content="Emmanuel Galindo">
-    <meta name="keywords" content="es">
-    <link rel="canonical" href="https://emmanuel-galindo.github.io/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/">
+    <meta name="keywords" content="en">
+    <link rel="canonical" href="https://emmanuel-galindo.github.io/en/2020/06/05/Avoid-adding-credit-card-in-heroku-to-get-MongoDB/">
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
@@ -39,17 +39,17 @@
     <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Social media en el footer del Blog Jekyll">
-    <meta property="og:description" content="Recording the effort...">
-    <meta property="og:url" content="https://emmanuel-galindo.github.io/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/">
+    <meta property="og:title" content="Avoid adding credit card in heroku to get MongoDB">
+    <meta property="og:description" content="Heroku will request your credit card when trying to spin up a MongoDB instance, but you can still connect to MongoDB own cloud Atlas, using their free tier">
+    <meta property="og:url" content="https://emmanuel-galindo.github.io/en/2020/06/05/Avoid-adding-credit-card-in-heroku-to-get-MongoDB/">
     <meta property="og:site_name" content="Code Bites">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
     
-    <meta name="twitter:title" content="Social media en el footer del Blog Jekyll" />
-    <meta name="twitter:description" content="Agregar íconos SVG para Linkedin y GitHub" />
-    <meta name="twitter:url" content="https://emmanuel-galindo.github.io/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll/" />
+    <meta name="twitter:title" content="Avoid adding credit card in heroku to get MongoDB" />
+    <meta name="twitter:description" content="Recording the effort..." />
+    <meta name="twitter:url" content="https://emmanuel-galindo.github.io/en/2020/06/05/Avoid-adding-credit-card-in-heroku-to-get-MongoDB/" />
 
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
@@ -89,8 +89,8 @@
     <div class="measure">
       <a href="https://emmanuel-galindo.github.io" class="site-title">Code Bites</a>
       <nav class="site-nav">
-        
-<a href="https://emmanuel-galindo.github.io">Posts in english</a>
+         
+<a href="/es/">Posts en español</a>
 
 
     
@@ -191,45 +191,78 @@
 
 
 <div class="post-header mb2">
-  <h1>Social media en el footer del Blog Jekyll</h1>
-  <span class="post-meta">Apr 16, 2016</span><br>
+  <h1>Avoid adding credit card in heroku to get MongoDB</h1>
+  <span class="post-meta">Jun 5, 2020</span><br>
   
   <span class="post-meta small">
   
-    1 minute read
+    2 minute read
   
   </span>
 </div>
 
 <article class="post-content">
-  <h3 id="te-muestro-como-agregar-al-footer-de-tu-blog-links-a-tus-sitios-de-social-media-los-ejemplos-son-sólamente-para-github-y-linkedin-pero-usando-svg">Te muestro como agregar al footer de tu blog links a tus sitios de social media. Los ejemplos son sólamente para GitHub y Linkedin… pero usando SVG!!!!</h3>
+  <h2 id="connecting-mongodb-from-heroku-free-tier">Connecting MongoDB from Heroku free tier</h2>
 
-<h3 id="en-esta-continuación-de-github-pages-desde-linea-de-comando-vamos-a-agregar-iconos-y-links-al-footer-de-social-media">En esta continuación de <a href="http://emmanuel-galindo.github.io/2016/04/15/github-pages-desde-linea-de-comando.html">GitHub pages desde linea de comando</a> vamos a agregar iconos y links al footer de social media</h3>
+<p>Heroku out of the box provide a simple way to spin MongoDB instances, and automatically configures it to your running application:</p>
 
-<ol>
-  <li>Especificar tus usuarios a _config.yml, por ejemplo los mios son:</li>
-</ol>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>heroku addons:create mongolab
+</code></pre></div></div>
 
-<figure class="highlight"><pre><code class="language-text" data-lang="text">github_username:  emmanuel-galindo
-linkedin_username: emmanuelgalindo</code></pre></figure>
+<p>A good tutorial on this topic is <a href="https://devcenter.heroku.com/articles/mean-apps-restful-api#provision-a-mongodb-database">https://devcenter.heroku.com/articles/mean-apps-restful-api#provision-a-mongodb-database</a></p>
 
-<ol>
-  <li>Dimensionar los SVG en tu CSS customizado (css/custom.css en mi caso), y otra clase mas que uso en mi ejemplo asi no se ve tan feo</li>
-</ol>
+<p>However, when running the command in the free tier, it will ask you validate a credit card in their site to verify your account:</p>
 
-<figure class="highlight"><pre><code class="language-text" data-lang="text">/** Icons */
-.icon &gt; svg {display: inline-block;width: 16px;height: 16px;vertical-align: middle;}
-.icon &gt; svg path { fill: #828282; }
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>heroku addons:create mongolab
+Creating mongolab on ⬢ radiant-lowlands-14472... <span class="o">!</span>
+ ▸    Please verify your account to <span class="nb">install </span>this add-on plan <span class="o">(</span>please enter a credit card<span class="o">)</span> For more information, see https://devcenter.heroku.com/categories/billing Verify now
+ ▸    at https://heroku.com/verify
+</code></pre></div></div>
 
-.social-media-list {list-style: none;margin-left: 0;}</code></pre></figure>
+<h3 id="configuring-mongodb">Configuring MongoDB</h3>
 
-<ol>
-  <li>Modificar _includes/footer.html. Por ejemplo, el que se usa en este blog actualmente es</li>
-</ol>
-<p><a href="https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/_includes/footer.html">https://raw.githubusercontent.com/emmanuel-galindo/emmanuel-galindo.github.io/master/_includes/footer.html</a></p>
+<p>Luckily, MongoDB has Atlas offering a free tier as well and we could connect to it from Heroku following these steps:</p>
 
-<p>Otra alternativa a los SVG, es usar la libreria de <a href="http://fontawesome.io/examples/">Font Awesome</a></p>
+<p>1) Register into MongoDB site
+2) Select Shared Cluster offering for the free tier
+3) Select the region to deploy the cluster. It might be a good idea to have in consideration the region your heroku is running to match it.
+4) MongoDB will take several minutos to provision the cluster
+5) Once provisioned it will look like below, and click Connect:
+<img src="2020-06-05-15-19-48.png" alt="" />
+5) On whitelist, it asks for the IP ranges to allow connectivity from the remote client, in this case Heroku. Not sure if Heroku publish this, but you could select 0.0.0.0/0. This will enable connectivity from any source.
+6) For the user, fill your desired username and password
+7) Move to the next page by clicking “Choose a connection method” 
+8) Select “Connect your application”
+9) Copy the URL and Close the dialog</p>
 
+<p>You’ll have something like</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mongodb+srv://user:&lt;password&gt;@cluster0-cmmbk.mongodb.net/&lt;dbname&gt;?retryWrites=true&amp;w=majority
+</code></pre></div></div>
+
+<p>Replace password, and dbname use “test”:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mongodb+srv://user:password@cluster0-cmmbk.mongodb.net/test?retryWrites=true&amp;w=majority
+</code></pre></div></div>
+
+<h3 id="configuring-heroku-to-connect-to-mongodb">Configuring Heroku to connect to MongoDB</h3>
+
+<h4 id="note">Note:</h4>
+<p>if you get below output when executing an heroku command:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ›   Error: Missing required flag:
+ ›     -a, --app APP  app to run command against
+ ›   See more help with --help
+</code></pre></div></div>
+<p>Execute the command with the app name as part of the heroku command with -a modifier. For example:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ heroku apps
+== user@email.com Apps
+radiant-lowlands-14321
+$ heroku ps -a radiant-lowlands-14321  
+
+
+Now the DB is ready to receive connections. Go to your local heroku app folder and generate this config env var:
+
+```shell
+$ heroku config:set MONGODB_URI=mongodb+srv://user:password@cluster0-cmmbk.mongodb.net/test?retryWrites=true&amp;w=majority
+</code></pre></div></div>
 
 </article>
 
@@ -241,8 +274,8 @@ linkedin_username: emmanuelgalindo</code></pre></figure>
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname  = 'codebites-blog';
-    var disqus_identifier = '/es/2016/04/16/social-media-en-el-footer-del-blog-jekyll';
-    var disqus_title      = 'Social media en el footer del Blog Jekyll';
+    var disqus_identifier = '/en/2020/06/05/Avoid-adding-credit-card-in-heroku-to-get-MongoDB';
+    var disqus_title      = 'Avoid adding credit card in heroku to get MongoDB';
 
     (function() {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
