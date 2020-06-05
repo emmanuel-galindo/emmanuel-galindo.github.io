@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?202006051628" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?202006051628" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?202006051635" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?202006051635" type="text/css">
 
     <!-- Fonts -->
     
@@ -196,7 +196,7 @@
   
   <span class="post-meta small">
   
-    2 minute read
+    1 minute read
   
   </span>
 </div>
@@ -223,18 +223,23 @@ Creating mongolab on ⬢ radiant-lowlands-14472... <span class="o">!</span>
 
 <p>Luckily, MongoDB has Atlas offering a free tier as well and we could connect to it from Heroku following these steps:</p>
 
-<p>1) Register into MongoDB site
-2) Select Shared Cluster offering for the free tier
-3) Select the region to deploy the cluster. It might be a good idea to have in consideration the region your heroku is running to match it.
-4) MongoDB will take several minutos to provision the cluster
-5) Once provisioned it will look like below, and click Connect:
-<img src="/images/mongodb.png" alt="mongodb.png" /></p>
+<ol>
+  <li>Register into MongoDB site</li>
+  <li>Select Shared Cluster offering for the free tier</li>
+  <li>Select the region to deploy the cluster. It might be a good idea to have in consideration the region your heroku is running to match it.</li>
+  <li>MongoDB will take several minutos to provision the cluster</li>
+  <li>Once provisioned it will look like below, and click Connect:</li>
+</ol>
 
-<p>5) On whitelist, it asks for the IP ranges to allow connectivity from the remote client, in this case Heroku. Not sure if Heroku publish this, but you could select 0.0.0.0/0. This will enable connectivity from any source.
-6) For the user, fill your desired username and password
-7) Move to the next page by clicking “Choose a connection method” 
-8) Select “Connect your application”
-9) Copy the URL and Close the dialog</p>
+<p><img src="/images/mongodb.png" alt="mongodb.png" /></p>
+
+<ol>
+  <li>On whitelist, it asks for the IP ranges to allow connectivity from the remote client, in this case Heroku. Not sure if Heroku publish this, but you could select 0.0.0.0/0. This will enable connectivity from any source.</li>
+  <li>For the user, fill your desired username and password</li>
+  <li>Move to the next page by clicking “Choose a connection method”</li>
+  <li>Select “Connect your application”</li>
+  <li>Copy the URL and Close the dialog</li>
+</ol>
 
 <p>You’ll have something like</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mongodb+srv://user:&lt;password&gt;@cluster0-cmmbk.mongodb.net/&lt;dbname&gt;?retryWrites=true&amp;w=majority

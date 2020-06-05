@@ -29,18 +29,23 @@ Creating mongolab on ⬢ radiant-lowlands-14472... &lt;span class=&quot;o&quot;&
 
 &lt;p&gt;Luckily, MongoDB has Atlas offering a free tier as well and we could connect to it from Heroku following these steps:&lt;/p&gt;
 
-&lt;p&gt;1) Register into MongoDB site
-2) Select Shared Cluster offering for the free tier
-3) Select the region to deploy the cluster. It might be a good idea to have in consideration the region your heroku is running to match it.
-4) MongoDB will take several minutos to provision the cluster
-5) Once provisioned it will look like below, and click Connect:
-&lt;img src=&quot;/images/mongodb.png&quot; alt=&quot;mongodb.png&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Register into MongoDB site&lt;/li&gt;
+  &lt;li&gt;Select Shared Cluster offering for the free tier&lt;/li&gt;
+  &lt;li&gt;Select the region to deploy the cluster. It might be a good idea to have in consideration the region your heroku is running to match it.&lt;/li&gt;
+  &lt;li&gt;MongoDB will take several minutos to provision the cluster&lt;/li&gt;
+  &lt;li&gt;Once provisioned it will look like below, and click Connect:&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;p&gt;5) On whitelist, it asks for the IP ranges to allow connectivity from the remote client, in this case Heroku. Not sure if Heroku publish this, but you could select 0.0.0.0/0. This will enable connectivity from any source.
-6) For the user, fill your desired username and password
-7) Move to the next page by clicking “Choose a connection method” 
-8) Select “Connect your application”
-9) Copy the URL and Close the dialog&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/mongodb.png&quot; alt=&quot;mongodb.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;On whitelist, it asks for the IP ranges to allow connectivity from the remote client, in this case Heroku. Not sure if Heroku publish this, but you could select 0.0.0.0/0. This will enable connectivity from any source.&lt;/li&gt;
+  &lt;li&gt;For the user, fill your desired username and password&lt;/li&gt;
+  &lt;li&gt;Move to the next page by clicking “Choose a connection method”&lt;/li&gt;
+  &lt;li&gt;Select “Connect your application”&lt;/li&gt;
+  &lt;li&gt;Copy the URL and Close the dialog&lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;p&gt;You’ll have something like&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mongodb+srv://user:&amp;lt;password&amp;gt;@cluster0-cmmbk.mongodb.net/&amp;lt;dbname&amp;gt;?retryWrites=true&amp;amp;w=majority
