@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?202006051635" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?202006051635" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?202006051704" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?202006051704" type="text/css">
 
     <!-- Fonts -->
     
@@ -196,7 +196,7 @@
   
   <span class="post-meta small">
   
-    1 minute read
+    2 minute read
   
   </span>
 </div>
@@ -251,24 +251,46 @@ Creating mongolab on ⬢ radiant-lowlands-14472... <span class="o">!</span>
 
 <h3 id="configuring-heroku-to-connect-to-mongodb">Configuring Heroku to connect to MongoDB</h3>
 
-<h4 id="note">Note:</h4>
-<p>if you get below output when executing an heroku command:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ›   Error: Missing required flag:
+<blockquote>
+  <p>If you get below output when executing an heroku command:</p>
+  <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ›   Error: Missing required flag:
  ›     -a, --app APP  app to run command against
  ›   See more help with --help
-</code></pre></div></div>
-<p>Execute the command with the app name as part of the heroku command with -a modifier. For example:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ heroku apps
+</code></pre></div>  </div>
+  <p>Execute the command with the app name as part of the heroku command with -a modifier. For example:</p>
+  <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ heroku apps
 == user@email.com Apps
 radiant-lowlands-14321
 $ heroku ps -a radiant-lowlands-14321  
+</code></pre></div>  </div>
+</blockquote>
 
+<p>Now the DB is ready to receive connections. Go to your local heroku app folder and generate this config env var:</p>
 
-Now the DB is ready to receive connections. Go to your local heroku app folder and generate this config env var:
-
-```shell
-$ heroku config:set MONGODB_URI=mongodb+srv://user:password@cluster0-cmmbk.mongodb.net/test?retryWrites=true&amp;w=majority
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>heroku config:set <span class="nv">MONGODB_URI</span><span class="o">=</span>mongodb+srv://user:password@cluster0-cmmbk.mongodb.net/test?retryWrites<span class="o">=</span><span class="nb">true</span>&amp;w<span class="o">=</span>majority
 </code></pre></div></div>
+
+<p>If you need a simple unit test, use this server.js:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">MONGODB_URI</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">connectDB</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kr">await</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">db</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">useUnifiedTopology</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">useNewUrlParser</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"MongoDB is Connected..."</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+    <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Commit and push it as usual and in the logs of the app should read:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2020-06-05T00:10:30.017396+00:00 app[web.1]: Database connection ready
+</code></pre></div></div>
+
 
 </article>
 
