@@ -73,7 +73,7 @@ $ heroku ps -a radiant-lowlands-14321
 
 &lt;p&gt;Now the DB is ready to receive connections. Go to your local heroku app folder and generate this config env var:&lt;/p&gt;
 
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;heroku config:set &lt;span class=&quot;nv&quot;&gt;MONGODB_URI&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;mongodb+srv://user:password@cluster0-cmmbk.mongodb.net/test?retryWrites&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&amp;amp;w&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;majority
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;heroku config:set &lt;span class=&quot;nv&quot;&gt;MONGODB_URI&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;mongodb+srv://user:password@cluster0-cmmbk.mongodb.net/test?retryWrites=true&amp;amp;w=majority&quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;If you need a simple unit test, use this server.js:&lt;/p&gt;
@@ -311,6 +311,7 @@ drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
 
 &lt;h2 id=&quot;mount-broken-system-via-chroot&quot;&gt;Mount broken system (via chroot)&lt;/h2&gt;
 &lt;p&gt;Mounting another system via chroot is the usual procedure to recover broken system’s. Once the chroot comand is issues, Debian Live will treat the broken system’s “/” (root) as its own. Commands run in a chroot environment will affect the broken systems filesystems and not those of the Debian Live.&lt;/p&gt;
+
 &lt;ol&gt;
   &lt;li&gt;Mount root partition (for example an lvm)&lt;/li&gt;
 &lt;/ol&gt;
@@ -341,7 +342,21 @@ drwxr-xr-x 5 root root     1024 Apr  5 15:26 grub
 
 &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# chroot /mnt&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;Important:&lt;/strong&gt; From now on your changes will affect your normal system.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Important:&lt;/strong&gt; From now on your changes will affect your normal system.
+&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+
+  &lt;h3 id=&quot;note-for-raspberry-pi-os-previously-called-raspbian&quot;&gt;Note for Raspberry Pi OS (previously called Raspbian)&lt;/h3&gt;
+  &lt;p&gt;&lt;strong&gt;&lt;em&gt;Nathan sent below comment from his experience running these notes, thanks!&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;p&gt;For Raspbian LVM (Logical Volumes) are not used. There is no need to create directories for mounting a standard install. Once the partition called Linux Filesystem is mounted in /mnt, you have the /boot/efi folders, but efi is more like a placeholder where the EFI volume is mounted. Thus:&lt;/p&gt;
+
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sudo mount /dev/mmcblk0p# /mnt     (# = partition number with Linux filesystem)
+# sudo mount /dev/mmcblk0p# /mnt/boot/efi     (# = partition number with EFI System)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/blockquote&gt;
 
 &lt;h2 id=&quot;reinstall-grub-efi&quot;&gt;Reinstall grub-efi&lt;/h2&gt;
 &lt;p&gt;Download and Install grub-efi package, set the debian bootloader and create a grub config file based on your disk partitioning schema&lt;/p&gt;

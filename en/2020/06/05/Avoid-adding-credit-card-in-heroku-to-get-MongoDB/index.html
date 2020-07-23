@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?202006051704" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?202006051704" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?202007231634" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?202007231634" type="text/css">
 
     <!-- Fonts -->
     
@@ -267,7 +267,7 @@ $ heroku ps -a radiant-lowlands-14321
 
 <p>Now the DB is ready to receive connections. Go to your local heroku app folder and generate this config env var:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>heroku config:set <span class="nv">MONGODB_URI</span><span class="o">=</span>mongodb+srv://user:password@cluster0-cmmbk.mongodb.net/test?retryWrites<span class="o">=</span><span class="nb">true</span>&amp;w<span class="o">=</span>majority
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>heroku config:set <span class="nv">MONGODB_URI</span><span class="o">=</span><span class="s2">"mongodb+srv://user:password@cluster0-cmmbk.mongodb.net/test?retryWrites=true&amp;w=majority"</span>
 </code></pre></div></div>
 
 <p>If you need a simple unit test, use this server.js:</p>
