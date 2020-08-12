@@ -7,6 +7,156 @@
     <atom:link href="https://emmanuel-galindo.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Kafka JMS Client to Confluent Cloud example</title>
+      <description>&lt;h1 id=&quot;kafka-jms-client-to-confluent-cloud-example&quot;&gt;Kafka JMS Client to Confluent Cloud example&lt;/h1&gt;
+
+&lt;p&gt;Confluent has created a JMS Client for that comes handy when working with legacy systems. Notably, it wraps a JMS 1.1 implementation and data flow goes like this:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[kafka-jms-client] &amp;lt;--- kafka protocol ---&amp;gt; [kafka broker]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It is important to note that compatibility with JMS 1.1 is pretty good but not complete. Preferably, read https://docs.confluent.io/current/clients/kafka-jms-client/.&lt;/p&gt;
+
+&lt;p&gt;We are going to configure and run it against Confluent’s Cloud. The code can be downloaded at: https://github.com/emmanuel-galindo/kafka-jms-client&lt;/p&gt;
+
+&lt;p&gt;As part of this exercise, we are going to create a producer that will create one message, and a consumer that if it is the first (from the consumer group) will download all message in the topic, if not will just use whatever offset the broker has. These clients are meant to be as much JMS compliant as possible, thus no use of specific logic, and the idea was to keep it simple.&lt;/p&gt;
+
+&lt;p&gt;As a side note, I’ve found this exercise useful before jumping into trying to make legacy systems JMS implementation to effectively connect and interact with a topic in Confluent’s Cloud. In addition to configuring the service, as Kafka basically works on Layer 4 (https://en.wikipedia.org/wiki/OSI_model), you could expect your company’s proxy, firewall, vpn, etc to give you some trouble and executing this exercise could help you .&lt;/p&gt;
+
+&lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
+
+&lt;p&gt;If you haven’t already go ahead and create a free cloud account.
+You’ll need to create a new topic (we are using TestTopic as name) and get some information to configure the client:
+    - At API Access menu, issue an API Key and Secret to be used as username and password
+    - In the Tools and client section
+        - In Clients tab, at Java section, copy the properties
+        - In Confluent Platform Components, at Schema Registry, create a new API Key and Secret&lt;/p&gt;
+
+&lt;p&gt;Then, you’ll need to compile Confluent’s Kafka JMS Client following https://docs.confluent.io/current/clients/kafka-jms-client/installation.html#appendix-1-creating-a-shaded-fat-jar. As it is mentioned there, to avoid namespace conflicts, it adds the confluent.shaded. preffix. We’ll see this when configuring the login class.&lt;/p&gt;
+
+&lt;p&gt;After that, go ahead and grab a jar for the JMS 1.1. I’d normally refer to Maven central, but it looks there’s some legal battle around this. I’ve found https://repository.jboss.org/maven2/javax/jms/jms/1.1/ to have a working copy.&lt;/p&gt;
+
+&lt;h2 id=&quot;installation&quot;&gt;Installation&lt;/h2&gt;
+
+&lt;p&gt;Create a new working dir, or clone the repo above, and create a new lib/ folder. In there, copy the two jar files.&lt;/p&gt;
+
+&lt;h3 id=&quot;producer&quot;&gt;Producer&lt;/h3&gt;
+
+&lt;p&gt;Create a Producer.java file and copy below code in it. As you can see, it is a pretty standard JMS implementation. I am importing here using wildcard to avoid unnecesary lenght.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.jmx.*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.naming.*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Producer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JMSException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NamingException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;InitialContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ConnectionFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connectionFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConnectionFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;lookup&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ConnectionFactory&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Connection&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connectionFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Session&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;AUTO_ACKNOWLEDGE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Queue&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;lookup&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;TestTopic&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;MessageProducer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;producer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createProducer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;TextMessage&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createTextMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; - Text message&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;producer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;consumer&quot;&gt;Consumer&lt;/h3&gt;
+&lt;p&gt;In this case, a Consumer.java needs to be created with this content.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.jmx.*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.naming.*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Consumer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JMSException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NamingException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;InitialContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ConnectionFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connectionFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConnectionFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;lookup&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ConnectionFactory&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Connection&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connectionFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Session&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;AUTO_ACKNOWLEDGE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Queue&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;lookup&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;TestTopic&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;MessageConsumer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consumer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createConsumer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;TextMessage&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rmessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TextMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consumer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;receive&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Message received &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rmessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;jndiproperties&quot;&gt;jndi.properties&lt;/h3&gt;
+&lt;p&gt;Create a new file jndi.properties at the same folder as the consumer and producer. Here is where the specifics for Kafka and Confluent Cloud are set:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#Kafka Cloud settings
+bootstrap.servers = your_cloud_server.confluent.cloud:9092
+security.protocol = SASL_SSL
+#Calling the shaded version of the fat jar. Remove confluent.shaded when calling the thin jar
+sasl.jaas.config = confluent.shaded.org.apache.kafka.common.security.plain.PlainLoginModule   required username=&quot;USERNAME123&quot;   password=&quot;PASSWORD123&quot;; 
+ssl.endpoint.identification.algorithm = https
+sasl.mechanism = PLAIN
+# when there's no offset for this consumer, lets show a lot =)
+auto.offset.reset = earliest
+consumer.group.id = jms-client-test
+queue.TestTopic = TestTopic
+
+# Cloud Schema Registry settings
+basic.auth.credentials.source = USER_INFO
+schema.registry.basic.auth.user.info = USER345:PASSWORD345
+schema.registry.url = https://your_cloud_registry.confluent.cloud
+
+# JMS settings
+java.naming.provider.url = tcp://your_cloud_server.confluent.cloud:9092
+java.naming.factory.initial = io.confluent.kafka.jms.KafkaInitialContextFactory
+client.id = jms-client-test-id
+#register topics in JNDI. format: [topic|queue].[name] = [name] 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;bootstrap.servers and java.naming.provider.url has the same value&lt;/li&gt;
+  &lt;li&gt;modify the USERNAME123 and PASSWORD123 with the API key and secret from Confluent Cloud&lt;/li&gt;
+  &lt;li&gt;auto.offset.reset is an example of a kafka property extended to this JMS client.&lt;/li&gt;
+  &lt;li&gt;consumer.group.id. If you implement this as we did above, we are letting the JMS client library know we want to use queues. In that case, the consumer group in the broker will be set to that value. As stated in the docs, if we were using topics, the lib would add a uuid to the end of the topic name and each consumer seems to end up having a sepparate consumer group. This is a very nice way to emulate what you normally experience with topics and queues in JMS.&lt;/li&gt;
+  &lt;li&gt;queue.TestTopic, defines what is the kafka topic we are going to work with. In Kafka, both JMS topics and queues are implemented as Kafka topics and I believe the intention of this library is try to emulate a normal JMS behavior. If we would like to do JMS pub/sub, we would then change the implementation at the code to use JMS Topic and here we would call this property topic.TestTopic&lt;/li&gt;
+  &lt;li&gt;I haven’t tested extensively the schema registry, so please free to share what you find&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;executing&quot;&gt;Executing&lt;/h2&gt;
+
+&lt;p&gt;We are using standalone java here. In Linux you would execute this:&lt;/p&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;javac &lt;span class=&quot;nt&quot;&gt;-cp&lt;/span&gt; lib/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;:. Consumer.java
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;java &lt;span class=&quot;nt&quot;&gt;-cp&lt;/span&gt; lib/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;:. Consumer
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;In Windows&lt;/p&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;javac &lt;span class=&quot;nt&quot;&gt;-cp&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;lib/*;.&quot;&lt;/span&gt; Consumer.java
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;java &lt;span class=&quot;nt&quot;&gt;-cp&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;lib/*;.&quot;&lt;/span&gt; Consumer
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;And the same for the Producer.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;First execute the producer, and then the consumer. You can leave the consumer, or start a new one in another shell session. The producer will just send one message and you can ctrl+c after that.&lt;/p&gt;
+
+&lt;p&gt;When executing the clients you should expect below output (it might take one minute or two to spin up the client and connect to the broker, feel free to add some print lines):&lt;/p&gt;
+
+&lt;p&gt;Producer:&lt;/p&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Message sent
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Consumer:&lt;/p&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Message received Tue Aug 11 19:12:49 ART 2020 - Text message
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;A nice test, is to shutdown the consumer, send another email and as you would expect from queues, when you spin up the consumer again you should receive the message.&lt;/p&gt;
+
+&lt;p&gt;Another interesting one, is to modify the consumer group to a new one and it shoud download all messages.&lt;/p&gt;
+</description>
+      <pubDate>Tue, 11 Aug 2020 00:00:00 -0300</pubDate>
+      <link>https://emmanuel-galindo.github.io/en/2020/08/11/kafka-jms-client-to-confluent-cloud/</link>
+      <guid isPermaLink="true">https://emmanuel-galindo.github.io/en/2020/08/11/kafka-jms-client-to-confluent-cloud/</guid>
+    </item>
+    
+    <item>
       <title>Avoid adding credit card in heroku to get MongoDB</title>
       <description>&lt;h2 id=&quot;connecting-mongodb-from-heroku-free-tier&quot;&gt;Connecting MongoDB from Heroku free tier&lt;/h2&gt;
 
@@ -562,65 +712,6 @@ linkedin_username: emmanuelgalindo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
       <pubDate>Sat, 16 Apr 2016 00:00:00 -0300</pubDate>
       <link>https://emmanuel-galindo.github.io/es/2016/04/16/github-pages-desde-linea-de-comando/</link>
       <guid isPermaLink="true">https://emmanuel-galindo.github.io/es/2016/04/16/github-pages-desde-linea-de-comando/</guid>
-    </item>
-    
-    <item>
-      <title>Blog en GitHub Pages con Jekyll, parte 2</title>
-      <description>&lt;h3 id=&quot;en-esta-continuación-de-blog-en-github-gratis-y-rápido-con-tinypress-te-cuento-como-agregarle-comentarios-hacerlo-mas-ancho-etc&quot;&gt;En esta continuación de &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/15/blog-en-github-gratis-y-r-pido-con-tinypress.html&quot;&gt;Blog en GitHub, gratis y rápido con TinyPress&lt;/a&gt; te cuento como agregarle comentarios, hacerlo mas ancho, etc&lt;/h3&gt;
-
-&lt;h3 id=&quot;agregar-comentarios&quot;&gt;Agregar comentarios&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;Generar cuenta en Disqus
-    &lt;ul&gt;
-      &lt;li&gt;Lo único que necesitás es asignar un short name y acordartelo&lt;/li&gt;
-      &lt;li&gt;Te va a dejar generar un código HTML universal para copiar en el blog, únicamente actualizando el shortname que seleccionaste antes.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Agregá lo siguiente al archivo “_layout/default.html”, aproximadamente en la linea 41, abajo de &lt;code class=&quot;highlighter-rouge&quot;&gt;{ content }&lt;/code&gt; :&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{% include comments.html %}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;hacer-que-el-blog-sea-mas-ancho&quot;&gt;Hacer que el blog sea mas ancho&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Agregar un archivo custom.css en el dir “_css”&lt;/li&gt;
-  &lt;li&gt;Agregar este contenido (1 rem aprox 16px, 16x62=992px)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;k&quot;&gt;@charset&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&quot;UTF-8&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;nc&quot;&gt;.measure&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;max-width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;62rem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;solo-mostrar-barra-de-desplazamiento-horizontal-scrollbar-cuando-sea-necesario&quot;&gt;Solo mostrar barra de desplazamiento horizontal (scrollbar) cuando sea necesario&lt;/h3&gt;
-&lt;p&gt;En el mismo custom.css:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;pre&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
- &lt;span class=&quot;nl&quot;&gt;overflow-x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;auto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;modificar-el-color-de-la-caja-para-codigo-fuente&quot;&gt;Modificar el color de la caja para codigo fuente###&lt;/h3&gt;
-&lt;p&gt;Para cambiar el color de fondo de los bloques de codigo, por ej en &lt;a href=&quot;http://emmanuel-galindo.github.io/2016/04/14/yarssr-is-not-loading-the-feed-how-to-fix-it.html]&quot;&gt;Yarssr is not loading the feed, how to fix it&lt;/a&gt;:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Abrir default.html en “_layout”&lt;/li&gt;
-  &lt;li&gt;Modificar la línea:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/css/solarized-dark.css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;por&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/css/solarized-light.css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;O viceversa…&lt;/p&gt;
-
-</description>
-      <pubDate>Fri, 15 Apr 2016 00:00:00 -0300</pubDate>
-      <link>https://emmanuel-galindo.github.io/es/2016/04/15/github-pages-jekyll-y-tinypress/</link>
-      <guid isPermaLink="true">https://emmanuel-galindo.github.io/es/2016/04/15/github-pages-jekyll-y-tinypress/</guid>
     </item>
     
   </channel>
