@@ -8,9 +8,7 @@
     
     <item>
       <title>Kafka JMS Client to Confluent Cloud example</title>
-      <description>&lt;h1 id=&quot;kafka-jms-client-to-confluent-cloud-example&quot;&gt;Kafka JMS Client to Confluent Cloud example&lt;/h1&gt;
-
-&lt;p&gt;Confluent has created a JMS Client for that comes handy when working with legacy systems. Notably, it wraps a JMS 1.1 implementation and data flow goes like this:&lt;/p&gt;
+      <description>&lt;p&gt;Confluent has created a JMS Client for that comes handy when working with legacy systems. Notably, it wraps a JMS 1.1 implementation and data flow goes like this:&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[kafka-jms-client] &amp;lt;--- kafka protocol ---&amp;gt; [kafka broker]
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -20,7 +18,7 @@
 
 &lt;p&gt;As part of this exercise, we are going to create a producer that will create one message, and a consumer that if it is the first (from the consumer group) will download all message in the topic, if not will just use whatever offset the broker has. These clients are meant to be as much JMS compliant as possible, thus no use of specific logic, and the idea was to keep it simple.&lt;/p&gt;
 
-&lt;p&gt;As a side note, I’ve found this exercise useful before jumping into trying to make legacy systems JMS implementation to effectively connect and interact with a topic in Confluent’s Cloud. In addition to configuring the service, as Kafka basically works on Layer 4 (https://en.wikipedia.org/wiki/OSI_model), you could expect your company’s proxy, firewall, vpn, etc to give you some trouble and executing this exercise could help you .&lt;/p&gt;
+&lt;p&gt;As a side note, I’ve found this exercise useful before jumping into trying to make legacy systems JMS implementation connect and interact with a topic in Confluent’s Cloud. In addition to the challenge of configuring the JMS service in the legacy system, as Kafka basically works on Layer 4 (https://en.wikipedia.org/wiki/OSI_model), you could expect your company’s proxy, firewall, vpn, etc to give you some trouble and executing this exercise could help you identifying what are the constraints in your network.&lt;/p&gt;
 
 &lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
 
@@ -41,7 +39,7 @@ You’ll need to create a new topic (we are using TestTopic as name) and get som
 
 &lt;h3 id=&quot;producer&quot;&gt;Producer&lt;/h3&gt;
 
-&lt;p&gt;Create a Producer.java file and copy below code in it. As you can see, it is a pretty standard JMS implementation. I am importing here using wildcard to avoid unnecesary lenght.&lt;/p&gt;
+&lt;p&gt;Create a Producer.java file and copy below code in it. As you can see, it is a pretty standard JMS implementation. I am importing here using wildcard to make it short.&lt;/p&gt;
 
 &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.jmx.*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.naming.*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
@@ -61,6 +59,8 @@ You’ll need to create a new topic (we are using TestTopic as name) and get som
     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;consumer&quot;&gt;Consumer&lt;/h3&gt;
 &lt;p&gt;In this case, a Consumer.java needs to be created with this content.&lt;/p&gt;
@@ -84,6 +84,8 @@ You’ll need to create a new topic (we are using TestTopic as name) and get som
     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;jndiproperties&quot;&gt;jndi.properties&lt;/h3&gt;
 &lt;p&gt;Create a new file jndi.properties at the same folder as the consumer and producer. Here is where the specifics for Kafka and Confluent Cloud are set:&lt;/p&gt;

@@ -16,8 +16,8 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Code Bites" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/pixyll.css?202008112116" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css?202008112116" type="text/css">
+    <link rel="stylesheet" href="/css/pixyll.css?202008112122" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css?202008112122" type="text/css">
 
     <!-- Fonts -->
     
@@ -202,9 +202,7 @@
 </div>
 
 <article class="post-content">
-  <h1 id="kafka-jms-client-to-confluent-cloud-example">Kafka JMS Client to Confluent Cloud example</h1>
-
-<p>Confluent has created a JMS Client for that comes handy when working with legacy systems. Notably, it wraps a JMS 1.1 implementation and data flow goes like this:</p>
+  <p>Confluent has created a JMS Client for that comes handy when working with legacy systems. Notably, it wraps a JMS 1.1 implementation and data flow goes like this:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[kafka-jms-client] &lt;--- kafka protocol ---&gt; [kafka broker]
 </code></pre></div></div>
 
@@ -214,7 +212,7 @@
 
 <p>As part of this exercise, we are going to create a producer that will create one message, and a consumer that if it is the first (from the consumer group) will download all message in the topic, if not will just use whatever offset the broker has. These clients are meant to be as much JMS compliant as possible, thus no use of specific logic, and the idea was to keep it simple.</p>
 
-<p>As a side note, I’ve found this exercise useful before jumping into trying to make legacy systems JMS implementation to effectively connect and interact with a topic in Confluent’s Cloud. In addition to configuring the service, as Kafka basically works on Layer 4 (https://en.wikipedia.org/wiki/OSI_model), you could expect your company’s proxy, firewall, vpn, etc to give you some trouble and executing this exercise could help you .</p>
+<p>As a side note, I’ve found this exercise useful before jumping into trying to make legacy systems JMS implementation connect and interact with a topic in Confluent’s Cloud. In addition to the challenge of configuring the JMS service in the legacy system, as Kafka basically works on Layer 4 (https://en.wikipedia.org/wiki/OSI_model), you could expect your company’s proxy, firewall, vpn, etc to give you some trouble and executing this exercise could help you identifying what are the constraints in your network.</p>
 
 <h2 id="requirements">Requirements</h2>
 
@@ -235,7 +233,7 @@ You’ll need to create a new topic (we are using TestTopic as name) and get som
 
 <h3 id="producer">Producer</h3>
 
-<p>Create a Producer.java file and copy below code in it. As you can see, it is a pretty standard JMS implementation. I am importing here using wildcard to avoid unnecesary lenght.</p>
+<p>Create a Producer.java file and copy below code in it. As you can see, it is a pretty standard JMS implementation. I am importing here using wildcard to make it short.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">javax.jmx.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.naming.*</span><span class="o">;</span>
@@ -255,6 +253,8 @@ You’ll need to create a new topic (we are using TestTopic as name) and get som
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
+
+<p><br /></p>
 
 <h3 id="consumer">Consumer</h3>
 <p>In this case, a Consumer.java needs to be created with this content.</p>
@@ -278,6 +278,8 @@ You’ll need to create a new topic (we are using TestTopic as name) and get som
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
+
+<p><br /></p>
 
 <h3 id="jndiproperties">jndi.properties</h3>
 <p>Create a new file jndi.properties at the same folder as the consumer and producer. Here is where the specifics for Kafka and Confluent Cloud are set:</p>
